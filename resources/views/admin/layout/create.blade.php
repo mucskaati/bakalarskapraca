@@ -10,7 +10,6 @@
         
         <layout-form
             :action="'{{ url('admin/layouts') }}'"
-            :locales="{{ json_encode($locales) }}"
             :send-empty-locales="false"
             v-cloak
             inline-template>

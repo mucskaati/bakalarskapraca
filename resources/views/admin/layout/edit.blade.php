@@ -9,9 +9,7 @@
 
             <layout-form
                 :action="'{{ $layout->resource_url }}'"
-                :data="{{ $layout->toJsonAllLocales() }}"
-                :locales="{{ json_encode($locales) }}"
-                :send-empty-locales="false"
+                :data="{{ $layout->toJSON() }}"
                 v-cloak
                 inline-template>
             

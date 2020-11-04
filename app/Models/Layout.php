@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Brackets\Translatable\Traits\HasTranslations;
 
 class Layout extends Model
 {
-    use HasTranslations;
     protected $fillable = [
         'columns',
         'height',
@@ -27,13 +25,6 @@ class Layout extends Model
         'updated_at',
 
     ];
-    // these attributes are translatable
-    public $translatable = [
-        'margin',
-        'xaxis',
-        'yaxis',
-
-    ];
 
     protected $appends = ['resource_url'];
 
@@ -46,16 +37,16 @@ class Layout extends Model
 
     public function getXaxisAttribute($value)
     {
-        return (string) $value;
+        return json_decode($value);
     }
 
     public function getYaxisAttribute($value)
     {
-        return (string) $value;
+        return json_decode($value);
     }
 
     public function getMarginAttribute($value)
     {
-        return (string) $value;
+        return json_decode($value);
     }
 }

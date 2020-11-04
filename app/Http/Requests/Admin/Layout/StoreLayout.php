@@ -47,6 +47,9 @@ class StoreLayout extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = $this->validated();
+        $sanitized['xaxis'] = json_encode($sanitized['xaxis']);
+        $sanitized['yaxis'] = json_encode($sanitized['yaxis']);
+        $sanitized['margin'] = json_encode($sanitized['margin']);
 
         //Add your code for manipulation with request data here
 

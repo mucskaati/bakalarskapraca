@@ -30,5 +30,29 @@ return [
         ],
     ],
 
+    'layout' => [
+        'title' => 'Layout grafov',
+
+        'actions' => [
+            'index' => 'Layout grafov',
+            'create' => 'Nový layout grafu',
+            'edit' => 'Upraviť layout grafu - :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'columns' => 'Počet stĺpcov (grafov na stĺpec)',
+            'height' => 'Výška',
+            'margin' => 'Odsadenie',
+            'name' => 'Názov layoutu grafu',
+            'rows' => 'Počet riadkov (grafov na riadok)',
+            'type' => 'Typ layoutu',
+            'width' => 'Šírka',
+            'xaxis' => 'Xaxis',
+            'yaxis' => 'Yaxis',
+
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

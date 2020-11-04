@@ -30,5 +30,29 @@ return [
         ],
     ],
 
+    'layout' => [
+        'title' => 'Layouts',
+
+        'actions' => [
+            'index' => 'Layouts',
+            'create' => 'New Layout',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'columns' => 'Columns',
+            'height' => 'Height',
+            'margin' => 'Margin',
+            'name' => 'Name',
+            'rows' => 'Rows',
+            'type' => 'Type',
+            'width' => 'Width',
+            'xaxis' => 'Xaxis',
+            'yaxis' => 'Yaxis',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

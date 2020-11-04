@@ -41,3 +41,19 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         Route::post('/password',                                    'ProfileController@updatePassword')->name('update-password');
     });
 });
+
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
+        Route::prefix('layouts')->name('layouts/')->group(static function() {
+            Route::get('/',                                             'LayoutsController@index')->name('index');
+            Route::get('/create',                                       'LayoutsController@create')->name('create');
+            Route::post('/',                                            'LayoutsController@store')->name('store');
+            Route::get('/{layout}/edit',                                'LayoutsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'LayoutsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{layout}',                                    'LayoutsController@update')->name('update');
+            Route::delete('/{layout}',                                  'LayoutsController@destroy')->name('destroy');
+        });
+    });
+});

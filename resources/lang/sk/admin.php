@@ -41,11 +41,11 @@ return [
 
         'columns' => [
             'id' => 'ID',
-            'columns' => 'Počet stĺpcov (grafov na stĺpec)',
+            'columns' => 'Počet stĺpcov',
             'height' => 'Výška',
             'margin' => 'Odsadenie',
             'name' => 'Názov layoutu grafu',
-            'rows' => 'Počet riadkov (grafov na riadok)',
+            'rows' => 'Počet riadkov',
             'type' => 'Typ layoutu',
             'width' => 'Šírka',
             'xaxis' => 'Xaxis',

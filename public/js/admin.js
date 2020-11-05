@@ -116977,7 +116977,7 @@ Vue.component("slider-form", {
       this.form.dependencies.push({
         id: this.form.dependencies.length,
         pivot: {
-          dependent_layout_id: "",
+          dependent_layout: "",
           same_as_added_slider: true,
           value_function: ""
         }
@@ -116988,7 +116988,7 @@ Vue.component("slider-form", {
     },
     addCountDependency: function addCountDependency(index) {
       this.form.dependencies[index].pivot = {
-        dependent_layout_id: "",
+        dependent_layout: "",
         same_as_added_slider: true,
         value_function: ""
       };

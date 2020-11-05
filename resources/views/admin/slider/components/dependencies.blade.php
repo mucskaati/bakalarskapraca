@@ -10,7 +10,7 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-6 col-form-label">{{ trans('admin.slider.columns.depended_slider_id') }}</label>
                 <div class="col-12">
-                    <multiselect v-model="form.layout" :options="{{ $layouts->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="name" track-by="id" :multiple="false"></multiselect>
+                    <multiselect v-model="form.dependencies[index].pivot.depended_layout_id" :options="{{ $layouts->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="name" track-by="id" :multiple="false"></multiselect>
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
             </div>
         </div>

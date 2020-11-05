@@ -54,5 +54,27 @@ return [
         ],
     ],
 
+    'slider' => [
+        'title' => 'Sliders',
+
+        'actions' => [
+            'index' => 'Sliders',
+            'create' => 'New Slider',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'default' => 'Default',
+            'default_function' => 'Default function',
+            'layout_id' => 'Layout',
+            'max' => 'Max',
+            'min' => 'Min',
+            'step' => 'Step',
+            'title' => 'Title',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

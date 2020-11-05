@@ -57,3 +57,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         });
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
+        Route::prefix('sliders')->name('sliders/')->group(static function() {
+            Route::get('/',                                             'SlidersController@index')->name('index');
+            Route::get('/create',                                       'SlidersController@create')->name('create');
+            Route::post('/',                                            'SlidersController@store')->name('store');
+            Route::get('/{slider}/edit',                                'SlidersController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'SlidersController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{slider}',                                    'SlidersController@update')->name('update');
+            Route::delete('/{slider}',                                  'SlidersController@destroy')->name('destroy');
+        });
+    });
+});

@@ -35,3 +35,19 @@ $factory->define(App\Models\Layout::class, static function (Faker\Generator $fak
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Slider::class, static function (Faker\Generator $faker) {
+    return [
+        'created_at' => $faker->dateTime,
+        'default' => $faker->randomFloat,
+        'default_function' => $faker->text(),
+        'layout_id' => $faker->sentence,
+        'max' => $faker->randomFloat,
+        'min' => $faker->randomFloat,
+        'step' => $faker->randomFloat,
+        'title' => $faker->sentence,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

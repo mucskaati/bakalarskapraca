@@ -54,5 +54,32 @@ return [
         ],
     ],
 
+    'slider' => [
+        'title' => 'Slajdre',
+
+        'actions' => [
+            'index' => 'Slajdre',
+            'create' => 'Nový slajder',
+            'edit' => 'Upraviť slajder :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'default' => 'Default',
+            'default_function' => 'Voľitelná default funkcia',
+            'layout_id' => 'Layout grafu',
+            'max' => 'Maximum',
+            'min' => 'Minimum',
+            'step' => 'Krok',
+            'title' => 'Názov parametra',
+            'depended_slider_id' => 'Nastaviť hodnotu slajdru',
+            'same_as_added_slider' => 'Rovnakú akú ma pridávaný slajder',
+            'value_function' => 'Alebo hodnotu nižšie napísanej funkcie',
+            'add_dependency' => 'Pridať ďalšiu závislosť',
+            'delete' => 'Zmazať závislosť'
+
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

@@ -136,7 +136,7 @@
       function runAjaxCall() { 
       $.ajax({
         type: "GET",
-        url: "http://apps.iolab.sk:9000/symetry10",
+        url: "https://apps.iolab.sk:9000/symetry10",
         data: {"tsim":parv_tsim.value,"Ts":parv_Ts.value,"tw":parv_tw.value,"w":parv_w.value,"Ks":parv_Ks.value,"Ksm":parv_Ksm.value,"a":parv_a.value,"am":parv_am.value,"KP":parv_KP.value,"Tc":parv_Tc.value,"Umin":parv_Umin.value,"Umax":parv_Umax.value},
         //"Td":parv_Td.value,"Tdm":parv_Tdm.value,
         //"Umin":parv_Umin.value,"Umax":parv_Umax.value,"Uifmin":parv_Uifmin.value,"Uifmax":parv_Uifmax.value,

@@ -49,13 +49,14 @@
                                             </label>
                                         </th>
 
-                                        <th is='sortable' :column="'default'">{{ trans('admin.slider.columns.default') }}</th>
                                         <th is='sortable' :column="'id'">{{ trans('admin.slider.columns.id') }}</th>
-                                        <th is='sortable' :column="'layout_id'">{{ trans('admin.slider.columns.layout_id') }}</th>
-                                        <th is='sortable' :column="'max'">{{ trans('admin.slider.columns.max') }}</th>
-                                        <th is='sortable' :column="'min'">{{ trans('admin.slider.columns.min') }}</th>
-                                        <th is='sortable' :column="'step'">{{ trans('admin.slider.columns.step') }}</th>
                                         <th is='sortable' :column="'title'">{{ trans('admin.slider.columns.title') }}</th>
+                                        <th is='sortable' :column="'layout_id'">{{ trans('admin.slider.columns.layout_id') }}</th>
+                                        <th is='sortable' :column="'min'">{{ trans('admin.slider.columns.min') }}</th>
+                                        <th is='sortable' :column="'max'">{{ trans('admin.slider.columns.max') }}</th>
+                                        <th is='sortable' :column="'default'">{{ trans('admin.slider.columns.default') }}</th>
+                                        <th is='sortable' :column="'step'">{{ trans('admin.slider.columns.step') }}</th>
+                                       
 
                                         <th></th>
                                     </tr>
@@ -78,14 +79,13 @@
                                             <label class="form-check-label" :for="'enabled' + item.id">
                                             </label>
                                         </td>
-
-                                    <td>@{{ item.default }}</td>
                                         <td>@{{ item.id }}</td>
-                                        <td>@{{ item.layout_id }}</td>
-                                        <td>@{{ item.max }}</td>
-                                        <td>@{{ item.min }}</td>
-                                        <td>@{{ item.step }}</td>
                                         <td>@{{ item.title }}</td>
+                                        <td>@{{ item.layoutTitle }}</td>
+                                        <td>@{{ item.min }}</td>
+                                        <td>@{{ item.max }}</td>
+                                        <td>@{{ item.default }}</td>
+                                        <td>@{{ item.step }}</td>
                                         
                                         <td>
                                             <div class="row no-gutters">

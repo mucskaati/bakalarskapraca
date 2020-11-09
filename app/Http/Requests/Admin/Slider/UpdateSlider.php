@@ -28,12 +28,13 @@ class UpdateSlider extends FormRequest
         return [
             'default' => ['nullable', 'numeric'],
             'default_function' => ['nullable', 'string'],
-            'layout_id' => ['sometimes', 'string'],
+            'layout' => ['sometimes', 'array'],
             'max' => ['sometimes', 'numeric'],
             'min' => ['sometimes', 'numeric'],
             'step' => ['sometimes', 'numeric'],
             'title' => ['sometimes', 'string'],
-            
+            'dependencies' => ['nullable', 'array']
+
         ];
     }
 
@@ -44,9 +45,22 @@ class UpdateSlider extends FormRequest
      */
     public function getSanitized(): array
     {
-        $sanitized = $this->validated();
+        $sanitized = collect($this->validated())->except(['dependencies'])->toArray();
 
 
+        //Add your code for manipulation with request data here
+
+        return $sanitized;
+    }
+
+    /**
+     * Get dependencies
+     *
+     * @return array
+     */
+    public function getDependencies(): array
+    {
+        $sanitized = collect($this->validated())->only(['dependencies'])->toArray();
         //Add your code for manipulation with request data here
 
         return $sanitized;

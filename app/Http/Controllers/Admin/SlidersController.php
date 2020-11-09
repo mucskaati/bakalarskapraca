@@ -67,9 +67,11 @@ class SlidersController extends Controller
         $this->authorize('admin.slider.create');
 
         $layouts = Layout::all();
+        $sliders = Slider::all();
 
         return view('admin.slider.create', [
-            'layouts' => $layouts
+            'layouts' => $layouts,
+            'sliders' => $sliders
         ]);
     }
 
@@ -83,9 +85,12 @@ class SlidersController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
+        $sanitizedDependencies = $request->getDependencies();
 
         // Store the Slider
         $slider = Slider::create($sanitized);
+
+        $this->syncDependencies($sanitizedDependencies, $slider);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/sliders'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -120,10 +125,15 @@ class SlidersController extends Controller
         $this->authorize('admin.slider.edit', $slider);
 
         $layouts = Layout::all();
+        $sliders = Slider::all();
+
+        $slider->load('layout');
+        $slider->load('dependencies');
 
         return view('admin.slider.edit', [
             'slider' => $slider,
-            'layouts' => $layouts
+            'layouts' => $layouts,
+            'sliders' => $sliders
         ]);
     }
 
@@ -191,5 +201,24 @@ class SlidersController extends Controller
         });
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+    }
+
+    private function syncDependencies($data, $model, $mode = 'create')
+    {
+        $colelction = collect($data['dependencies'])->mapWithKeys(function ($item) {
+            return [
+                $item['id'] => [
+                    'value_same_as_added' => $item['pivot']['value_same_as_added'],
+                    'value_function' => $item['pivot']['value_function'],
+                ],
+            ];
+        })->toArray();
+
+        //Syn dependencies to model
+        if (count($data) > 0 || $mode == 'update') {
+            $model->dependencies()->sync($colelction);
+        }
+
+        return true;
     }
 }

@@ -28,23 +28,40 @@ class StoreSlider extends FormRequest
         return [
             'default' => ['nullable', 'numeric'],
             'default_function' => ['nullable', 'string'],
-            'layout_id' => ['required', 'string'],
+            'layout' => ['required', 'array'],
             'max' => ['required', 'numeric'],
             'min' => ['required', 'numeric'],
             'step' => ['required', 'numeric'],
             'title' => ['required', 'string'],
-            
+            'dependencies' => ['nullable', 'array']
+
         ];
     }
 
     /**
-    * Modify input data
-    *
-    * @return array
-    */
+     * Modify input data
+     *
+     * @return array
+     */
     public function getSanitized(): array
     {
-        $sanitized = $this->validated();
+        $sanitized = collect($this->validated())->except(['dependencies'])->toArray();
+        $sanitized['layout_id'] = $sanitized['layout']['id'];
+
+        //Add your code for manipulation with request data here
+
+        return $sanitized;
+    }
+
+    /**
+     * Get dependencies
+     *
+     * @return array
+     */
+    public function getDependencies(): array
+    {
+        $sanitized = collect($this->validated())->only(['dependencies'])->toArray();
+
 
         //Add your code for manipulation with request data here
 

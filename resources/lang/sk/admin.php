@@ -81,5 +81,23 @@ return [
         ],
     ],
 
+    'checkbox' => [
+        'title' => 'Checkboxy',
+
+        'actions' => [
+            'index' => 'Checkboxy',
+            'create' => 'Nový checkbox',
+            'edit' => 'Upraviť checkbox :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'attribute_name' => 'Atribút name',
+            'layout_id' => 'Layout',
+            'title' => 'Názov checkboxu',
+
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

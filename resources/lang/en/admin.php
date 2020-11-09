@@ -76,5 +76,23 @@ return [
         ],
     ],
 
+    'checkbox' => [
+        'title' => 'Checkboxes',
+
+        'actions' => [
+            'index' => 'Checkboxes',
+            'create' => 'New Checkbox',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'attribute_name' => 'Attribute name',
+            'layout_id' => 'Layout',
+            'title' => 'Title',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

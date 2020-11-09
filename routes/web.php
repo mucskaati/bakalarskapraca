@@ -72,3 +72,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         });
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
+        Route::prefix('checkboxes')->name('checkboxes/')->group(static function() {
+            Route::get('/',                                             'CheckboxesController@index')->name('index');
+            Route::get('/create',                                       'CheckboxesController@create')->name('create');
+            Route::post('/',                                            'CheckboxesController@store')->name('store');
+            Route::get('/{checkbox}/edit',                              'CheckboxesController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'CheckboxesController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{checkbox}',                                  'CheckboxesController@update')->name('update');
+            Route::delete('/{checkbox}',                                'CheckboxesController@destroy')->name('destroy');
+        });
+    });
+});

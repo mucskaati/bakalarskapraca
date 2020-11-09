@@ -51,3 +51,15 @@ $factory->define(App\Models\Slider::class, static function (Faker\Generator $fak
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Checkbox::class, static function (Faker\Generator $faker) {
+    return [
+        'attribute_name' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'layout_id' => $faker->sentence,
+        'title' => $faker->sentence,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

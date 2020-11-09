@@ -38,7 +38,8 @@ class Slider extends Model
         return $this->layout->name;
     }
 
-    /* ************************ ACCESSOR ************************* */
+
+    /* ************************ RELATIONSHIPS ************************* */
 
     public function layout()
     {

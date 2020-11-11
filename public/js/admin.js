@@ -116767,16 +116767,35 @@ if (token) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_components_Form_AppForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app-components/Form/AppForm */ "./resources/js/admin/app-components/Form/AppForm.js");
 
-Vue.component('checkbox-form', {
+Vue.component("checkbox-form", {
   mixins: [_app_components_Form_AppForm__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       form: {
-        attribute_name: '',
-        layout_id: '',
-        title: ''
+        attribute_name: "",
+        layout: "",
+        title: "",
+        dependent_sliders: []
       }
     };
+  },
+  methods: {
+    addDependency: function addDependency(event) {
+      this.form.dependent_sliders.push({
+        id: this.form.dependent_sliders.length,
+        pivot: {
+          value_function: ""
+        }
+      });
+    },
+    deleteDependency: function deleteDependency(index) {
+      this.form.dependent_sliders.splice(index, 1);
+    },
+    addCountDependency: function addCountDependency(index) {
+      this.form.dependent_sliders[index].pivot = {
+        value_function: ""
+      };
+    }
   }
 });
 

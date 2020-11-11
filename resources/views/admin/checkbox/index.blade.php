@@ -53,8 +53,7 @@
                                         <th is='sortable' :column="'title'">{{ trans('admin.checkbox.columns.title') }}</th>
                                         <th is='sortable' :column="'attribute_name'">{{ trans('admin.checkbox.columns.attribute_name') }}</th>
                                         <th is='sortable' :column="'layout_id'">{{ trans('admin.checkbox.columns.layout_id') }}</th>
-                                       
-
+                                    
                                         <th></th>
                                     </tr>
                                     <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">

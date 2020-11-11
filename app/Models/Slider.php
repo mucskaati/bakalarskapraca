@@ -24,7 +24,7 @@ class Slider extends Model
 
     ];
 
-    protected $appends = ['resource_url', 'layoutTitle'];
+    protected $appends = ['resource_url', 'layoutTitle', 'titleWithLayout'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -36,6 +36,11 @@ class Slider extends Model
     public function getLayoutTitleAttribute()
     {
         return $this->layout->name;
+    }
+
+    public function getTitleWithLayoutAttribute()
+    {
+        return $this->title . ' [' . $this->layout->name . ']';
     }
 
 

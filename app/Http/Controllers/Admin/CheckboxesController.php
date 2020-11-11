@@ -9,6 +9,8 @@ use App\Http\Requests\Admin\Checkbox\IndexCheckbox;
 use App\Http\Requests\Admin\Checkbox\StoreCheckbox;
 use App\Http\Requests\Admin\Checkbox\UpdateCheckbox;
 use App\Models\Checkbox;
+use App\Models\Layout;
+use App\Models\Slider;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -65,7 +67,13 @@ class CheckboxesController extends Controller
     {
         $this->authorize('admin.checkbox.create');
 
-        return view('admin.checkbox.create');
+        $sliders = Slider::all();
+        $layouts = Layout::all();
+
+        return view('admin.checkbox.create', [
+            'sliders' => $sliders,
+            'layouts' => $layouts
+        ]);
     }
 
     /**
@@ -81,6 +89,9 @@ class CheckboxesController extends Controller
 
         // Store the Checkbox
         $checkbox = Checkbox::create($sanitized);
+
+        //Sync dependent sliders
+        $this->syncDependentSliders($sanitized, $checkbox);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/checkboxes'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -114,9 +125,15 @@ class CheckboxesController extends Controller
     {
         $this->authorize('admin.checkbox.edit', $checkbox);
 
+        $sliders = Slider::all();
+        $layouts = Layout::all();
+
+        $checkbox->load(['dependentSliders', 'layout']);
 
         return view('admin.checkbox.edit', [
             'checkbox' => $checkbox,
+            'sliders' => $sliders,
+            'layouts' => $layouts
         ]);
     }
 
@@ -134,6 +151,9 @@ class CheckboxesController extends Controller
 
         // Update changed values Checkbox
         $checkbox->update($sanitized);
+
+        //Sync dependent sliders
+        $this->syncDependentSliders($sanitized, $checkbox, 'update');
 
         if ($request->ajax()) {
             return [
@@ -171,7 +191,7 @@ class CheckboxesController extends Controller
      * @throws Exception
      * @return Response|bool
      */
-    public function bulkDestroy(BulkDestroyCheckbox $request) : Response
+    public function bulkDestroy(BulkDestroyCheckbox $request): Response
     {
         DB::transaction(static function () use ($request) {
             collect($request->data['ids'])
@@ -184,5 +204,23 @@ class CheckboxesController extends Controller
         });
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+    }
+
+    private function syncDependentSliders($data, $model, $mode = 'create')
+    {
+        $colelction = collect($data['dependent_sliders'])->mapWithKeys(function ($item) {
+            return [
+                $item['id'] => [
+                    'value_function' => $item['pivot']['value_function'],
+                ],
+            ];
+        })->toArray();
+
+        //Syn dependencies to model
+        if (count($data) > 0 || $mode == 'update') {
+            $model->dependentSliders()->sync($colelction);
+        }
+
+        return true;
     }
 }

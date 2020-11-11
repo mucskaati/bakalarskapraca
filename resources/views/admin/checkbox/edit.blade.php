@@ -22,6 +22,7 @@
 
                     <div class="card-body">
                         @include('admin.checkbox.components.form-elements')
+                        @include('admin.checkbox.components.dependencies')
                     </div>
                     
                     

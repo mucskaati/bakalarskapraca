@@ -13,14 +13,13 @@ class Checkbox extends Model
 
     ];
 
-
     protected $dates = [
         'created_at',
         'updated_at',
 
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url', 'layoutTitle'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -41,7 +40,7 @@ class Checkbox extends Model
         return $this->belongsTo(Layout::class, 'layout_id');
     }
 
-    public function dependedSliders()
+    public function dependentSliders()
     {
         return $this->belongsToMany(Slider::class, 'checkbox_slider', 'checkbox_id', 'slider_id')->withPivot(['value_function'])->withTimestamps();
     }

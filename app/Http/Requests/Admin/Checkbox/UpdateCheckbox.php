@@ -27,9 +27,10 @@ class UpdateCheckbox extends FormRequest
     {
         return [
             'attribute_name' => ['sometimes', 'string'],
-            'layout_id' => ['sometimes', 'string'],
+            'layout' => ['sometimes', 'array'],
             'title' => ['sometimes', 'string'],
-            
+            'dependent_sliders' => ['nullable', 'array']
+
         ];
     }
 
@@ -41,6 +42,7 @@ class UpdateCheckbox extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = $this->validated();
+        $sanitized['layout_id'] = $sanitized['layout']['id'];
 
 
         //Add your code for manipulation with request data here

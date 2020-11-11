@@ -95,6 +95,10 @@ return [
             'attribute_name' => 'Atribút name',
             'layout_id' => 'Layout',
             'title' => 'Názov checkboxu',
+            'add_dependency' => 'Pridať ďalšiu závislosť',
+            'slider_id' => 'Nastaviť hodnotu slajdra',
+            'value_function' => 'Na nižšie uvedenú hodnotu alebo funkciu',
+            'delete' => 'Zmazať závislosť'
 
         ],
     ],

@@ -27,20 +27,22 @@ class StoreCheckbox extends FormRequest
     {
         return [
             'attribute_name' => ['required', 'string'],
-            'layout_id' => ['required', 'string'],
+            'layout' => ['required', 'array'],
             'title' => ['required', 'string'],
-            
+            'dependent_sliders' => ['nullable', 'array']
+
         ];
     }
 
     /**
-    * Modify input data
-    *
-    * @return array
-    */
+     * Modify input data
+     *
+     * @return array
+     */
     public function getSanitized(): array
     {
         $sanitized = $this->validated();
+        $sanitized['layout_id'] = $sanitized['layout']['id'];
 
         //Add your code for manipulation with request data here
 

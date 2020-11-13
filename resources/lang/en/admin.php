@@ -94,5 +94,25 @@ return [
         ],
     ],
 
+    'experiment' => [
+        'title' => 'Experiments',
+
+        'actions' => [
+            'index' => 'Experiments',
+            'create' => 'New Experiment',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'ajax_url' => 'Ajax url',
+            'description' => 'Description',
+            'export' => 'Export',
+            'layout_id' => 'Layout',
+            'title' => 'Title',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

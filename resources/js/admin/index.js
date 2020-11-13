@@ -4,3 +4,4 @@ import './profile-edit-password';
 import './layout';
 import './slider';
 import './checkbox';
+import './experiment';

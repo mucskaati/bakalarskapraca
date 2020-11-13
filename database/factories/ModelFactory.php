@@ -63,3 +63,17 @@ $factory->define(App\Models\Checkbox::class, static function (Faker\Generator $f
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Experiment::class, static function (Faker\Generator $faker) {
+    return [
+        'ajax_url' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'description' => $faker->text(),
+        'export' => $faker->boolean(),
+        'layout_id' => $faker->sentence,
+        'title' => $faker->sentence,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

@@ -116613,11 +116613,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_11___default.a.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_11___default.a.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_5___default.a);
 vue__WEBPACK_IMPORTED_MODULE_11___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_6__["default"], {
   strict: true
 });
-vue__WEBPACK_IMPORTED_MODULE_11___default.a.component('datetime', vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_2___default.a);
+vue__WEBPACK_IMPORTED_MODULE_11___default.a.component("datetime", vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_2___default.a);
 vue__WEBPACK_IMPORTED_MODULE_11___default.a.use(vue_js_modal__WEBPACK_IMPORTED_MODULE_10___default.a, {
   dialog: true,
   dynamic: true,
@@ -116834,6 +116834,85 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/admin/experiment/Form.js":
+/*!***********************************************!*\
+  !*** ./resources/js/admin/experiment/Form.js ***!
+  \***********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app_components_Form_AppForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app-components/Form/AppForm */ "./resources/js/admin/app-components/Form/AppForm.js");
+
+
+Vue.component("experiment-form", {
+  mixins: [_app_components_Form_AppForm__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data: function data() {
+    return {
+      form: {
+        ajax_url: "",
+        description: "",
+        "export": false,
+        layout_id: "",
+        title: ""
+      },
+      responses: []
+    };
+  },
+  methods: {
+    getResponsesFromServer: function getResponsesFromServer() {
+      axios.get(this.ajax_url, {
+        crossDomain: true
+      }).then(function (response) {
+        // handle success
+        console.log(response);
+      })["catch"](function (error) {
+        // handle error
+        console.log(error);
+      }).then(function () {// always executed
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/experiment/Listing.js":
+/*!**************************************************!*\
+  !*** ./resources/js/admin/experiment/Listing.js ***!
+  \**************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_components_Listing_AppListing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app-components/Listing/AppListing */ "./resources/js/admin/app-components/Listing/AppListing.js");
+
+Vue.component('experiment-listing', {
+  mixins: [_app_components_Listing_AppListing__WEBPACK_IMPORTED_MODULE_0__["default"]]
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/experiment/index.js":
+/*!************************************************!*\
+  !*** ./resources/js/admin/experiment/index.js ***!
+  \************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Listing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Listing */ "./resources/js/admin/experiment/Listing.js");
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/admin/experiment/Form.js");
+
+
+
+/***/ }),
+
 /***/ "./resources/js/admin/index.js":
 /*!*************************************!*\
   !*** ./resources/js/admin/index.js ***!
@@ -116849,6 +116928,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layout */ "./resources/js/admin/layout/index.js");
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./slider */ "./resources/js/admin/slider/index.js");
 /* harmony import */ var _checkbox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./checkbox */ "./resources/js/admin/checkbox/index.js");
+/* harmony import */ var _experiment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./experiment */ "./resources/js/admin/experiment/index.js");
+
 
 
 

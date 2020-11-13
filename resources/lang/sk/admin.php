@@ -103,5 +103,25 @@ return [
         ],
     ],
 
+    'experiment' => [
+        'title' => 'Experimenty typu FO',
+
+        'actions' => [
+            'index' => 'Experimenty typu FO',
+            'create' => 'Nový experimenty typu FO',
+            'edit' => 'Upraviť experiment typu FO - :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'ajax_url' => 'Ajax URL',
+            'description' => 'Popis experimentu',
+            'export' => 'Umožniť exportovanie do PDF',
+            'layout_id' => 'Layout grafu',
+            'title' => 'Nadpis experimentu',
+
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

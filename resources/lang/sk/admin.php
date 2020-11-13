@@ -119,6 +119,11 @@ return [
             'export' => 'Umožniť exportovanie do PDF',
             'layout_id' => 'Layout grafu',
             'title' => 'Nadpis experimentu',
+            'annotation_title' => 'Anotácia grafu',
+            'annotation_angle' => 'Uhol anotácie',
+            'xaxis' => 'Pozícia anot. na X osi',
+            'yaxis' => 'Pozícia anot. na Y osi',
+            'align' => 'Zarovnanie anotácie'
 
         ],
     ],

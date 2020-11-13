@@ -16,6 +16,7 @@ class CreateExperimentsTable extends Migration
         Schema::create('experiments', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug');
             $table->text('description');
             $table->string('ajax_url');
             $table->boolean('export')->default(false)->nullable();

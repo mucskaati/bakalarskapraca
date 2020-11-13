@@ -49,4 +49,11 @@ class Layout extends Model
     {
         return json_decode($value);
     }
+
+    /* ************************ RELATIONSHIPS ************************* */
+
+    public function experiments()
+    {
+        return $this->hasMany(Experiment::class);
+    }
 }

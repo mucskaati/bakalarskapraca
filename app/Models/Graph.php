@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Experiment extends Model
+class Graph extends Model
 {
     protected $fillable = [
-        'ajax_url',
-        'slug',
-        'description',
-        'export',
-        'layout_id',
-        'title',
-
+        'experiment_id',
+        'annotation_title',
+        'align',
+        'annotation_angle',
+        'xaxis',
+        'yaxis',
     ];
 
 
@@ -29,18 +28,13 @@ class Experiment extends Model
 
     public function getResourceUrlAttribute()
     {
-        return url('/admin/experiments/' . $this->getKey());
+        return url('/admin/sliders/' . $this->getKey());
     }
 
     /* ************************ RELATIONSHIPS ************************* */
 
-    public function graphs()
+    public function experiment()
     {
-        return $this->hasMany(Graph::class);
-    }
-
-    public function layout()
-    {
-        return $this->belongsTo(Layout::class);
+        return $this->belongsTo(Experiment::class, 'experiment_id');
     }
 }

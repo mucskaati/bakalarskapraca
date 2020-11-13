@@ -17,6 +17,8 @@ import "./index";
 
 import "craftable/dist/ui";
 
+Vue.prototype.$axios = axios;
+
 Vue.component("multiselect", Multiselect);
 Vue.use(VeeValidate, { strict: true });
 Vue.component("datetime", flatPickr);

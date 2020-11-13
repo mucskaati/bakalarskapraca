@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Experiment\IndexExperiment;
 use App\Http\Requests\Admin\Experiment\StoreExperiment;
 use App\Http\Requests\Admin\Experiment\UpdateExperiment;
 use App\Models\Experiment;
+use App\Models\Layout;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -65,7 +66,11 @@ class ExperimentsController extends Controller
     {
         $this->authorize('admin.experiment.create');
 
-        return view('admin.experiment.create');
+        $layouts = Layout::all();
+
+        return view('admin.experiment.create', [
+            'layouts' => $layouts
+        ]);
     }
 
     /**
@@ -114,9 +119,11 @@ class ExperimentsController extends Controller
     {
         $this->authorize('admin.experiment.edit', $experiment);
 
+        $layouts = Layout::all();
 
         return view('admin.experiment.edit', [
             'experiment' => $experiment,
+            'layouts' => $layouts
         ]);
     }
 
@@ -171,7 +178,7 @@ class ExperimentsController extends Controller
      * @throws Exception
      * @return Response|bool
      */
-    public function bulkDestroy(BulkDestroyExperiment $request) : Response
+    public function bulkDestroy(BulkDestroyExperiment $request): Response
     {
         DB::transaction(static function () use ($request) {
             collect($request->data['ids'])

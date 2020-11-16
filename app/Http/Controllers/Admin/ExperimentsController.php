@@ -9,7 +9,9 @@ use App\Http\Requests\Admin\Experiment\IndexExperiment;
 use App\Http\Requests\Admin\Experiment\StoreExperiment;
 use App\Http\Requests\Admin\Experiment\UpdateExperiment;
 use App\Models\Experiment;
+use App\Models\Graph;
 use App\Models\Layout;
+use App\Models\Trace;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -84,8 +86,12 @@ class ExperimentsController extends Controller
         // Sanitize input
         $sanitized = $request->getSanitized();
 
+
         // Store the Experiment
         $experiment = Experiment::create($sanitized);
+
+        //Sync graphs and traces
+        $this->createGraphsAndTraces($sanitized, $experiment);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/experiments'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -121,6 +127,8 @@ class ExperimentsController extends Controller
 
         $layouts = Layout::all();
 
+        $experiment->load(['graphs', 'layout']);
+
         return view('admin.experiment.edit', [
             'experiment' => $experiment,
             'layouts' => $layouts
@@ -141,6 +149,8 @@ class ExperimentsController extends Controller
 
         // Update changed values Experiment
         $experiment->update($sanitized);
+
+        $this->createGraphsAndTraces($sanitized, $experiment);
 
         if ($request->ajax()) {
             return [
@@ -191,5 +201,35 @@ class ExperimentsController extends Controller
         });
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+    }
+
+    private function createGraphsAndTraces($data, $model)
+    {
+        $model->graphs()->delete();
+
+        foreach ($data['graphs'] as $graph) {
+            $graphCreate = Graph::create([
+                'experiment_id' => $model->id,
+                'annotation_title' => $graph['annotation_title'],
+                'align' => $graph['align'],
+                'annotation_angle' => $graph['annotation_angle'],
+                'xaxis' => $graph['xaxis'],
+                'yaxis' => $graph['yaxis'],
+            ]);
+
+            foreach ($graph['traces'] as $trace) {
+                $trace = Trace::create([
+                    'title' => $trace['title'],
+                    'graph_id' => $graphCreate->id,
+                    'color' => $trace['color'],
+                    'legendgroup' => $trace['legendgroup'],
+                    'show_legend' => $trace['show_legend'],
+                    'xaxis' => $trace['xaxis']['id'],
+                    'yaxis' => $trace['yaxis']['id'],
+                ]);
+            }
+        }
+
+        return true;
     }
 }

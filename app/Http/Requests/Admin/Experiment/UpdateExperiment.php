@@ -29,9 +29,11 @@ class UpdateExperiment extends FormRequest
             'ajax_url' => ['sometimes', 'string'],
             'description' => ['sometimes', 'string'],
             'export' => ['nullable', 'boolean'],
-            'layout_id' => ['sometimes', 'string'],
+            'layout' => ['sometimes', 'array'],
             'title' => ['sometimes', 'string'],
-            
+            'graphs' => ['required', 'array'],
+            'custom_js' => ['nullable', 'string']
+
         ];
     }
 
@@ -43,6 +45,8 @@ class UpdateExperiment extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = $this->validated();
+        $sanitized['layout_id'] = $sanitized['layout']['id'];
+        $sanitized['slug'] = str_slug($sanitized['title']);
 
 
         //Add your code for manipulation with request data here

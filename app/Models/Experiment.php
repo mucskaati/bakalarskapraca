@@ -13,7 +13,7 @@ class Experiment extends Model
         'export',
         'layout_id',
         'title',
-
+        'custom_js'
     ];
 
 
@@ -23,7 +23,7 @@ class Experiment extends Model
 
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url', 'layoutName'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -32,11 +32,15 @@ class Experiment extends Model
         return url('/admin/experiments/' . $this->getKey());
     }
 
+    public function getLayoutNameAttribute()
+    {
+        return $this->layout->name;
+    }
     /* ************************ RELATIONSHIPS ************************* */
 
     public function graphs()
     {
-        return $this->hasMany(Graph::class);
+        return $this->hasMany(Graph::class)->with('traces');
     }
 
     public function layout()

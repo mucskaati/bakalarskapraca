@@ -6,21 +6,28 @@ import "vue-loading-overlay/dist/vue-loading.css";
 
 Vue.component("experiment-form", {
     mixins: [AppForm],
+    props: ["update"],
     components: { Loading },
     data: function() {
         return {
             form: {
-                ajax_url: "",
+                ajax_url: "http://apps.iolab.sk:9000/symetry1b",
                 description: "",
                 export: false,
                 layout: "",
                 title: "",
+                custom_js: "",
                 graphs: []
             },
             responses: [],
             show_third_step: false,
             isLoading: false
         };
+    },
+    mounted() {
+        if (this.update) {
+            this.getResponsesFromServer();
+        }
     },
     methods: {
         getResponsesFromServer() {
@@ -32,7 +39,11 @@ Vue.component("experiment-form", {
             axios
                 .get(this.form.ajax_url)
                 .then(function(response) {
-                    th.responses = Object.keys(response.data);
+                    let keys = collect(Object.keys(response.data));
+                    keys = keys.map(item => {
+                        return { id: item, title: item };
+                    });
+                    th.responses = keys.items;
                     th.show_third_step = true;
                     th.isLoading = false;
                 })
@@ -66,6 +77,7 @@ Vue.component("experiment-form", {
         },
 
         addTraceToGraph(index) {
+            console.log(index);
             this.form.graphs[index].traces.push({
                 id: this.form.graphs[index].traces.length,
                 title: "",
@@ -75,6 +87,9 @@ Vue.component("experiment-form", {
                 legendgroup: "",
                 show_legend: true
             });
+        },
+        deleteTraceFromGraph: function(index, traceIndex) {
+            this.form.graphs[index].traces.splice(traceIndex, 1);
         }
     }
 });

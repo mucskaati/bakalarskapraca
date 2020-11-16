@@ -1,26 +1,28 @@
+<div v-if="show_third_step">
 <div class="row d-flex justify-content-center">
     <div class="col-12 col-md-12 text-center">
         <h5>3. KROK</h5>
     </div>
 </div>
-<div class="row d-flex align-items-center justify-content-center mt-5" v-for="(input, index) in form.graphs" :key="index" v-if="form.graphs.length > 0">
+<div v-for="(input, index) in form.graphs" :key="index" v-if="form.graphs.length > 0">
+<div class="row d-flex align-items-center justify-content-center mt-5">
     <div class="col-md-12 text-center">
         <h3>
             Graf @{{ index+1 }}
         </h3>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('annotation_title'), 'has-success': fields.annotation_title && fields.annotation_title.valid }">
-            <label for="annotation_title" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.annotation_title') }}</label>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('annotation_title'+index), 'has-success': fields.annotation_title+index && fields.annotation_title.valid+index }">
+            <label :for="'annotation_title'+index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.annotation_title') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <input type="text" v-model="form.graphs[index].annotation_title" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('annotation_title'), 'form-control-success': fields.annotation_title && fields.annotation_title.valid}" id="annotation_title" name="annotation_title" placeholder="{{ trans('admin.experiment.columns.annotation_title') }}">
-                <div v-if="errors.has('annotation_title')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('annotation_title') }}</div>
+                <input type="text" v-model="form.graphs[index].annotation_title" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('annotation_title'+index), 'form-control-success': fields.annotation_title+index && (fields.annotation_title+index).valid}" :id="'annotation_title'+index" :name="'annotation_title'+index" placeholder="{{ trans('admin.experiment.columns.annotation_title') }}">
+                <div v-if="errors.has('annotation_title'+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('annotation_title'+index) }}</div>
             </div>
         </div>
     </div>
     <div class="col-6 col-md-2 justify-content-center justify-content-center text-center">
-        <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align'), 'has-success': fields.align && fields.align.valid }">
-            <label for="annotation_title" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.align') }}</label>
+        <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align' + index), 'has-success': fields.align+index && (fields.align+index).valid }">
+            <label :for="'annotation_title' + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.align') }}</label>
         </div>
         <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align'), 'has-success': fields.align && fields.align.valid }">
             <input :id="'left'+ index" type="radio" value="left" class="mr-2" v-model="form.graphs[index].align"> 
@@ -36,44 +38,119 @@
         </div>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('annotation_angle'), 'has-success': fields.annotation_angle && fields.annotation_angle.valid }">
-            <label for="annotation_angle" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.annotation_angle') }}</label>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('annotation_angle'+index), 'has-success': (fields.annotation_angle)+index && (fields.annotation_angle+index).valid }">
+            <label :for="'annotation_angle' + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.annotation_angle') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <input type="text" v-model="form.graphs[index].annotation_angle" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('annotation_angle'), 'form-control-success': fields.annotation_angle && fields.annotation_angle.valid}" id="annotation_angle" name="annotation_angle" placeholder="{{ trans('admin.experiment.columns.annotation_angle') }}">
-                <div v-if="errors.has('annotation_angle')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('annotation_angle') }}</div>
+                <input type="text" v-model="form.graphs[index].annotation_angle" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('annotation_angle'+index), 'form-control-success': fields.annotation_angle+index && (fields.annotation_angle+index).valid}" :id="'annotation_angle'+index" :name="'annotation_angle'+index" placeholder="{{ trans('admin.experiment.columns.annotation_angle') }}">
+                <div v-if="errors.has('annotation_angle'+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('annotation_angle'+index) }}</div>
             </div>
         </div>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('xaxis'), 'has-success': fields.xaxis && fields.xaxis.valid }">
-            <label for="xaxis" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.xaxis') }}</label>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('xaxis'+index), 'has-success': fields.xaxis+index && (fields.xaxis+index).valid }">
+            <label :for="'xaxis' + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.xaxis') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <input type="text" v-model="form.graphs[index].xaxis" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('xaxis'), 'form-control-success': fields.xaxis && fields.xaxis.valid}" id="xaxis" name="xaxis" placeholder="{{ trans('admin.experiment.columns.xaxis') }}">
-                <div v-if="errors.has('xaxis')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('xaxis') }}</div>
+                <input type="text" v-model="form.graphs[index].xaxis" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('xaxis'+index), 'form-control-success': fields.xaxis+index && (fields.xaxis+index).valid}" :id="'xaxis'+index" :name="'xaxis' + index" placeholder="{{ trans('admin.experiment.columns.xaxis') }}">
+                <div v-if="errors.has('xaxis'+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('xaxis'+index) }}</div>
             </div>
         </div>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('yaxis'), 'has-success': fields.yaxis && fields.yaxis.valid }">
-            <label for="yaxis" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.yaxis') }}</label>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('yaxis'+index), 'has-success': fields.yaxis+index && (fields.yaxis+index).valid }">
+            <label :for="'yaxis' + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.yaxis') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <input type="text" v-model="form.graphs[index].yaxis" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('yaxis'), 'form-control-success': fields.yaxis && fields.yaxis.valid}" id="yaxis" name="yaxis" placeholder="{{ trans('admin.experiment.columns.yaxis') }}">
-                <div v-if="errors.has('yaxis')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('yaxis') }}</div>
+                <input type="text" v-model="form.graphs[index].yaxis" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('yaxis'+index), 'form-control-success': fields.yaxis+index && (fields.yaxis+index).valid}" :id="'yaxis'+index" :name="'yaxis' + index" placeholder="{{ trans('admin.experiment.columns.yaxis') }}">
+                <div v-if="errors.has('yaxis'+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('yaxis'+index) }}</div>
             </div>
         </div>
     </div>
-    <div class="row" v-for="(traceInput, traceIndex) in form.graphs[index].traces" v-if="form.graphs[index].traces.length > 0">
-        <div class="col-6 col-md-3">
-            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('traces_title'), 'has-success': fields.traces_title && fields.traces_title.valid }">
-                <label for="traces_title" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.traces_title') }}</label>
+</div>
+<div v-for="(traceInput, traceIndex) in form.graphs[index].traces" v-if="form.graphs[index].traces.length > 0">
+    <hr>
+    <div class="row align-items-center">
+        <div class="col-12 col-md-12 text-center">
+            <h6>Stopa @{{ traceIndex+1 }}</h6>
+        </div>
+        <div class="col-12 col-md-2">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('traces_title'+traceIndex + index), 'has-success': fields.traces_title+traceIndex+index && (fields.traces_title+traceIndex+index).valid }">
+                <label :for="'traces_title' + traceIndex + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.traces_title') }}</label>
                     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                    <input type="text" v-model="form.graphs[index].traces[index].title" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('traces_title'), 'form-control-success': fields.traces_title && fields.traces_title.valid}" id="traces_title" name="traces_title" placeholder="{{ trans('admin.experiment.columns.traces_title') }}">
-                    <div v-if="errors.has('traces_title')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('traces_title') }}</div>
+                    <input type="text" v-model="form.graphs[index].traces[traceIndex].title" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('traces_title'+traceIndex+index), 'form-control-success': fields.traces_title+traceIndex+index && (fields.traces_title+traceIndex+index).valid}" :id="'traces_title' + traceIndex+ index" :name="'traces_title'+traceIndex+index" placeholder="{{ trans('admin.experiment.columns.traces_title') }}">
+                    <div v-if="errors.has('traces_title'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('traces_title' + traceIndex+index) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('xaxis'+traceIndex+index), 'has-success': fields.xaxis+traceIndex+index && (fields.xaxis+traceIndex+index).valid }">
+                <label :for="'xaxis'+traceIndex+index" class="col-12 col-form-label">{{ trans('admin.experiment.columns.response_xaxis') }}</label>
+                    <div class="col-12">
+                        <multiselect v-model="form.graphs[index].traces[traceIndex].xaxis" :options="responses" placeholder="{{ trans('admin.experiment.columns.response_xaxis') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <div v-if="errors.has('xaxis'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('xaxis'+traceIndex+index) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('yaxis'+traceIndex+index), 'has-success': fields.yaxis+traceIndex+index && (fields.yaxis+traceIndex+index).valid }">
+                <label :for="'yaxis'+traceIndex+index" class="col-12 col-form-label">{{ trans('admin.experiment.columns.response_yaxis') }}</label>
+                    <div class="col-12">
+                        <multiselect v-model="form.graphs[index].traces[traceIndex].yaxis" :options="responses" placeholder="{{ trans('admin.experiment.columns.response_yaxis') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <div v-if="errors.has('yaxis'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('yaxis'+traceIndex+index) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger" @click.prevent="deleteTraceFromGraph(index, traceIndex)">Zmazať stopu</button>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('color', +traceIndex+index), 'has-success': fields.color+traceIndex+index && (fields.color+traceIndex+index).valid }">
+                <label :for="'color'+traceIndex+index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.color') }}</label>
+                    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                    <input type="text" v-model="form.graphs[index].traces[traceIndex].color" v-validate="" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('color'+traceIndex+index), 'form-control-success': fields.color+traceIndex+index && (fields.color+traceIndex+index).valid}" :id="'color'+traceIndex+index" :name="'color'+traceIndex+index" placeholder="{{ trans('admin.experiment.columns.color') }}">
+                    <div v-if="errors.has('color'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('color'+traceIndex+index) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('legendgroup'+traceIndex+index), 'has-success': fields.legendgroup+traceIndex+index && (fields.legendgroup+traceIndex+index).valid }">
+                <label :for="'legendgroup' + traceIndex+index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.legendgroup') }}</label>
+                    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                    <input type="text" v-model="form.graphs[index].traces[traceIndex].legendgroup" v-validate="" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('legendgroup'+traceIndex+index), 'form-control-success': fields.legendgroup+traceIndex+index && (fields.legendgroup+traceIndex+index).valid}" :id="'legendgroup' + traceIndex+index" :name="'legendgroup' + traceIndex+index" placeholder="{{ trans('admin.experiment.columns.legendgroup') }}">
+                    <div v-if="errors.has('legendgroup'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('legendgroup'+traceIndex+index) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-check row" :class="{'has-danger': errors.has('show_legend'+traceIndex+index), 'has-success': fields.show_legend+traceIndex+index && (fields.show_legend+traceIndex+index).valid }">
+                <div  :class="isFormLocalized ? 'col-md-12' : 'col-md-12'">
+                    <input class="form-check-input" :id="'showlegend' + traceIndex + index" type="checkbox" v-model="form.graphs[index].traces[traceIndex].show_legend" v-validate="''" data-vv-name="show_legend"  :name="'showlegend' + traceIndex + index">
+                    <label class="form-check-label" :for="'showlegend' + traceIndex + index">
+                        {{ trans('admin.experiment.columns.showlegend') }}
+                    </label>
+                    <input type="hidden" name="show_legend" :value="form.graphs[index].traces[traceIndex].show_legend">
+                    <div v-if="errors.has('show_legend'+traceIndex +index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('show_legend'+traceIndex+index) }}</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-success" @click.prevent="addTraceToGraph(index)">Pridať stopu</button>
+</div>
+<div class="col-md-12 text-center">
+    <button type="submit" class="btn btn-success" @click.prevent="addTraceToGraph(index)">Pridať stopu</button>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('custom_js'), 'has-success': fields.custom_js && fields.custom_js.valid }">
+            <label for="custom_js" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.custom_js') }}</label>
+                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                <div>
+                    <wysiwyg v-model="form.custom_js" v-validate="" id="custom_js" name="custom_js" :config="mediaWysiwygConfig"></wysiwyg>
+                </div>
+                <div v-if="errors.has('custom_js')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('custom_js') }}</div>
+            </div>
+        </div>
     </div>
+</div>
 </div>

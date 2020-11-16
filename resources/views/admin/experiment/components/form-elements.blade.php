@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-12 text-center d-flex justify-content-center">
+    <div class="col-12 col-md-12 text-center d-flex justify-content-center" v-if="form.layout && form.ajax_url">
         <button type="submit" @click.prevent="getResponsesFromServer" class="btn btn-primary d-flex text-uppercase">Prejsť na 3. krok</button>
     </div>
 </div>

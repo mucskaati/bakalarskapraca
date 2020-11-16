@@ -20,8 +20,11 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "axios": "^0.21.0",
+        "collect.js": "^4.28.4",
         "jquery": "^3.5.1",
         "plotly.js-dist": "^1.57.1",
+        "vue-axios": "^3.2.0",
         "vue-loading-overlay": "^3.4.2"
     }
 }

@@ -48,13 +48,10 @@
                                                 #
                                             </label>
                                         </th>
-
-                                        <th is='sortable' :column="'ajax_url'">{{ trans('admin.experiment.columns.ajax_url') }}</th>
-                                        <th is='sortable' :column="'export'">{{ trans('admin.experiment.columns.export') }}</th>
                                         <th is='sortable' :column="'id'">{{ trans('admin.experiment.columns.id') }}</th>
-                                        <th is='sortable' :column="'layout_id'">{{ trans('admin.experiment.columns.layout_id') }}</th>
                                         <th is='sortable' :column="'title'">{{ trans('admin.experiment.columns.title') }}</th>
-
+                                        <th is='sortable' :column="'layout_id'">{{ trans('admin.experiment.columns.layout_id') }}</th>
+                                        <th is='sortable' :column="'ajax_url'">{{ trans('admin.experiment.columns.ajax_url') }}</th>
                                         <th></th>
                                     </tr>
                                     <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">
@@ -77,12 +74,10 @@
                                             </label>
                                         </td>
 
-                                    <td>@{{ item.ajax_url }}</td>
-                                        <td>@{{ item.export }}</td>
                                         <td>@{{ item.id }}</td>
-                                        <td>@{{ item.layout_id }}</td>
                                         <td>@{{ item.title }}</td>
-                                        
+                                        <td>@{{ item.layoutName }}</td>
+                                        <td>@{{ item.ajax_url }}</td>
                                         <td>
                                             <div class="row no-gutters">
                                                 <div class="col-auto">

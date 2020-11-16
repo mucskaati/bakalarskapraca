@@ -23,10 +23,10 @@
                     @include('admin.experiment.components.form-elements')
                 </div>
                                 
-                <div class="card-footer">
+                <div class="card-footer text-center" v-if="show_third_step">
                     <button type="submit" class="btn btn-primary" :disabled="submiting">
                         <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
-                        {{ trans('brackets/admin-ui::admin.btn.save') }}
+                        {{ trans('admin.experiment.add_experiment') }}
                     </button>
                 </div>
                 

@@ -37,4 +37,9 @@ class Graph extends Model
     {
         return $this->belongsTo(Experiment::class, 'experiment_id');
     }
+
+    public function traces()
+    {
+        return $this->hasMany(Trace::class);
+    }
 }

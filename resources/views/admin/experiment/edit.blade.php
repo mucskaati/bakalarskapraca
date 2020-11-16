@@ -10,6 +10,7 @@
             <experiment-form
                 :action="'{{ $experiment->resource_url }}'"
                 :data="{{ $experiment->toJson() }}"
+                :update="true"
                 v-cloak
                 inline-template>
             
@@ -25,10 +26,10 @@
                     </div>
                     
                     
-                    <div class="card-footer">
+                    <div class="card-footer text-center" v-if="show_third_step">
                         <button type="submit" class="btn btn-primary" :disabled="submiting">
                             <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
-                            {{ trans('brackets/admin-ui::admin.btn.save') }}
+                            {{ trans('admin.experiment.edit_experiment') }}
                         </button>
                     </div>
                     

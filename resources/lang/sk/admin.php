@@ -123,9 +123,20 @@ return [
             'annotation_angle' => 'Uhol anotácie',
             'xaxis' => 'Pozícia anot. na X osi',
             'yaxis' => 'Pozícia anot. na Y osi',
-            'align' => 'Zarovnanie anotácie'
+            'align' => 'Zarovnanie anotácie',
+            'traces_title' => 'Názov stopy',
+            'response_xaxis' => 'X os (odpoveď zo servera)',
+            'response_yaxis' => 'Y os (odpoveď zo servera)',
+            'color' => 'Farba stopy (hex)',
+            'legendgroup' => 'Legendgroup',
+            'showlegend' => 'Ukázať legendu (showlegend)',
+            'custom_js' => 'Vlastný JS kód'
 
         ],
+        'experiments' => 'Experimenty',
+        'settings' => 'Nastavenia grafov',
+        'add_experiment' => 'PRIDAŤ EXPERIMENT',
+        'edit_experiment' => 'UPRAVIŤ EXPERIMENT'
     ],
 
     // Do not delete me :) I'm used for auto-generation

@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Graph extends Model
+class Trace extends Model
 {
     protected $fillable = [
-        'experiment_id',
-        'annotation_title',
-        'align',
-        'annotation_angle',
+        'title',
+        'graph_id',
+        'color',
+        'legendgroup',
+        'show_legend',
         'xaxis',
         'yaxis',
     ];
@@ -31,10 +32,20 @@ class Graph extends Model
         return url('/admin/sliders/' . $this->getKey());
     }
 
+    public function getXaxisAttribute($value)
+    {
+        return ['id' => $value, 'title' => $value];
+    }
+
+    public function getYaxisAttribute($value)
+    {
+        return ['id' => $value, 'title' => $value];
+    }
+
     /* ************************ RELATIONSHIPS ************************* */
 
-    public function experiment()
+    public function graph()
     {
-        return $this->belongsTo(Experiment::class, 'experiment_id');
+        return $this->belongsTo(Graph::class);
     }
 }

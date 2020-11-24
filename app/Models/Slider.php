@@ -24,7 +24,7 @@ class Slider extends Model
 
     ];
 
-    protected $appends = ['resource_url', 'layoutTitle', 'titleWithLayout'];
+    protected $appends = ['resource_url', 'layoutTitle', 'titleWithLayout', 'slug'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -43,6 +43,11 @@ class Slider extends Model
         return $this->title . ' [' . $this->layout->name . ']';
     }
 
+    public function getSlugAttribute()
+    {
+        return str_slug($this->title);
+    }
+
 
     /* ************************ RELATIONSHIPS ************************* */
 
@@ -53,6 +58,11 @@ class Slider extends Model
     public function dependencies()
     {
         return $this->belongsToMany(Slider::class, 'slider_dependencies', 'slider_id', 'depended_slider_id')->withPivot(['value_same_as_added', 'value_function'])->withTimestamps();
+    }
+
+    public function dependentCheckboxes()
+    {
+        return $this->belongsToMany(Checkbox::class, 'checkbox_slider', 'slider_id', 'checkbox_id')->withPivot(['value_function'])->withTimestamps();
     }
 
     public function sliders()

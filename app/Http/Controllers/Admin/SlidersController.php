@@ -148,9 +148,12 @@ class SlidersController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
+        $sanitizedDependencies = $request->getDependencies();
 
         // Update changed values Slider
         $slider->update($sanitized);
+
+        $this->syncDependencies($sanitizedDependencies, $slider, 'update');
 
         if ($request->ajax()) {
             return [

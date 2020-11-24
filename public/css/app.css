@@ -1561,87 +1561,13 @@ a.ui-button:active,
   min-height: 300px;
 }
 
-#div_params {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-areas: "slider_tsim slider_tsim" "slider_tw slider_w" "slider_Ks slider_Ksm" "slider_a slider_am" "slider_Tc slider_Tc" "slider_KP slider_KP" "div_sats div_sats";
-  grid-gap: 10px;
-}
-
-#div_sats {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-areas: "slider_Umin slider_Umax";
-  grid-gap: 10px;
-}
-
-/*
-'slider_Umin slider_Umax'
-  'slider_Uifmin slider_Uifmax'
-*/
-
-.elementDisabled {
-  pointer-events: none;
-  /* for "disabled" effect */
-  opacity: 0.5;
-  /* background: #CCC; */
-}
-
-#div_tsim {
-  grid-area: slider_tsim;
-}
-
-#div_tw {
-  grid-area: slider_tw;
-}
-
-#div_w {
-  grid-area: slider_w;
-}
-
-#div_Ks {
-  grid-area: slider_Ks;
-}
-
-#div_Ksm {
-  grid-area: slider_Ksm;
-}
-
-#div_a {
-  grid-area: slider_a;
-}
-
-#div_am {
-  grid-area: slider_am;
-}
-
-#div_KP {
-  grid-area: slider_KP;
-}
-
-#div_Tc {
-  grid-area: slider_Tc;
-}
-
-#div_Umin {
-  grid-area: slider_Umin;
-}
-
-#div_Umax {
-  grid-area: slider_Umax;
-}
-
-#div_sats {
-  grid-area: div_sats;
-}
-
 label {
-  display: block;
-  float: left;
+  display: block !important;
+  float: left !important;
   width: 100px;
-  text-align: left;
-  padding-right: 10px;
-  margin-top: -1.6em;
+  text-align: left !important;
+  padding-right: 10px !important;
+  margin-top: -2.2em !important;
 }
 
 .labelrow {
@@ -1660,28 +1586,24 @@ h6 {
   margin: 10px;
 }
 
-#par_tsim,
-#par_tw,
-#par_w,
-#par_Ks,
-#par_Ksm,
-#par_a,
-#par_am,
-#par_KP,
-#par_Tc,
-#par_Umin,
-#par_Umax {
-  width: 3em;
-  height: 1.6em;
-  top: 50%;
-  margin-top: -0.8em;
-  text-align: center;
-  line-height: 1.6em;
+.paramClass {
+  width: 3em !important;
+  height: 1.6em !important;
+  top: 50% !important;
+  margin-top: -0.8em !important;
+  text-align: center !important;
+  line-height: 1.6em !important;
 }
 
 .vstup {
   /*width: 300px;*/
   margin: 10px 0;
+}
+
+.ui-checkboxradio-label {
+  width: 100%;
+  margin: 10px 0;
+  text-align: left;
 }
 
 /*  .modebar{

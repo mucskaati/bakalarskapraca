@@ -56,4 +56,14 @@ class Layout extends Model
     {
         return $this->hasMany(Experiment::class);
     }
+
+    public function sliders()
+    {
+        return $this->hasMany(Slider::class);
+    }
+
+    public function checkboxes()
+    {
+        return $this->hasMany(Checkbox::class);
+    }
 }

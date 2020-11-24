@@ -1,50 +1,45 @@
+<script src="{{ asset('js/jquery.ui.touch-punch.min.js') }}"></script>
 <script>
     $( function() {
-      
-      var image64 = "";    
+//---------------------------------------------------Layout---------------------------------------------------------------
       var layout = {
-              //https://plotly.com/javascript/subplots/
-              //https://stackoverflow.com/questions/31526045/remove-space-between-subplots-in-plotly
-              //grid: {rows: 5, columns: 1, pattern: 'independent'},
-              grid: {rows: 2, columns: 1},
-              height: 400,
-              margin: {l: 60, r: 20, b: 30, t: 30, pad: 4},
-              xaxis: {domain: [0, 1]},
-              //legend: {
-      //x: 1,
-     // y: 0.5
-   // },
-              //https://plotly.com/javascript/text-and-annotations/#subplot-annotations
-              annotations: [
-              { text: "y(t)",
-                font: { size: 14,
-                        color: 'black', },
-                textangle: 270, 
-                showarrow: false,
-                align: 'left',
-                x: -0.1, //position in x domain
-                y: 0.8, //position in y domain
-                xref: 'paper',
-                yref: 'paper',
-              },
-              { text: "u(t)",
-                font: { size: 14,
-                        color: 'black', },
-                textangle: 270, 
-                showarrow: false,
-                align: 'center',
-                //x: 0, //position in x domain
-                x: -.1,
-                y: 0.2,  // position in y domain
-                xref: 'paper',
-                yref: 'paper',
-                //sizex: 100, 
-                //xanchor: 'left',
-                //xsizemode: 'pixel',
-              },           
+              grid: {rows: {{ $experiment->layout->rows }}, columns: {{ $experiment->layout->columns }} },
+              height: {{ $experiment->layout->height }},
+              margin: {{ $experiment->layout->margin }},
+              xaxis: {{ $experiment->layout->xaxis }},
+              annotations: 
+              [
+                @foreach($experiment->graphs as $graph)
+                { text: "{{ $graph->annotation_title }}",
+                  font: { size: 14,
+                          color: 'black', },
+                  textangle: {{ $graph->annotation_angle }}, 
+                  showarrow: false,
+                  align: '{{ $graph->align }}',
+                  x: {{ $graph->xaxis }}, //position in x domain
+                  y: {{ $graph->yaxis }}, //position in y domain
+                  xref: 'paper',
+                  yref: 'paper',
+                },
+                @endforeach      
               ]
       };
+
   
+ //------------------------------------------Sliders initi -----------------------------------------------------------------     
+     @foreach($experiment->layout->sliders as $slider)
+      var parv_{{ $slider->title }} = { value: {{ ($slider->default_function) ?: $slider->default  }} };
+     @endforeach
+    
+  
+      @foreach($experiment->layout->sliders as $slider)
+      createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
+      @endforeach     
+      runAjaxCall()
+  
+  //-----------------------------------------------Export to PDF -----------------------------------------------------------
+  @if($experiment->export)
+  var image64 = "";   
   var pdfIcon = {
     'width': 500,
     'height': 600,
@@ -52,95 +47,51 @@
   }
     
   function base64ToArrayBuffer(base64) {
-                                  var binaryString = window.atob(base64);
-                                  var binaryLen = binaryString.length;
-                                  var bytes = new Uint8Array(binaryLen);
-                                  for (var i = 0; i < binaryLen; i++) {
-                                      var ascii = binaryString.charCodeAt(i);
-                                      bytes[i] = ascii;
-                                  }
-                                  return bytes;
-                              }
-  
-      
-      var parv_tsim = { value: 10 };
-      var parv_Ts = { value: 0.01 };     
-  //    var parv_Ts = { value: parv_tsim.value/200 };            
-      var parv_tw = { value: 1 };
-      var parv_w = { value: 1 };  
-      var parv_Ks = { value: 1 };         
-      var parv_Ksm = { value: 1 };
-      var parv_a = { value: 0 };         
-      var parv_am = { value: 0 };    
-      var parv_Tc = { value: 0.5 };
-      var parv_KP = { value: KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value) };
-      //console.log(parv_KP);
-      var parv_Umin = { value: 0 };         
-      var parv_Umax = { value: 0.2 };
-    
-  
-        
-      createSlider("#slider_tsim", "#par_tsim", 0, 100, parv_tsim, 1);
-  //    createSlider("#slider_Ts", "#par_Ts", 0, 1, parv_Ts, .001);
-      createSlider("#slider_tw", "#par_tw", 0, 100, parv_tw, 10);
-      createSlider("#slider_w", "#par_w", 0, 5, parv_w, 0.1);
-      createSlider("#slider_Ks", "#par_Ks", 0.1, 5, parv_Ks, 0.1);
-      createSlider("#slider_Ksm", "#par_Ksm", 0.1, 5, parv_Ksm, 0.1);
-      createSlider("#slider_a", "#par_a", -2, 5, parv_a, 0.1);
-      createSlider("#slider_am", "#par_am", -2, 5, parv_am, 0.1);    
-      createSlider("#slider_KP", "#par_KP", 0, 5, parv_KP, 0.01);
-      createSlider("#slider_Tc", "#par_Tc", 0.01, 5, parv_Tc, 0.01);
-      createSlider("#slider_Umin", "#par_Umin", -3, 1, parv_Umin, 0.01);
-      createSlider("#slider_Umax", "#par_Umax", -1, 3, parv_Umax, 0.01);      
-      runAjaxCall()
-  
-  /*
-      '#1f77b4',  // muted blue
-      '#ff7f0e',  // safety orange
-      '#2ca02c',  // cooked asparagus green
-      '#d62728',  // brick red
-      '#9467bd',  // muted purple
-      '#8c564b',  // chestnut brown
-      '#e377c2',  // raspberry yogurt pink
-      '#7f7f7f',  // middle gray
-      '#bcbd22',  // curry yellow-green
-      '#17becf'   // blue-teal
-  */
-  
+      var binaryString = window.atob(base64);
+      var binaryLen = binaryString.length;
+      var bytes = new Uint8Array(binaryLen);
+      for (var i = 0; i < binaryLen; i++) {
+          var ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+      }
+      return bytes;
+  }
+
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
   var newButton = {
       icon: pdfIcon,
       name: 'Export to PDF',
       click: function(gd) {   
-      $.post('pdf_FO.php', {
-      "parv_w": parv_w.value,    
-      "parv_Ks": parv_Ks.value,
-      "parv_Ksm": parv_Ksm.value,
-      "parv_a": parv_a.value,
-      "parv_am": parv_am.value,  
-      "parv_KP": parv_KP.value,
-      "parv_Tc": parv_Tc.value,
-      "parv_Umin": parv_Umin.value,
-      "parv_Umax": parv_Umax.value,       
+      $.post('{{ route("export") }}', {
+        @foreach($experiment->layout->sliders as $slider)
+          "parv_{{ $slider->title }}": parv_{{ $slider->title }}.value,   
+        @endforeach     
       "imgResult": image64,
     },{responseType:'arraybuffer'})
-      .success(function (response) {
-      //console.log(image64);
+      .done(function (response) {
            var arrrayBuffer = base64ToArrayBuffer(response);
            var file = new Blob([arrrayBuffer], {type: 'application/pdf'});
            var fileURL = URL.createObjectURL(file);
            window.open(fileURL);
       });  
       }
-  }    
-      
+  }   
+  @endif 
+  //---------------------------------------------------------------------Ajax Call ---------------------------------------------
       function runAjaxCall() { 
       $.ajax({
         type: "GET",
-        url: "http://apps.iolab.sk:9000/symetry10",
-        data: {"tsim":parv_tsim.value,"Ts":parv_Ts.value,"tw":parv_tw.value,"w":parv_w.value,"Ks":parv_Ks.value,"Ksm":parv_Ksm.value,"a":parv_a.value,"am":parv_am.value,"KP":parv_KP.value,"Tc":parv_Tc.value,"Umin":parv_Umin.value,"Umax":parv_Umax.value},
-        //"Td":parv_Td.value,"Tdm":parv_Tdm.value,
-        //"Umin":parv_Umin.value,"Umax":parv_Umax.value,"Uifmin":parv_Uifmin.value,"Uifmax":parv_Uifmax.value,
-        //data: {"vi":parv_vi},
+        url: "{{ $experiment->ajax_url }}",
+        data: {
+          @foreach($experiment->layout->sliders as $slider)
+          "{{ $slider->title }}":parv_{{ $slider->title }}.value,
+          @endforeach
+        },
         dataType: 'json',
         beforeSend: function() {
           $('#loader').show();
@@ -151,69 +102,56 @@
           $( "fieldset" ).removeClass( "elementDisabled" );
         },
         success:function(data)   
-        { t = data.t.split(",");
-          u = data.u.split(",");
-          y = data.y.split(",");
-          us = data.us.split(",");
-          ys = data.ys.split(",");
-          let trace1 = {
-              x: t,
-              y: y, 
-              //yaxis:{title: 'Value B'},            
+        { 
+          @foreach($experiment->graphs as $graphKey => $graph)
+            @foreach($graph->traces as $key => $trace)
+            let trace{{ $trace->id }} = {
+              x: data.{{ $trace->xaxis['id'] }}.split(","),
+              y: data.{{ $trace->yaxis['id'] }}.split(","),   
               marker: {
-                  color: '#ff7f0e',
+                  color: '{{ $trace->color }}',
                   line: {color: 'transparent'}
               },  
-              legendgroup: 'a',   
-              //https://plotly.com/javascript/legend/#grouped-legend   
-             // showlegend: false,
-              name: 'closed loop'};  
-          let trace2 = {
-              x: t,
-              y: u,
-              xaxis: 'x2',
-              yaxis: 'y2',             
-              marker: {
-                  color: '#ff7f0e',
-                  line: {color: 'transparent'}
-              },
-              legendgroup: 'a',
-              showlegend: false,
-              name: 'closed loop'};    
-          let trace3 = {
-              x: t,
-              y: ys,           
-              marker: {
-                  color: '#2ca02c',
-                  line: {color: 'transparent'}
-              },
-              legendgroup: 'b',      
-              //showlegend: false,
-              name: 'open loop'};  
-          let trace4 = {
-              x: t,
-              y: us,
-              xaxis: 'x2',
-              yaxis: 'y2',
-              marker: {
-                  color: '#2ca02c',
-                  line: {color: 'transparent'}
-              },
-              legendgroup: 'b',       
-              showlegend: false, 
-              name: 'open loop'};
-          Plotly.newPlot($('#plotdiv')[0], [trace1,trace2,trace3,trace4], layout, {displaylogo: false, responsive: true, modeBarButtonsToAdd: [newButton]})
+              legendgroup: '{{ $trace->legendgroup }}',   
+              showlegend: {{ ($trace->show_legend) ? 'true' : 'false' }},
+              @if($graphKey > 0)
+              xaxis: 'x{{ $graphKey+1 }}',
+              yaxis: 'y{{ $graphKey+1 }}', 
+              @endif
+              name: '{{ $trace->title }}'};  
+            @endforeach
+          @endforeach
+         
+          @if($experiment->export)
+          Plotly.newPlot($('#plotdiv')[0], 
+          [
+            @foreach($experiment->graphs as $graphKey => $graph)
+              @foreach($graph->traces as $key => $trace)
+              trace{{ $trace->id }},
+              @endforeach
+            @endforeach
+          ], layout, {displaylogo: false, responsive: true, modeBarButtonsToAdd: [newButton]})
                 .then((gd) => { return Plotly.toImage(gd); })
                 .then((dataURI) => { //console.log(dataURI); 
                                       image64 = dataURI;
                                       //console.log(image64);
                                       });
+            @else 
+            Plotly.newPlot($('#plotdiv')[0], [
+              @foreach($experiment->graphs as $graphKey => $graph)
+                @foreach($graph->traces as $key => $trace)
+                  trace{{ $trace->id }},
+                @endforeach
+              @endforeach
+            ], layout, {displaylogo: false, responsive: true});
+          @endif
         }     
       }).done(function( o ) {
          // do something                                                                     
       }); 
       }    
   
+  //----------------------------------------------Create Slider ----------------------------------------------------------------
       function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepValue) {
       let iddPar = $( idPar );
       $( idSlider ).slider({
@@ -229,45 +167,75 @@
           iddPar.text( ui.value );
         },
         change: function(event, ui) { 
-          defaultValue.value = ui.value;   
-          if ( idPar == "#par_Ksm")
-              { parv_KP.value =  KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value);
-                $('#par_KP').text(round(parv_KP.value,3)); 
-                $( "#slider_KP" ).slider( "value", parv_KP.value ); }
-          if ( idPar == "#par_am")
-              { parv_KP.value =  KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value);
-                $('#par_KP').text(round(parv_KP.value,3)); 
-                $( "#slider_KP" ).slider( "value", parv_KP.value ); }
-          if ( idPar == "#par_Tc")
-              { parv_KP.value =  KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value);
-                $('#par_KP').text(round(parv_KP.value,3)); 
-                $( "#slider_KP" ).slider( "value", parv_KP.value ); }
-          if ( idPar == "#par_Ks")
-              { parv_Ksm.value = parv_Ks.value;
-                $('#par_Ksm').text(parv_Ksm.value); 
-                $( "#slider_Ksm" ).slider( "value", parv_Ksm.value );
-                parv_KP.value =  KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value);
-                $('#par_KP').text(round(parv_KP.value,3)); 
-                $( "#slider_KP" ).slider( "value", parv_KP.value ); }
-          if ( idPar == "#par_a" )
-              { parv_am.value = parv_a.value;
-                $('#par_am').text(parv_am.value); 
-                $( "#slider_am" ).slider( "value", parv_am.value );
-                parv_KP.value =  KPGain(parv_Ksm.value,parv_am.value,parv_Tc.value);
-                $('#par_KP').text(round(parv_KP.value,3)); 
-                $( "#slider_KP" ).slider( "value", parv_KP.value ); }
+          defaultValue.value = ui.value; 
+          @foreach($experiment->layout->sliders as $slider)  
+          if ( idPar == "#par_{{ $slider->title }}") {
+                @foreach($slider->dependencies as $dependency)
+                
+                 parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
+                $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
+                $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
+                @endforeach
+          }
+          @endforeach
           runAjaxCall()
         },
       }); 
       };
-      
-      function round(value, decimals) {
-        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-      }
-      
-      function KPGain(Km,am,Tc) {           //feedforward loop controller gain
-          return (1/Tc-am)/Km;
-      }; 
-                     
+
+//----------------------------------------------- Checkboxes ---------------------------------------------------------
+  
+$( function() {
+        $( "input" ).checkboxradio({   
+            //icon: false    
+            //label: "custom label"
+        });
     } );
-    </script>
+
+  @foreach($experiment->layout->checkboxes as $checkbox)
+     $( ".toggle{{ $checkbox->id }}" ).on( "change", handleToggle{{ $checkbox->id }} );
+     function handleToggle{{ $checkbox->id }}( e ) {
+      var target = $( e.target );
+ 
+      if ( target.is( ":checked" ) ) {
+        @foreach($checkbox->dependentSliders as $slider)
+        parv_{{ $slider->title }}.value =  {{ $slider->pivot->value_function }};
+        $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
+        $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+        @endforeach
+      } 
+      else {
+        @foreach($checkbox->dependentSliders as $slider)
+        parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ?: $slider->default }};
+        $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
+        $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+        @endforeach        
+      }
+      runAjaxCall()
+    } 
+    
+  $(".toggle{{ $checkbox->id }}").click(function(){
+    $("#div_{{ $checkbox->attribute_name }}").toggle();
+  });  
+  @endforeach
+
+//----------------------------------------------------Functions----------------------------------------------------------
+      
+    function round(value, decimals) {
+      return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+      
+    function KPGain(Km,am,Tc) {           //feedforward loop controller gain
+      return (1/Tc-am)/Km;
+    }; 
+
+    function KcGain(Km,am,Tc) {           //stabilizing controller gain
+      return (1/Tc-am)/Km;
+    };
+    
+    function bGain(am,Tf) {              //derivative time constant of PD control 
+      return 2*Tf-am*Tf*Tf;
+    };
+                     
+    });
+</script>

@@ -40,7 +40,7 @@ class ExperimentsController extends Controller
             $request,
 
             // set columns to query
-            ['ajax_url', 'export', 'id', 'layout_id', 'title'],
+            ['ajax_url', 'export', 'id', 'layout_id', 'title', 'slug'],
 
             // set columns to searchIn
             ['ajax_url', 'description', 'id', 'title']

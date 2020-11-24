@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Frontend\GraphController@graph1')->name('home');
+Route::get('/fo/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
+
+//Export PDF
+Route::post('/export/pdf', 'Frontend\ExportPDFController@export')->name('export');
 
 
 /* Auto-generated admin routes */
@@ -45,8 +48,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
-        Route::prefix('layouts')->name('layouts/')->group(static function() {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('layouts')->name('layouts/')->group(static function () {
             Route::get('/',                                             'LayoutsController@index')->name('index');
             Route::get('/create',                                       'LayoutsController@create')->name('create');
             Route::post('/',                                            'LayoutsController@store')->name('store');
@@ -60,8 +63,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
-        Route::prefix('sliders')->name('sliders/')->group(static function() {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('sliders')->name('sliders/')->group(static function () {
             Route::get('/',                                             'SlidersController@index')->name('index');
             Route::get('/create',                                       'SlidersController@create')->name('create');
             Route::post('/',                                            'SlidersController@store')->name('store');
@@ -75,8 +78,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
-        Route::prefix('checkboxes')->name('checkboxes/')->group(static function() {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('checkboxes')->name('checkboxes/')->group(static function () {
             Route::get('/',                                             'CheckboxesController@index')->name('index');
             Route::get('/create',                                       'CheckboxesController@create')->name('create');
             Route::post('/',                                            'CheckboxesController@store')->name('store');
@@ -90,8 +93,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
-        Route::prefix('experiments')->name('experiments/')->group(static function() {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('experiments')->name('experiments/')->group(static function () {
             Route::get('/',                                             'ExperimentsController@index')->name('index');
             Route::get('/create',                                       'ExperimentsController@create')->name('create');
             Route::post('/',                                            'ExperimentsController@store')->name('store');

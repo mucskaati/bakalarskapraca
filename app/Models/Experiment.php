@@ -23,13 +23,18 @@ class Experiment extends Model
 
     ];
 
-    protected $appends = ['resource_url', 'layoutName'];
+    protected $appends = ['resource_url', 'layoutName', 'detail_url'];
 
     /* ************************ ACCESSOR ************************* */
 
     public function getResourceUrlAttribute()
     {
         return url('/admin/experiments/' . $this->getKey());
+    }
+
+    public function getDetailUrlAttribute()
+    {
+        return route('graph_fo', ['id' => $this->getKey(), 'slug' => $this->slug]);
     }
 
     public function getLayoutNameAttribute()
@@ -45,6 +50,6 @@ class Experiment extends Model
 
     public function layout()
     {
-        return $this->belongsTo(Layout::class);
+        return $this->belongsTo(Layout::class)->with(['sliders', 'checkboxes']);
     }
 }

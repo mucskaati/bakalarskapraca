@@ -81,6 +81,9 @@
                                         <td>
                                             <div class="row no-gutters">
                                                 <div class="col-auto">
+                                                    <a class="btn btn-sm btn-spinner btn-info" :href="item.detail_url" title="Detail" role="button"><i class="fa fa-eye"></i></a>
+                                                </div>
+                                                <div class="col-auto">
                                                     <a class="btn btn-sm btn-spinner btn-info" :href="item.resource_url + '/edit'" title="{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                                 </div>
                                                 <form class="col" @submit.prevent="deleteItem(item.resource_url)">

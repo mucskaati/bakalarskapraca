@@ -29,6 +29,7 @@ class UpdateCheckbox extends FormRequest
             'attribute_name' => ['sometimes', 'string'],
             'layout' => ['sometimes', 'array'],
             'title' => ['sometimes', 'string'],
+            'slider_dependency_change' => ['required', 'boolean'],
             'dependent_sliders' => ['nullable', 'array']
 
         ];

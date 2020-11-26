@@ -64,6 +64,6 @@ class Layout extends Model
 
     public function checkboxes()
     {
-        return $this->hasMany(Checkbox::class);
+        return $this->hasMany(Checkbox::class)->with(['dependentSliders']);
     }
 }

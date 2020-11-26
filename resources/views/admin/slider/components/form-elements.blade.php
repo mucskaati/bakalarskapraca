@@ -14,6 +14,16 @@
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
             </div>
         </div>
+        <div class="form-group row" :class="{'has-danger': errors.has('visible'), 'has-success': fields.visible && fields.visible.valid }">
+            <div  class="col-6 mt-5">
+                <input class="form-check-input" :id="'visible'" type="checkbox" v-model="form.visible" v-validate="''" data-vv-name="visible"  name="visible_fake_element">
+                <label class="form-check-label" :for="'visible'">
+                    {{ trans('admin.slider.columns.visible') }}
+                </label>
+                <input type="hidden" :name="'visible'" :value="form.visible">
+                <div v-if="errors.has('visible')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('visible') }}</div>
+            </div>
+        </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('min'), 'has-success': fields.min && fields.min.valid }">

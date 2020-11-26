@@ -27,8 +27,12 @@
 
   
  //------------------------------------------Sliders initi -----------------------------------------------------------------     
-     @foreach($experiment->layout->sliders as $slider)
-      var parv_{{ $slider->title }} = { value: {{ ($slider->default_function) ?: $slider->default  }} };
+     @foreach($experiment->layout->sliders->where('default_function', null) as $slider)
+      var parv_{{ $slider->title }} = { value: {{ $slider->default  }} };
+     @endforeach
+
+     @foreach($experiment->layout->sliders->where('default_function','!=', null) as $slider)
+      var parv_{{ $slider->title }} = { value: {{ $slider->default_function  }} };
      @endforeach
     
   
@@ -167,14 +171,29 @@
           iddPar.text( ui.value );
         },
         change: function(event, ui) { 
-          defaultValue.value = ui.value; 
-          @foreach($experiment->layout->sliders as $slider)  
+          defaultValue.value = ui.value;
+          @foreach($experiment->layout->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
                 @foreach($slider->dependencies as $dependency)
-                
                  parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
                 $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
                 $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
+                @endforeach
+
+                @foreach($experiment->layout->checkboxes as $checkbox)
+                //----------------- Aby sme dosiahli to ze ked sa pohne s nejakym slidrom 
+                // ---------------  a checkbox je zakliknuty aby sa prepocital aj 
+                //----------------  udaj v slidroch ktory su zavisli na checkboxe
+                  @if($checkbox->slider_dependency_change)
+                  if ( $("#checkbox_{{ $checkbox->attribute_name }}").prop("checked") )
+                  { 
+                    @foreach($checkbox->dependentSliders as $slider)
+                    parv_{{ $slider->title }}.value =   {{ $slider->pivot->value_function }};
+                    $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
+                    $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+                    @endforeach
+                  } 
+                  @endif
                 @endforeach
           }
           @endforeach
@@ -214,9 +233,6 @@ $( function() {
       runAjaxCall()
     } 
     
-  $(".toggle{{ $checkbox->id }}").click(function(){
-    $("#div_{{ $checkbox->attribute_name }}").toggle();
-  });  
   @endforeach
 
 //----------------------------------------------------Functions----------------------------------------------------------

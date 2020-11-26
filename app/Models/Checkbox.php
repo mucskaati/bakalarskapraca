@@ -10,7 +10,12 @@ class Checkbox extends Model
         'attribute_name',
         'layout_id',
         'title',
+        'slider_dependency_change'
 
+    ];
+
+    protected $casts = [
+        'slider_dependency_change' => 'boolean'
     ];
 
     protected $dates = [

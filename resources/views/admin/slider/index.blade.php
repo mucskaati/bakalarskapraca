@@ -84,7 +84,7 @@
                                         <td>@{{ item.layoutTitle }}</td>
                                         <td>@{{ item.min }}</td>
                                         <td>@{{ item.max }}</td>
-                                        <td>@{{ item.default }}</td>
+                                        <td>@{{ (item.default) ? item.default : 'funkcia' }}</td>
                                         <td>@{{ item.step }}</td>
                                         
                                         <td>

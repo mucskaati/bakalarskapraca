@@ -29,6 +29,7 @@ class StoreCheckbox extends FormRequest
             'attribute_name' => ['required', 'string'],
             'layout' => ['required', 'array'],
             'title' => ['required', 'string'],
+            'slider_dependency_change' => ['required', 'boolean'],
             'dependent_sliders' => ['nullable', 'array']
 
         ];

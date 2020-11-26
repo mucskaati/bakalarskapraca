@@ -19,4 +19,14 @@
         <div v-if="errors.has('attribute_name')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('attribute_name') }}</div>
     </div>
 </div>
+<div class="form-group row" :class="{'has-danger': errors.has('slider_dependency_change'), 'has-success': fields.slider_dependency_change && fields.slider_dependency_change.valid }">
+    <div  class="col-6 offset-md-4 mt-5">
+        <input class="form-check-input" :id="'slider_dependency_change'" type="checkbox" v-model="form.slider_dependency_change" v-validate="''" data-vv-name="slider_dependency_change"  name="slider_dependency_change_fake_element">
+        <label class="form-check-label" :for="'slider_dependency_change'">
+            {{ trans('admin.checkbox.columns.slider_dependency_change') }}
+        </label>
+        <input type="hidden" :name="'slider_dependency_change'" :value="form.slider_dependency_change">
+        <div v-if="errors.has('slider_dependency_change')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('slider_dependency_change') }}</div>
+    </div>
+</div>
 

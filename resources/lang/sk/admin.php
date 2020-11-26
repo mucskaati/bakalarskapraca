@@ -76,7 +76,8 @@ return [
             'same_as_added_slider' => 'Rovnakú akú ma pridávaný slajder',
             'value_function' => 'Alebo hodnotu nižšie napísanej funkcie',
             'add_dependency' => 'Pridať ďalšiu závislosť',
-            'delete' => 'Zmazať závislosť'
+            'delete' => 'Zmazať závislosť',
+            'visible' => 'Viditeľný'
 
         ],
     ],
@@ -98,7 +99,8 @@ return [
             'add_dependency' => 'Pridať ďalšiu závislosť',
             'slider_id' => 'Nastaviť hodnotu slajdra',
             'value_function' => 'Na nižšie uvedenú hodnotu alebo funkciu',
-            'delete' => 'Zmazať závislosť'
+            'delete' => 'Zmazať závislosť',
+            'slider_dependency_change' => 'Aktualizovať hodnoty zavislostí po zmene slidrov'
 
         ],
     ],

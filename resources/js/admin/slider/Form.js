@@ -12,6 +12,7 @@ Vue.component("slider-form", {
                 min: "",
                 step: "",
                 title: "",
+                visible: true,
                 dependencies: []
             }
         };

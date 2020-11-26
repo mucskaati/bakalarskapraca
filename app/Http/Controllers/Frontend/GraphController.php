@@ -12,6 +12,7 @@ class GraphController extends Controller
     {
         $experiment = Experiment::with(['graphs', 'layout'])->where('id', $id)->where('slug', $slug)->firstOrFail();
 
+
         return view('frontend.graphs.graph1', [
             'experiment' => $experiment
         ]);

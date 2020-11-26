@@ -8,6 +8,7 @@ Vue.component("checkbox-form", {
                 attribute_name: "",
                 layout: "",
                 title: "",
+                slider_dependency_change: false,
                 dependent_sliders: []
             }
         };

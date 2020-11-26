@@ -13,7 +13,8 @@ class Experiment extends Model
         'export',
         'layout_id',
         'title',
-        'custom_js'
+        'custom_js',
+        'run_button'
     ];
 
 

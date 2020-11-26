@@ -134,7 +134,8 @@ return [
             'legendgroup' => 'Legendgroup',
             'showlegend' => 'Ukázať legendu (showlegend)',
             'custom_js' => 'Vlastný JS kód',
-            'slug' => 'Adresa (link)'
+            'slug' => 'Adresa (link)',
+            'run_button' => 'Aktualizovanie grafu na tlačítko'
 
         ],
         'experiments' => 'Experimenty',

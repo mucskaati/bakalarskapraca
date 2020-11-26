@@ -39,6 +39,7 @@
   
       @foreach($experiment->layout->sliders as $slider)
       createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
+      setSlider("#slider_{{ $slider->title }}","#par_{{ $slider->title }}_input");
       @endforeach     
       runAjaxCall()
   
@@ -172,10 +173,12 @@
         step: stepValue,
         create: function() {
           iddPar.text( $( this ).slider( "value") );
+          $(idPar+'_input').val(defaultValue.value);
           //runAjaxCall()
         },
         slide: function( event, ui ) {
           iddPar.text( ui.value );
+          $(idPar+'_input').val(ui.value);  
         },
         change: function(event, ui) { 
           defaultValue.value = ui.value;
@@ -185,7 +188,7 @@
                  parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
                 $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
                 $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
-                changeCounter += 1;
+                changeSliderAndInput("parv_{{ $dependency->title }}");
                 @endforeach
 
                 @foreach($experiment->layout->checkboxes as $checkbox)
@@ -199,13 +202,16 @@
                     parv_{{ $slider->title }}.value =   {{ $slider->pivot->value_function }};
                     $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
                     $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+                    changeSliderAndInput("parv_{{ $slider->title }}");
                     @endforeach
                   } 
                   @endif
                 @endforeach
           }
           @endforeach
+          @if(!$experiment->run_button)
           runAjaxCall()
+          @endif
         },
       }); 
       };
@@ -213,7 +219,7 @@
 //----------------------------------------------- Checkboxes ---------------------------------------------------------
   
 $( function() {
-        $( "input" ).checkboxradio({   
+        $( "input[type=checkbox]" ).checkboxradio({   
             //icon: false    
             //label: "custom label"
         });
@@ -229,6 +235,7 @@ $( function() {
         parv_{{ $slider->title }}.value =  {{ $slider->pivot->value_function }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+        changeSliderAndInput("parv_{{ $slider->title }}");
         @endforeach
       } 
       else {
@@ -236,12 +243,27 @@ $( function() {
         parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ?: $slider->default }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+        changeSliderAndInput("parv_{{ $slider->title }}");
         @endforeach        
       }
+      @if(!$experiment->run_button)
       runAjaxCall()
+      @endif
     } 
     
   @endforeach
+
+//----------------------------------------------------Toggle-------------------------------------------------------------
+
+  $(".inputs").toggle();    
+    $("#switchButton").click(function(){
+      $(".sliders_show").toggle();
+      $(".inputs").toggle();
+    }); 
+
+  $( "#runButton" ).click( function(  ) {         
+            runAjaxCall();
+  } );
 
 //----------------------------------------------------Functions----------------------------------------------------------
       
@@ -260,6 +282,29 @@ $( function() {
     function bGain(am,Tf) {              //derivative time constant of PD control 
       return 2*Tf-am*Tf*Tf;
     };
+
+    function setSlider(slider,inputbox) {
+    //nastavi slider podla ciselneho vstupu a zaroven nastavi krok ciselneho vstupu
+    $(inputbox).attr('step', eval("parv_"+inputbox.split('_')[1]).step); 
+      $(inputbox).keyup( function(){
+          //$( slider ).slider( "option", "value", parseInt($(this).val()) );
+          $( slider ).slider( "option", "value", ($(this).val()) );
+          console.log($('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value));
+          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+      });
+      $(inputbox).mouseup( function(){
+          //$( slider ).slider( "option", "value", parseInt($(this).val()) );
+          $( slider ).slider( "option", "value", ($(this).val()) );
+          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+      });
+    };
+
+  function changeSliderAndInput(what) {
+     let whatPart = what.substring(5);
+     $('#par_'+whatPart).text(eval(what).value); 
+     $( "#slider_"+whatPart ).slider( "value", eval(what).value );
+     $('#par_'+whatPart+'_input').val(eval(what).value);
+   }
                      
     });
 </script>

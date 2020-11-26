@@ -29,6 +29,13 @@
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
             </div>
         </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('ajax_url'), 'has-success': fields.ajax_url && fields.ajax_url.valid }">
+            <label for="ajax_url" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.ajax_url') }}</label>
+                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                <input type="text" v-model="form.ajax_url" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('ajax_url'), 'form-control-success': fields.ajax_url && fields.ajax_url.valid}" id="ajax_url" name="ajax_url" placeholder="{{ trans('admin.experiment.columns.ajax_url') }}">
+                <div v-if="errors.has('ajax_url')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('ajax_url') }}</div>
+            </div>
+        </div>
         <div class="form-check row" :class="{'has-danger': errors.has('export'), 'has-success': fields.export && fields.export.valid }">
             <div  :class="isFormLocalized ? 'col-md-12' : 'col-md-12'">
                 <input class="form-check-input" id="export" type="checkbox" v-model="form.export" v-validate="''" data-vv-name="export"  name="export_fake_element">
@@ -39,11 +46,14 @@
                 <div v-if="errors.has('export')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('export') }}</div>
             </div>
         </div>
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('ajax_url'), 'has-success': fields.ajax_url && fields.ajax_url.valid }">
-            <label for="ajax_url" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.ajax_url') }}</label>
-                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <input type="text" v-model="form.ajax_url" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('ajax_url'), 'form-control-success': fields.ajax_url && fields.ajax_url.valid}" id="ajax_url" name="ajax_url" placeholder="{{ trans('admin.experiment.columns.ajax_url') }}">
-                <div v-if="errors.has('ajax_url')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('ajax_url') }}</div>
+        <div class="form-check row" :class="{'has-danger': errors.has('run_button'), 'has-success': fields.run_button && fields.run_button.valid }">
+            <div  :class="isFormLocalized ? 'col-md-12' : 'col-md-12'">
+                <input class="form-check-input" id="run_button" type="checkbox" v-model="form.run_button" v-validate="''" data-vv-name="run_button"  name="run_button_fake_element">
+                <label class="form-check-label" for="run_button">
+                    {{ trans('admin.experiment.columns.run_button') }}
+                </label>
+                <input type="hidden" name="run_button" :value="form.run_button">
+                <div v-if="errors.has('run_button')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('run_button') }}</div>
             </div>
         </div>
     </div>

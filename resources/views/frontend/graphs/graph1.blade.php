@@ -12,10 +12,15 @@
     <p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;margin:20px 0 30px;">
     Simulations
     </p>
-    
+    <div class="row mb-3">
+      <div class="col-md-12 text-right">
+        <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
+        @if($experiment->run_button)
+        <button id="runButton" class="d-inline-block btn btn-danger">Run</button>
+        @endif
+      </div>
+    </div>
     <div class="row"> 
-    
-            
             <div class="col-xs-12 col-sm-4 col-lg-4"> 
             <fieldset> 
               <div class="row">       
@@ -23,9 +28,14 @@
                 <div class="col-12 col-md-6 mb-4">
                   <div id="div_{{ $slider->title }}" class="vstup">
                     <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
+                    <div class="sliders_show">
                     <div id="slider_{{ $slider->title }}">    
                         <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                     </div>
+                    </div>
+                    <div class="inputs">
+                      <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
+                    </div>  
                   </div> 
                 </div>
                 @endforeach 
@@ -41,39 +51,25 @@
               <div class="col-12 col-md-6 mb-5">
                 <div id="div_{{ $slider->title }}" class="vstup">
                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
+                  <div class="sliders_show">
                   <div id="slider_{{ $slider->title }}">   
                       <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                   </div>
+                  </div>
+                  <div class="inputs">
+                    <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
+                  </div>  
                 </div>
               </div>
               @endforeach
             @endforeach
             </div>
-    
-            {{-- <div id="div_sats">
-            <div id="div_Umin" class="vstup">
-              <label for="slider_Umin">Umin:</label>
-              <div id="slider_Umin">   
-                  <div id="par_Umin" class="ui-slider-handle"></div>
-              </div>
-            </div>
-            <div id="div_Umax" class="vstup">
-              <label for="slider_Umax">Umax:</label>
-              <div id="slider_Umax">   
-                  <div id="par_Umax" class="ui-slider-handle"></div>
-              </div>
-            </div>
-            </div> --}}
-    
             </fieldset>  
            </div>
-           
            <div id="results" class="col-xs-12 col-sm-8 col-lg-8">  
             <div id="loader" class="loader"> </div>
-            <div id="plotdiv"></div>   
+            <div id="plotdiv"></div> 
            </div>
-        </div>
-              
         </div>
     </div>
     

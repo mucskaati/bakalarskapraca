@@ -15,6 +15,13 @@
                 <div v-if="errors.has('title')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('title') }}</div>
             </div>
         </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('slug'), 'has-success': fields.slug && fields.slug.valid }">
+            <label for="slug" class="col-form-label" :class="isFormLocalized ? 'col-md-12' : 'col-md-12'">{{ trans('admin.experiment.columns.slug') }}</label>
+                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-12'">
+                <input type="text" v-model="form.slug" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('slug'), 'form-control-success': fields.slug && fields.slug.valid}" id="slug" name="slug" placeholder="{{ trans('admin.experiment.columns.slug') }}">
+                <div v-if="errors.has('slug')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('slug') }}</div>
+            </div>
+        </div>
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-12 col-form-label">{{ trans('admin.experiment.columns.layout_id') }}</label>
                 <div class="col-12">

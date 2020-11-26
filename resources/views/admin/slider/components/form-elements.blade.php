@@ -7,6 +7,13 @@
                 <div v-if="errors.has('title')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('title') }}</div>
             </div>
         </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('label'), 'has-success': fields.label && fields.label.valid }">
+            <label for="label" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.label') }}</label>
+                <div :class="'col-md-12'">
+                <input type="text" v-model="form.label"  @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('label'), 'form-control-success': fields.label && fields.label.valid}" id="label" name="label" placeholder="{{ trans('admin.slider.columns.label') }}">
+                <div v-if="errors.has('label')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('label') }}</div>
+            </div>
+        </div>
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-12 col-form-label">{{ trans('admin.slider.columns.layout_id') }}</label>
                 <div class="col-12">

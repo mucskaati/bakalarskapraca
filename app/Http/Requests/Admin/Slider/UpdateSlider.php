@@ -33,6 +33,7 @@ class UpdateSlider extends FormRequest
             'min' => ['sometimes', 'numeric'],
             'step' => ['sometimes', 'numeric'],
             'title' => ['sometimes', 'string'],
+            'label' => ['required', 'string'],
             'visible' => ['nullable', 'boolean'],
             'dependencies' => ['nullable', 'array']
 

@@ -32,6 +32,7 @@ class StoreExperiment extends FormRequest
             'description' => ['required', 'string'],
             'export' => ['nullable', 'boolean'],
             'layout' => ['required', 'array'],
+            'slug' => ['nullable', 'string'],
             'title' => ['required', 'string'],
             'graphs' => ['required', 'array'],
             'custom_js' => ['nullable', 'string']
@@ -48,7 +49,7 @@ class StoreExperiment extends FormRequest
     {
         $sanitized = $this->validated();
         $sanitized['layout_id'] = $sanitized['layout']['id'];
-        $sanitized['slug'] = str_slug($sanitized['title']);
+        $sanitized['slug'] = ($sanitized['slug']) ?: str_slug($sanitized['title']);
 
         //Add your code for manipulation with request data here
 

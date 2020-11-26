@@ -33,6 +33,7 @@ class StoreSlider extends FormRequest
             'min' => ['required', 'numeric'],
             'step' => ['required', 'numeric'],
             'title' => ['required', 'string'],
+            'label' => ['required', 'string'],
             'visible' => ['nullable', 'boolean'],
             'dependencies' => ['nullable', 'array']
 

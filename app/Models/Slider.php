@@ -14,7 +14,8 @@ class Slider extends Model
         'min',
         'step',
         'title',
-        'visible'
+        'visible',
+        'label'
 
     ];
 

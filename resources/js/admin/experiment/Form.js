@@ -15,6 +15,7 @@ Vue.component("experiment-form", {
                 description: "",
                 export: false,
                 layout: "",
+                slug: "",
                 title: "",
                 custom_js: "",
                 graphs: []

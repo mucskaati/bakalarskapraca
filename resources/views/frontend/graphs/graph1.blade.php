@@ -22,7 +22,7 @@
                 @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->get() as $slider)
                 <div class="col-12 col-md-6 mb-4">
                   <div id="div_{{ $slider->title }}" class="vstup">
-                    <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
+                    <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                     <div id="slider_{{ $slider->title }}">    
                         <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                     </div>

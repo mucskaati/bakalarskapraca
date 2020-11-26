@@ -1,6 +1,7 @@
 <script src="{{ asset('js/jquery.ui.touch-punch.min.js') }}"></script>
 <script>
     $( function() {
+      let changeCounter = 0;  
 //---------------------------------------------------Layout---------------------------------------------------------------
       var layout = {
               grid: {rows: {{ $experiment->layout->rows }}, columns: {{ $experiment->layout->columns }} },
@@ -72,9 +73,12 @@
       name: 'Export to PDF',
       click: function(gd) {   
       $.post('{{ route("export") }}', {
+        params: {
         @foreach($experiment->layout->sliders as $slider)
-          "parv_{{ $slider->title }}": parv_{{ $slider->title }}.value,   
-        @endforeach     
+          "{{ $slider->title }}": parv_{{ $slider->title }}.value,   
+        @endforeach    
+        },
+        experiment_id: {{ $experiment->id }}, 
       "imgResult": image64,
     },{responseType:'arraybuffer'})
       .done(function (response) {
@@ -87,7 +91,9 @@
   }   
   @endif 
   //---------------------------------------------------------------------Ajax Call ---------------------------------------------
-      function runAjaxCall() { 
+     
+  function runAjaxCall() { 
+
       $.ajax({
         type: "GET",
         url: "{{ $experiment->ajax_url }}",
@@ -107,6 +113,7 @@
         },
         success:function(data)   
         { 
+          changeCounter = 0;
           @foreach($experiment->graphs as $graphKey => $graph)
             @foreach($graph->traces as $key => $trace)
             let trace{{ $trace->id }} = {
@@ -156,7 +163,7 @@
       }    
   
   //----------------------------------------------Create Slider ----------------------------------------------------------------
-      function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepValue) {
+  function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepValue) {
       let iddPar = $( idPar );
       $( idSlider ).slider({
         min:minValue,
@@ -178,6 +185,7 @@
                  parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
                 $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
                 $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
+                changeCounter += 1;
                 @endforeach
 
                 @foreach($experiment->layout->checkboxes as $checkbox)

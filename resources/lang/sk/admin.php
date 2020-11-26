@@ -77,7 +77,8 @@ return [
             'value_function' => 'Alebo hodnotu nižšie napísanej funkcie',
             'add_dependency' => 'Pridať ďalšiu závislosť',
             'delete' => 'Zmazať závislosť',
-            'visible' => 'Viditeľný'
+            'visible' => 'Viditeľný',
+            'label' => 'Label slajdru'
 
         ],
     ],
@@ -132,7 +133,8 @@ return [
             'color' => 'Farba stopy (hex)',
             'legendgroup' => 'Legendgroup',
             'showlegend' => 'Ukázať legendu (showlegend)',
-            'custom_js' => 'Vlastný JS kód'
+            'custom_js' => 'Vlastný JS kód',
+            'slug' => 'Adresa (link)'
 
         ],
         'experiments' => 'Experimenty',

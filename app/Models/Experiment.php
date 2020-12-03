@@ -24,6 +24,11 @@ class Experiment extends Model
 
     ];
 
+    protected $casts = [
+        'run_button' => 'boolean',
+        'export' => 'boolean'
+    ];
+
     protected $appends = ['resource_url', 'layoutName', 'detail_url'];
 
     /* ************************ ACCESSOR ************************* */

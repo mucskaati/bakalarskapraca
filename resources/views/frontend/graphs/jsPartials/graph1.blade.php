@@ -2,6 +2,7 @@
 <script>
     $( function() {
       let changeCounter = 0;  
+      let lastChangeInSlider = true;
 //---------------------------------------------------Layout---------------------------------------------------------------
       var layout = {
               grid: {rows: {{ $experiment->layout->rows }}, columns: {{ $experiment->layout->columns }} },
@@ -30,10 +31,12 @@
  //------------------------------------------Sliders initi -----------------------------------------------------------------     
      @foreach($experiment->layout->sliders->where('default_function', null) as $slider)
       var parv_{{ $slider->title }} = { value: {{ $slider->default  }} };
+      var parv_{{ $slider->title }}_input = { value: {{ $slider->default  }} };
      @endforeach
 
      @foreach($experiment->layout->sliders->where('default_function','!=', null) as $slider)
       var parv_{{ $slider->title }} = { value: {{ $slider->default_function  }} };
+      var parv_{{ $slider->title }}_input = { value: {{ $slider->default_function  }} };
      @endforeach
     
   
@@ -76,7 +79,7 @@
       $.post('{{ route("export") }}', {
         params: {
         @foreach($experiment->layout->sliders as $slider)
-          "{{ $slider->title }}": parv_{{ $slider->title }}.value,   
+        "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
         @endforeach    
         },
         experiment_id: {{ $experiment->id }}, 
@@ -100,7 +103,7 @@
         url: "{{ $experiment->ajax_url }}",
         data: {
           @foreach($experiment->layout->sliders as $slider)
-          "{{ $slider->title }}":parv_{{ $slider->title }}.value,
+          "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
           @endforeach
         },
         dataType: 'json',
@@ -179,6 +182,7 @@
         slide: function( event, ui ) {
           iddPar.text( ui.value );
           $(idPar+'_input').val(ui.value);  
+          lastChangeInSlider = true;
         },
         change: function(event, ui) { 
           defaultValue.value = ui.value;
@@ -290,12 +294,28 @@ $( function() {
           //$( slider ).slider( "option", "value", parseInt($(this).val()) );
           $( slider ).slider( "option", "value", ($(this).val()) );
           console.log($('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value));
-          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+          //$('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+          console.log($('#par_'+inputbox.split('_')[1]).val());
+          console.log(parseFloat($(inputbox).val()))
+          console.log(eval("parv_"+inputbox.split('_')[1]).value)
+
+          //Nastav hodnotu do premennej parv_ID_input po vpisani hodnoty do textboxu 
+          //a to v tom pripade len ked hodnota slajdra a textboxu sa lisi
+          if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
+            eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
+          }
+          lastChangeInSlider = false;
+          runAjaxCall()
       });
       $(inputbox).mouseup( function(){
           //$( slider ).slider( "option", "value", parseInt($(this).val()) );
           $( slider ).slider( "option", "value", ($(this).val()) );
-          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+          //$('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+          
+          if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
+            eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
+          }
+          lastChangeInSlider = false;
       });
     };
 

@@ -1516,6 +1516,30 @@ a.ui-button:active,
  *
  * http://api.jqueryui.com/category/theming/
  */
+:invalid {
+  box-shadow: none;
+}
+
+:-moz-submit-invalid {
+  box-shadow: none;
+}
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+input:required {
+  box-shadow: none !important;
+}
+
+input:invalid {
+  box-shadow: 0 0 3px red;
+}
+
+input {
+  box-shadow: none !important;
+}
+
 .loader {
   position: absolute;
   left: 40%;

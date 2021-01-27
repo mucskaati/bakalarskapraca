@@ -36,7 +36,8 @@ class StoreExperiment extends FormRequest
             'title' => ['required', 'string'],
             'graphs' => ['required', 'array'],
             'custom_js' => ['nullable', 'string'],
-            'run_button' => ['nullable', 'boolean']
+            'run_button' => ['nullable', 'boolean'],
+            'template' => ['nullable', 'string']
 
         ];
     }

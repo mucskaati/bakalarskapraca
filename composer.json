@@ -12,10 +12,12 @@
         "brackets/craftable": "^5.1",
         "codedge/laravel-fpdf": "^1.7",
         "fideloper/proxy": "^4.4",
+        "flynsarmy/db-blade-compiler": "^5.5",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "laravel/framework": "^7.29",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "wpb/string-blade-compiler": "^6.0"
     },
     "require-dev": {
         "brackets/admin-generator": "^5.2",

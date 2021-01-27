@@ -14,7 +14,8 @@ class Experiment extends Model
         'layout_id',
         'title',
         'custom_js',
-        'run_button'
+        'run_button',
+        'template'
     ];
 
 

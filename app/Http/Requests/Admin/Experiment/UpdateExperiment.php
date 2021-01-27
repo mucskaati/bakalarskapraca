@@ -34,7 +34,8 @@ class UpdateExperiment extends FormRequest
             'title' => ['sometimes', 'string'],
             'graphs' => ['required', 'array'],
             'custom_js' => ['nullable', 'string'],
-            'run_button' => ['nullable', 'boolean']
+            'run_button' => ['nullable', 'boolean'],
+            'template' => ['nullable', 'string']
 
         ];
     }

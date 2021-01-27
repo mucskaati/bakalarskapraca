@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@if($experiment->template)
+{!! $preset !!}
+@else
 <h6>{{ $experiment->title }}</h6>
     
     <div class="row"> 
@@ -72,7 +75,7 @@
            </div>
         </div>
     </div>
-    
+    @endif
 @endsection
 
 @section('js')

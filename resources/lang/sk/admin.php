@@ -135,7 +135,8 @@ return [
             'showlegend' => 'Ukázať legendu (showlegend)',
             'custom_js' => 'Vlastný JS kód',
             'slug' => 'Adresa (link)',
-            'run_button' => 'Aktualizovanie grafu na tlačítko'
+            'run_button' => 'Aktualizovanie grafu na tlačítko',
+            'template' => 'Šablóna'
 
         ],
         'experiments' => 'Experimenty',

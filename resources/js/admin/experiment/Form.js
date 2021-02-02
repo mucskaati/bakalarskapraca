@@ -42,7 +42,7 @@ Vue.component("experiment-form", {
                 </p>
                 {{-- --------------------------------  Koniec titulku a popisu --------------------------------------------------------- --}}
 
-                {{-- ---------------------------- Buttony Toggle a Run -----------------------------------------------
+                {{-- ---------------------------- Buttony Toggle a Run ----------------------------------------------- --}}
                 <div class="row mb-3">
                   <div class="col-md-12 text-right">
                     <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
@@ -58,8 +58,8 @@ Vue.component("experiment-form", {
                         <div class="col-xs-12 col-sm-4 col-lg-4"> 
                         <fieldset> 
                           <div class="row">       
-                            @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->get() as $slider)
-                            <div class="col-12 col-md-6 mb-4">
+                            @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting', 'desc')->get() as $slider)
+                            <div class="col-12 col-md-{{ $slider->columns }} mb-4">
                               <div id="div_{{ $slider->title }}" class="vstup">
                                 <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                                 <div class="sliders_show">

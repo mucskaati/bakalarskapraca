@@ -27,8 +27,8 @@
             <div class="col-xs-12 col-sm-4 col-lg-4"> 
             <fieldset> 
               <div class="row">       
-                @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->get() as $slider)
-                <div class="col-12 col-md-6 mb-4">
+                @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
+                <div class="col-12 col-md-{{ $slider->columns }} mb-4">
                   <div id="div_{{ $slider->title }}" class="vstup">
                     <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                     <div class="sliders_show">

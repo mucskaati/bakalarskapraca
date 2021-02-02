@@ -56,6 +56,7 @@
                                         <th is='sortable' :column="'max'">{{ trans('admin.slider.columns.max') }}</th>
                                         <th is='sortable' :column="'default'">{{ trans('admin.slider.columns.default') }}</th>
                                         <th is='sortable' :column="'step'">{{ trans('admin.slider.columns.step') }}</th>
+                                        <th is='sortable' :column="'step'">{{ trans('admin.slider.columns.sorting') }}</th>
                                        
 
                                         <th></th>
@@ -86,6 +87,7 @@
                                         <td>@{{ item.max }}</td>
                                         <td>@{{ (item.default) ? item.default : 'funkcia' }}</td>
                                         <td>@{{ item.step }}</td>
+                                        <td>@{{ item.sorting }}</td>
                                         
                                         <td>
                                             <div class="row no-gutters">

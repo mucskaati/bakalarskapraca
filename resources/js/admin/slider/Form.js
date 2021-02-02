@@ -12,6 +12,8 @@ Vue.component("slider-form", {
                 min: "",
                 step: "",
                 title: "",
+                columns: "",
+                sorting: "",
                 visible: true,
                 dependencies: []
             }

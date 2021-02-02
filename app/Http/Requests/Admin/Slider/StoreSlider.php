@@ -34,6 +34,8 @@ class StoreSlider extends FormRequest
             'step' => ['required', 'numeric'],
             'title' => ['required', 'string'],
             'label' => ['required', 'string'],
+            'columns' => ['required', 'integer'],
+            'sorting' => ['required', 'integer'],
             'visible' => ['nullable', 'boolean'],
             'dependencies' => ['nullable', 'array']
 

@@ -38,7 +38,7 @@ class SlidersController extends Controller
             $request,
 
             // set columns to query
-            ['default', 'id', 'layout_id', 'max', 'min', 'step', 'title'],
+            ['default', 'id', 'layout_id', 'max', 'min', 'step', 'title', 'sorting'],
 
             // set columns to searchIn
             ['default_function', 'id', 'title']

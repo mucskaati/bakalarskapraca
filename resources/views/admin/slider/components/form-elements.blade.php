@@ -31,6 +31,22 @@
                 <div v-if="errors.has('visible')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('visible') }}</div>
             </div>
         </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('columns'), 'has-success': fields.columns && fields.columns.valid }">
+            <label for="columns" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.columns') }}</label>
+                <div :class="'col-md-12'">
+                <input type="text" v-model="form.columns"  @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('columns'), 'form-control-success': fields.columns && fields.columns.valid}" id="columns" name="columns" placeholder="{{ trans('admin.slider.columns.columns') }}">
+                <small>V kolkátich stĺpcoch sa má zobraziť, v prípade celého riadku uvedťe 12</small>
+                <div v-if="errors.has('columns')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('columns') }}</div>
+            </div>
+        </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('sorting'), 'has-success': fields.sorting && fields.sorting.valid }">
+            <label for="sorting" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.sorting') }}</label>
+                <div :class="'col-md-12'">
+                <input type="text" v-model="form.sorting"  @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('sorting'), 'form-control-success': fields.sorting && fields.sorting.valid}" id="sorting" name="sorting" placeholder="{{ trans('admin.slider.columns.sorting') }}">
+                <small>Poradie v akom sa majú slajdre zobrazovať. Ak chcete aby sa zobrazil slajder ako prvý, uvedťe číslo 1</small>
+                <div v-if="errors.has('sorting')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('sorting') }}</div>
+            </div>
+        </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('min'), 'has-success': fields.min && fields.min.valid }">

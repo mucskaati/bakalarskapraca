@@ -78,7 +78,9 @@ return [
             'add_dependency' => 'Pridať ďalšiu závislosť',
             'delete' => 'Zmazať závislosť',
             'visible' => 'Viditeľný',
-            'label' => 'Label slajdru'
+            'label' => 'Label slajdru',
+            'columns' => 'Koľko stĺpcov má zaberať slajder',
+            'sorting' => 'Poradie slajdrov'
 
         ],
     ],

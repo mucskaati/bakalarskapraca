@@ -15,7 +15,9 @@ class Slider extends Model
         'step',
         'title',
         'visible',
-        'label'
+        'label',
+        'columns',
+        'sorting'
 
     ];
 

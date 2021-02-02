@@ -153,7 +153,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+{{-- <div class="row">
     <div class="col-12 col-md-12">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('custom_js'), 'has-success': fields.custom_js && fields.custom_js.valid }">
             <label for="custom_js" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.custom_js') }}</label>
@@ -165,5 +165,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\GraphableTraceableTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Experiment\BulkDestroyExperiment;
 use App\Http\Requests\Admin\Experiment\DestroyExperiment;
@@ -25,6 +26,7 @@ use Illuminate\View\View;
 
 class ExperimentsController extends Controller
 {
+    use GraphableTraceableTrait;
 
     /**
      * Display a listing of the resource.
@@ -43,7 +45,12 @@ class ExperimentsController extends Controller
             ['ajax_url', 'export', 'id', 'layout_id', 'title', 'slug'],
 
             // set columns to searchIn
-            ['ajax_url', 'description', 'id', 'title']
+            ['ajax_url', 'description', 'id', 'title'],
+
+            function ($query) {
+                $query->where('type', 'fo');
+                $query->orWhere('type', null);
+            }
         );
 
         if ($request->ajax()) {
@@ -201,35 +208,5 @@ class ExperimentsController extends Controller
         });
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
-    }
-
-    private function createGraphsAndTraces($data, $model)
-    {
-        $model->graphs()->delete();
-
-        foreach ($data['graphs'] as $graph) {
-            $graphCreate = Graph::create([
-                'experiment_id' => $model->id,
-                'annotation_title' => $graph['annotation_title'],
-                'align' => $graph['align'],
-                'annotation_angle' => $graph['annotation_angle'],
-                'xaxis' => $graph['xaxis'],
-                'yaxis' => $graph['yaxis'],
-            ]);
-
-            foreach ($graph['traces'] as $trace) {
-                $trace = Trace::create([
-                    'title' => $trace['title'],
-                    'graph_id' => $graphCreate->id,
-                    'color' => $trace['color'],
-                    'legendgroup' => $trace['legendgroup'],
-                    'show_legend' => $trace['show_legend'],
-                    'xaxis' => $trace['xaxis']['id'],
-                    'yaxis' => $trace['yaxis']['id'],
-                ]);
-            }
-        }
-
-        return true;
     }
 }

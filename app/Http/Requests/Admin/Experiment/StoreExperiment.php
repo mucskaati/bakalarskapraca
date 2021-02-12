@@ -33,8 +33,10 @@ class StoreExperiment extends FormRequest
             'export' => ['nullable', 'boolean'],
             'layout' => ['required', 'array'],
             'slug' => ['nullable', 'string'],
+            'type' => ['required', 'string'],
             'title' => ['required', 'string'],
             'graphs' => ['required', 'array'],
+            'schemes' => ['required_if:type,comparison', 'array'],
             'custom_js' => ['nullable', 'string'],
             'run_button' => ['nullable', 'boolean'],
             'template' => ['nullable', 'string']
@@ -52,8 +54,6 @@ class StoreExperiment extends FormRequest
         $sanitized = $this->validated();
         $sanitized['layout_id'] = $sanitized['layout']['id'];
         $sanitized['slug'] = ($sanitized['slug']) ?: str_slug($sanitized['title']);
-
-        //Add your code for manipulation with request data here
 
         return $sanitized;
     }

@@ -74,7 +74,6 @@
             <div id="plotdiv"></div> 
            </div>
         </div>
-    </div>
     @endif
 @endsection
 

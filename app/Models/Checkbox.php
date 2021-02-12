@@ -10,8 +10,9 @@ class Checkbox extends Model
         'attribute_name',
         'layout_id',
         'title',
-        'slider_dependency_change'
-
+        'slider_dependency_change',
+        'comparison_experiment_id',
+        'type'
     ];
 
     protected $casts = [
@@ -33,9 +34,29 @@ class Checkbox extends Model
         return url('/admin/checkboxes/' . $this->getKey());
     }
 
+    public function getTypeAttribute($value)
+    {
+        return ($value) ?: 'fo';
+    }
+
     public function getLayoutTitleAttribute()
     {
-        return $this->layout->name;
+        if ($this->layout_id) {
+            $name = $this->layout->name;
+        } elseif ($this->comparison_experiment_id) {
+            $name = $this->comparisonExperiment->title;
+        }
+        return $name;
+    }
+
+    public function getTitleWithLayoutAttribute()
+    {
+        if ($this->layout_id) {
+            $name = $this->layout->name;
+        } elseif ($this->comparison_experiment_id) {
+            $name = $this->comparisonExperiment->title;
+        }
+        return $this->title . ' [' . $name . ']';
     }
 
     /* ************************ RELATIONSHIPS ************************* */
@@ -43,6 +64,11 @@ class Checkbox extends Model
     public function layout()
     {
         return $this->belongsTo(Layout::class, 'layout_id');
+    }
+
+    public function comparisonExperiment()
+    {
+        return $this->belongsTo(ComparisonExperiment::class, 'comparison_experiment_id');
     }
 
     public function dependentSliders()

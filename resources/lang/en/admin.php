@@ -114,5 +114,46 @@ return [
         ],
     ],
 
+    'comparison-experiment' => [
+        'title' => 'Comparison Experiments',
+
+        'actions' => [
+            'index' => 'Comparison Experiments',
+            'create' => 'New Comparison Experiment',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'description' => 'Description',
+            'prefix' => 'Prefix',
+            'trace_color' => 'Trace color',
+            'legendgroup' => 'Legendgroup',
+            
+        ],
+    ],
+
+    'comparison' => [
+        'title' => 'Comparisons',
+
+        'actions' => [
+            'index' => 'Comparisons',
+            'create' => 'New Comparison',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'title' => 'Title',
+            'slug' => 'Slug',
+            'description' => 'Description',
+            'ajax_url' => 'Ajax url',
+            'export' => 'Export',
+            'layout_id' => 'Layout',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

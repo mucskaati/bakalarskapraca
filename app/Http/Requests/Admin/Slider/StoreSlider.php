@@ -28,7 +28,8 @@ class StoreSlider extends FormRequest
         return [
             'default' => ['nullable', 'numeric'],
             'default_function' => ['nullable', 'string'],
-            'layout' => ['required', 'array'],
+            'layout' => ['required_if:type,fo'],
+            'comparison_experiment' => ['required_if:type,comparison'],
             'max' => ['required', 'numeric'],
             'min' => ['required', 'numeric'],
             'step' => ['required', 'numeric'],
@@ -37,7 +38,8 @@ class StoreSlider extends FormRequest
             'columns' => ['required', 'integer'],
             'sorting' => ['required', 'integer'],
             'visible' => ['nullable', 'boolean'],
-            'dependencies' => ['nullable', 'array']
+            'dependencies' => ['nullable', 'array'],
+            'type' => ['required', 'string'],
 
         ];
     }
@@ -50,7 +52,8 @@ class StoreSlider extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = collect($this->validated())->except(['dependencies'])->toArray();
-        $sanitized['layout_id'] = $sanitized['layout']['id'];
+        $sanitized['comparison_experiment_id'] = ($sanitized['comparison_experiment']) ? $sanitized['comparison_experiment']['id'] : null;
+        $sanitized['layout_id'] = ($sanitized['layout']) ? $sanitized['layout']['id'] : null;
 
         //Add your code for manipulation with request data here
 

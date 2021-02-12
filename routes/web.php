@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/fo/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
+Route::get('/comparison/{id}/{slug}', 'Frontend\GraphController@comparison')->name('comparison');
 
 //Export PDF
 Route::post('/export/pdf', 'Frontend\ExportPDFController@export')->name('export');
@@ -102,6 +103,37 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/bulk-destroy',                                'ExperimentsController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{experiment}',                                'ExperimentsController@update')->name('update');
             Route::delete('/{experiment}',                              'ExperimentsController@destroy')->name('destroy');
+        });
+    });
+});
+
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('comparison-experiments')->name('comparison-experiments/')->group(static function () {
+            Route::get('/',                                             'ComparisonExperimentsController@index')->name('index');
+            Route::get('/create',                                       'ComparisonExperimentsController@create')->name('create');
+            Route::post('/',                                            'ComparisonExperimentsController@store')->name('store');
+            Route::get('/{comparisonExperiment}/edit',                  'ComparisonExperimentsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'ComparisonExperimentsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{comparisonExperiment}',                      'ComparisonExperimentsController@update')->name('update');
+            Route::delete('/{comparisonExperiment}',                    'ComparisonExperimentsController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('comparisons')->name('comparisons/')->group(static function () {
+            Route::get('/',                                             'ComparisonsController@index')->name('index');
+            Route::get('/create',                                       'ComparisonsController@create')->name('create');
+            Route::post('/',                                            'ComparisonsController@store')->name('store');
+            Route::get('/{comparison}/edit',                            'ComparisonsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'ComparisonsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{comparison}',                                'ComparisonsController@update')->name('update');
+            Route::delete('/{comparison}',                              'ComparisonsController@destroy')->name('destroy');
         });
     });
 });

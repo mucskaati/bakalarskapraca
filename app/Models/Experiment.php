@@ -15,7 +15,8 @@ class Experiment extends Model
         'title',
         'custom_js',
         'run_button',
-        'template'
+        'template',
+        'type'
     ];
 
 
@@ -30,7 +31,7 @@ class Experiment extends Model
         'export' => 'boolean'
     ];
 
-    protected $appends = ['resource_url', 'layoutName', 'detail_url'];
+    protected $appends = ['resource_url', 'layoutName', 'detail_url', 'comparison_url', 'comparison_detail_url'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -39,9 +40,30 @@ class Experiment extends Model
         return url('/admin/experiments/' . $this->getKey());
     }
 
+    public function getComparisonUrlAttribute()
+    {
+        return url('/admin/comparisons/' . $this->getKey());
+    }
+
+    public function getTypeAttribute($value)
+    {
+        return ($value) ?: 'fo';
+    }
+
     public function getDetailUrlAttribute()
     {
-        return route('graph_fo', ['id' => $this->getKey(), 'slug' => $this->slug]);
+        if ($this->getKey()) {
+            return route('graph_fo', ['id' => $this->getKey(), 'slug' => $this->slug]);
+        }
+        return;
+    }
+
+    public function getComparisonDetailUrlAttribute()
+    {
+        if ($this->getKey()) {
+            return route('comparison', ['id' => $this->getKey(), 'slug' => $this->slug]);
+        }
+        return;
     }
 
     public function getLayoutNameAttribute()
@@ -58,5 +80,10 @@ class Experiment extends Model
     public function layout()
     {
         return $this->belongsTo(Layout::class)->with(['sliders', 'checkboxes']);
+    }
+
+    public function schemes()
+    {
+        return $this->belongsToMany(ComparisonExperiment::class, 'comparison_scheme', 'experiment_id', 'scheme_id');
     }
 }

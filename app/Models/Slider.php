@@ -10,6 +10,7 @@ class Slider extends Model
         'default',
         'default_function',
         'layout_id',
+        'comparison_experiment_id',
         'max',
         'min',
         'step',
@@ -17,10 +18,9 @@ class Slider extends Model
         'visible',
         'label',
         'columns',
-        'sorting'
-
+        'sorting',
+        'type'
     ];
-
 
     protected $dates = [
         'created_at',
@@ -39,17 +39,32 @@ class Slider extends Model
 
     public function getLayoutTitleAttribute()
     {
-        return $this->layout->name;
+        if ($this->layout_id) {
+            $name = $this->layout->name;
+        } elseif ($this->comparison_experiment_id) {
+            $name = $this->comparisonExperiment->title;
+        }
+        return $name;
     }
 
     public function getTitleWithLayoutAttribute()
     {
-        return $this->title . ' [' . $this->layout->name . ']';
+        if ($this->layout_id) {
+            $name = $this->layout->name;
+        } elseif ($this->comparison_experiment_id) {
+            $name = $this->comparisonExperiment->title;
+        }
+        return $this->title . ' [' . $name . ']';
     }
 
     public function getSlugAttribute()
     {
         return str_slug($this->title);
+    }
+
+    public function getTypeAttribute($value)
+    {
+        return ($value) ?: 'fo';
     }
 
 
@@ -59,6 +74,12 @@ class Slider extends Model
     {
         return $this->belongsTo(Layout::class, 'layout_id');
     }
+
+    public function comparisonExperiment()
+    {
+        return $this->belongsTo(ComparisonExperiment::class, 'comparison_experiment_id');
+    }
+
     public function dependencies()
     {
         return $this->belongsToMany(Slider::class, 'slider_dependencies', 'slider_id', 'depended_slider_id')->withPivot(['value_same_as_added', 'value_function'])->withTimestamps();

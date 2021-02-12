@@ -18,7 +18,7 @@
 
 <div class="container" style="margin-top:30px;">
 
-<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
+<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;margin-bottom:35px">
   Asymmetries in the disturbance compensation
 methods for the stable and unstable first order plants
 </p>

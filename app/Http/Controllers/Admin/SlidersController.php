@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Slider\DestroySlider;
 use App\Http\Requests\Admin\Slider\IndexSlider;
 use App\Http\Requests\Admin\Slider\StoreSlider;
 use App\Http\Requests\Admin\Slider\UpdateSlider;
+use App\Models\ComparisonExperiment;
 use App\Models\Layout;
 use App\Models\Slider;
 use Brackets\AdminListing\Facades\AdminListing;
@@ -38,7 +39,7 @@ class SlidersController extends Controller
             $request,
 
             // set columns to query
-            ['default', 'id', 'layout_id', 'max', 'min', 'step', 'title', 'sorting'],
+            ['default', 'id', 'layout_id', 'comparison_experiment_id', 'max', 'min', 'step', 'title', 'sorting'],
 
             // set columns to searchIn
             ['default_function', 'id', 'title']
@@ -68,10 +69,12 @@ class SlidersController extends Controller
 
         $layouts = Layout::all();
         $sliders = Slider::all();
+        $comparisonExperiments = ComparisonExperiment::all();
 
         return view('admin.slider.create', [
             'layouts' => $layouts,
-            'sliders' => $sliders
+            'sliders' => $sliders,
+            'comparisonExperiments' => $comparisonExperiments
         ]);
     }
 
@@ -126,14 +129,17 @@ class SlidersController extends Controller
 
         $layouts = Layout::all();
         $sliders = Slider::all();
+        $comparisonExperiments = ComparisonExperiment::all();
 
         $slider->load('layout');
         $slider->load('dependencies');
+        $slider->load('comparisonExperiment');
 
         return view('admin.slider.edit', [
             'slider' => $slider,
             'layouts' => $layouts,
-            'sliders' => $sliders
+            'sliders' => $sliders,
+            'comparisonExperiments' => $comparisonExperiments
         ]);
     }
 

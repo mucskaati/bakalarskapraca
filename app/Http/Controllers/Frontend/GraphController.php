@@ -20,4 +20,16 @@ class GraphController extends Controller
             'preset' => $template
         ]);
     }
+
+    public function comparison($id, $slug)
+    {
+        $experiment = Experiment::with(['graphs', 'layout', 'schemes'])->where('id', $id)->where('slug', $slug)->firstOrFail();
+
+        $template = view(['template' => $experiment->template], ['experiment' => $experiment]);
+
+        return view('frontend.graphs.comparison', [
+            'experiment' => $experiment,
+            'preset' => $template
+        ]);
+    }
 }

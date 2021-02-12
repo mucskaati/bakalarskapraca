@@ -77,3 +77,32 @@ $factory->define(App\Models\Experiment::class, static function (Faker\Generator 
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\ComparisonExperiment::class, static function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->sentence,
+        'prefix' => $faker->sentence,
+        'trace_color' => $faker->sentence,
+        'legendgroup' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Comparison::class, static function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'slug' => $faker->unique()->slug,
+        'description' => $faker->text(),
+        'ajax_url' => $faker->sentence,
+        'export' => $faker->boolean(),
+        'layout_id' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

@@ -25,6 +25,7 @@ Vue.component("experiment-form", {
                 export: false,
                 layout: "",
                 slug: "",
+                type: "fo",
                 title: "",
                 custom_js: "",
                 template: `

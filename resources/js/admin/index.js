@@ -5,3 +5,5 @@ import './layout';
 import './slider';
 import './checkbox';
 import './experiment';
+import './comparison-experiment';
+import './comparison';

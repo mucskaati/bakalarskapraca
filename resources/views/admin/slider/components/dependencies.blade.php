@@ -1,3 +1,4 @@
+<div v-if="form.type !== null">
 <div class="row mt-5">
     <div class="col-6 offset-1">
         <h2>Závislosti slajdrov na tomto slajdri</h2>
@@ -10,7 +11,7 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-6 col-form-label">{{ trans('admin.slider.columns.depended_slider_id') }}</label>
                 <div class="col-12">
-                    <multiselect v-model="form.dependencies[index]"  @input="addCountDependency(index)" :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->title.'['.$item->layout->name.']']; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <multiselect v-model="form.dependencies[index]"  @input="addCountDependency(index)" :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false"></multiselect>
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
             </div>
         </div>
@@ -51,5 +52,4 @@
         </a>
     </div>
 </div>
-
-
+</div>

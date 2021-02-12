@@ -9,7 +9,9 @@ Vue.component("checkbox-form", {
                 layout: "",
                 title: "",
                 slider_dependency_change: false,
-                dependent_sliders: []
+                dependent_sliders: [],
+                comparison_experiment: "",
+                type: null
             }
         };
     },

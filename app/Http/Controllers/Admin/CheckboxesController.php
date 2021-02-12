@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Checkbox\IndexCheckbox;
 use App\Http\Requests\Admin\Checkbox\StoreCheckbox;
 use App\Http\Requests\Admin\Checkbox\UpdateCheckbox;
 use App\Models\Checkbox;
+use App\Models\ComparisonExperiment;
 use App\Models\Layout;
 use App\Models\Slider;
 use Brackets\AdminListing\Facades\AdminListing;
@@ -39,7 +40,7 @@ class CheckboxesController extends Controller
             $request,
 
             // set columns to query
-            ['attribute_name', 'id', 'layout_id', 'title'],
+            ['attribute_name', 'id', 'layout_id', 'comparison_experiment_id', 'title'],
 
             // set columns to searchIn
             ['attribute_name', 'id', 'title']
@@ -69,10 +70,12 @@ class CheckboxesController extends Controller
 
         $sliders = Slider::all();
         $layouts = Layout::all();
+        $comparisonExperiments = ComparisonExperiment::all();
 
         return view('admin.checkbox.create', [
             'sliders' => $sliders,
-            'layouts' => $layouts
+            'layouts' => $layouts,
+            'comparisonExperiments' => $comparisonExperiments
         ]);
     }
 
@@ -127,13 +130,15 @@ class CheckboxesController extends Controller
 
         $sliders = Slider::all();
         $layouts = Layout::all();
+        $comparisonExperiments = ComparisonExperiment::all();
 
-        $checkbox->load(['dependentSliders', 'layout']);
+        $checkbox->load(['dependentSliders', 'layout', 'comparisonExperiment']);
 
         return view('admin.checkbox.edit', [
             'checkbox' => $checkbox,
             'sliders' => $sliders,
-            'layouts' => $layouts
+            'layouts' => $layouts,
+            'comparisonExperiments' => $comparisonExperiments
         ]);
     }
 

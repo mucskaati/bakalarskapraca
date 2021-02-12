@@ -188,11 +188,12 @@
           defaultValue.value = ui.value;
           @foreach($experiment->layout->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
+
                 @foreach($slider->dependencies as $dependency)
-                 parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
-                $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
-                $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
-                changeSliderAndInput("parv_{{ $dependency->title }}");
+                  parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
+                  $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
+                  $( "#slider_{{ $dependency->title }}" ).slider( "value", parv_{{ $dependency->title }}.value ); 
+                  changeSliderAndInput("parv_{{ $dependency->title }}");
                 @endforeach
 
                 @foreach($experiment->layout->checkboxes as $checkbox)

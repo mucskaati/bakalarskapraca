@@ -33,6 +33,8 @@ class UpdateExperiment extends FormRequest
             'slug' => ['nullable', 'string'],
             'title' => ['sometimes', 'string'],
             'graphs' => ['required', 'array'],
+            'type' => ['required', 'string'],
+            'schemes' => ['required_if:type,comparison', 'array'],
             'custom_js' => ['nullable', 'string'],
             'run_button' => ['nullable', 'boolean'],
             'template' => ['nullable', 'string']

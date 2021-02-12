@@ -1,4 +1,25 @@
 <div class="row">
+    <div class="col-md-12">
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('type'), 'has-success': fields.type && fields.type.valid }">
+            <label for="type" class="col-12 col-form-label text-md-left">{{ trans('admin.slider.columns.type') }}</label>
+                <div class="col-md-6 text-center">
+                <label for="type" class="col-form-label text-md-center">Experiment FO</label>
+                    <div>
+                        <input type="radio" v-model="form.type" value="fo">
+                        <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <label for="type" class="col-form-label text-md-center">Schéma (provnávací experiment)</label>
+                        <div>
+                            <input type="radio" v-model="form.type" value="comparison">
+                            <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="row" v-if="form.type !== null">
     <div class="col-12 offset-md-1 col-md-4">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('title'), 'has-success': fields.title && fields.title.valid }">
             <label for="title" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.title') }}</label>
@@ -14,11 +35,18 @@
                 <div v-if="errors.has('label')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('label') }}</div>
             </div>
         </div>
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
+        <div v-if="form.type == 'fo'" class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-12 col-form-label">{{ trans('admin.slider.columns.layout_id') }}</label>
                 <div class="col-12">
                     <multiselect v-model="form.layout" :options="{{ $layouts->toJson() }}" placeholder="{{ trans('admin.slider.columns.layout_id') }}" label="name" track-by="id" :multiple="false"></multiselect>
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
+            </div>
+        </div>
+        <div v-if="form.type == 'comparison'" class="form-group row align-items-center" :class="{'has-danger': errors.has('comparison_experiment_id'), 'has-success': fields.comparison_experiment_id && fields.comparison_experiment_id.valid }">
+            <label for="comparison_experiment_id" class="col-12 col-form-label">{{ trans('admin.slider.columns.comparison_experiment_id') }}</label>
+                <div class="col-12">
+                    <multiselect v-model="form.comparison_experiment" :options="{{ $comparisonExperiments->toJson() }}" placeholder="{{ trans('admin.slider.columns.comparison_experiment_id') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                <div v-if="errors.has('comparison_experiment')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('comparison_experiment') }}</div>
             </div>
         </div>
         <div class="form-group row" :class="{'has-danger': errors.has('visible'), 'has-success': fields.visible && fields.visible.valid }">

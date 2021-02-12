@@ -34,7 +34,7 @@ label {
     width: 100px;
     text-align: left !important;
     padding-right: 10px !important;
-    margin-top: -2.2em !important;
+    margin-top: -1.8em !important;
 }
 
 .labelrow {
@@ -73,3 +73,16 @@ h6 {
 
 /*  .modebar{
     display: none !important;      */
+
+.graf_fo {
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+}
+
+.simulation {
+    color: #58d68d;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['subpage' => true])
 
 @section('content')
 {{-- @if($experiment->template)
@@ -55,11 +55,11 @@
 </div>
 -->
  
-<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;margin:20px 0 30px;">
-  Simulations
-  </p>
-  <div class="row mb-3">
-    <div class="col-md-12 text-right">
+  <div class="row simulation mt-5">
+    <div class="col-md-6">
+    Simulations
+    </div>
+    <div class="col-md-6 text-right">
       <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
       @if($experiment->run_button)
       <button id="runButton" class="d-inline-block btn btn-danger">Run</button>

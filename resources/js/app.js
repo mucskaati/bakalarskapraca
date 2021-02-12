@@ -1,8 +1,8 @@
 //Plugins
-require("./bootstrap");
 window.Plotly = require("plotly.js-dist");
 window.$ = require("jquery");
 window.jQuery = require("jquery");
+require("./bootstrap");
 var _ = require("lodash");
 
 //Import jQuery UI widgets

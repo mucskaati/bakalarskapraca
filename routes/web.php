@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('/fo/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
 Route::get('/comparison/{id}/{slug}', 'Frontend\GraphController@comparison')->name('comparison');
 

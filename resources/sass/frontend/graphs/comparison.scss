@@ -119,11 +119,12 @@ h6 {
 }
 
 .inputs > input {
-    margin-top: -0.6em;
-    margin-bottom: -0.6em;
+    margin-top: 0em;
+    margin-bottom: 0.5em;
     display: block;
     float: left;
     width: 100%;
+    border-radius: 20px;
 }
 
 .checkbox-label {
@@ -134,12 +135,35 @@ h6 {
 
 .checkbox-choice-label {
     width: 100%;
-    margin: 5px -3px;
-    padding: 0;
+    margin: 4px -3px;
+    padding: 6px 20px;
     text-align: left;
     font-size: small;
     border: 0;
     font-weight: 550;
+    background: #e0e0e0;
+    color: black;
+    font-weight: 200;
+
+    &:hover {
+        background: #6868fa;
+        border: 0;
+        border-color: #6868fa;
+        color: white;
+    }
+}
+
+.ui-checkboxradio-radio-label {
+    background: #ececec;
+    color: black;
+    border-color: white;
+    margin-right: 1rem !important;
+}
+
+.ui-icon-background,
+.ui-state-active .ui-icon-background {
+    border: #fff /*{borderColorActive}*/;
+    background-color: #ffffff /*{fcActive}*/;
 }
 
 .radiobox-label {
@@ -181,7 +205,7 @@ input[type="number"] {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .tile {
@@ -189,8 +213,11 @@ input[type="number"] {
     max-width: 180px;
     margin: 6px 12px;
     background: #f6f6f6;
+    border-radius: 20px;
     padding: 10px;
-    box-shadow: 3px 3px 5px 1px #aaa;
+    -webkit-box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
 }
 
 /*
@@ -241,4 +268,17 @@ div#modal {
 .radiobox-label {
     width: 190px;
     text-align: left;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    background: #6868fa;
+    border-color: #6868fa;
+    color: white;
+    /*{bgActiveXPos}*/ /*{bgActiveYPos}*/ /*{bgActiveRepeat}*/
+    font-weight: normal /*{fwDefault}*/;
 }

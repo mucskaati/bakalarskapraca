@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+
 //Libs
 @import "~jquery-ui/themes/base/all.css";
+@import "~bootstrap/scss/bootstrap";
 
 //Base
 @import "frontend/base.scss";
 //Subpages
+@import "frontend/homepage.scss";
 @import "frontend/graphs/graph1.scss";
 @import "frontend/graphs/comparison.scss";

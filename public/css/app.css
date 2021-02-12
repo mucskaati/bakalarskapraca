@@ -12503,6 +12503,12 @@ header {
   width: 250px;
 }
 
+@media (max-width: 991.98px) {
+  .navbar-brand img {
+    width: 200px;
+  }
+}
+
 .bg {
   background: url(/images/background.png?5dc527eaebc77c3936efaa87112484a7) no-repeat;
   background-position: top center;
@@ -12525,6 +12531,12 @@ header {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+@media (max-width: 991.98px) {
+  .intro {
+    height: auto;
+  }
 }
 
 .intro__title {
@@ -12552,6 +12564,15 @@ header {
   font-weight: 100;
   margin-top: 5rem;
   margin-bottom: 5rem;
+}
+
+@media (max-width: 991.98px) {
+  .intro__description p {
+    font-size: 0.8rem;
+    font-weight: 100;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .btn-primary {

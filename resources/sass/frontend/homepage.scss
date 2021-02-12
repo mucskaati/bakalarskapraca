@@ -17,6 +17,9 @@ header {
 
     img {
         width: 250px;
+        @include media-breakpoint-down(md) {
+            width: 200px;
+        }
     }
 }
 
@@ -43,6 +46,10 @@ header {
     justify-content: center;
     flex-direction: column;
 
+    @include media-breakpoint-down(md) {
+        height: auto;
+    }
+
     &__title {
         text-align: center;
 
@@ -67,6 +74,13 @@ header {
             font-weight: 100;
             margin-top: 5rem;
             margin-bottom: 5rem;
+
+            @include media-breakpoint-down(md) {
+                font-size: 0.8rem;
+                font-weight: 100;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
         }
     }
 }

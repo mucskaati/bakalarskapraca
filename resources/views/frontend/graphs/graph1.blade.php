@@ -4,17 +4,19 @@
 {!! $preset !!}
 @else
 <div class="graf_fo">
-<h1>{{ $experiment->title }}</h1>
+{{--  --------------------------------  Titulok a popis --------------------------------------------------------- --}}
+    <h1>{{ $experiment->title }}</h1>
     
     <div class="row"> 
         <div class="col-xs-12 col-sm-6 col-lg-6"> 
            {!! $experiment->description !!}
         </div>
     </div>
-    
-    <div class="row simulation">
+{{-- --------------------------------  Koniec titulku a popisu --------------------------------------------------------- --}}
+{{-- ---------------------------- Buttony Toggle a Run ----------------------------------------------- --}}    
+    <div class="row simulation mt-5">
       <div class="col-md-6">
-      Simulations
+      <h2>Simulations</h2>
       </div>
       <div class="col-md-6 text-right">
         <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
@@ -23,7 +25,9 @@
         @endif
       </div>
     </div>
+{{--  --------------------------------  Koniec buttonov --------------------------------------------------------- --}}
     <div class="row"> 
+{{-- ------------------------ Slajdre a checkboxy ----------------------------------------------- --}}
             <div class="col-xs-12 col-sm-4 col-lg-4"> 
             <fieldset> 
               <div class="row">       
@@ -69,10 +73,13 @@
             </div>
             </fieldset>  
            </div>
+{{--  --------------------------------  Koniec slajdrov a checkboxov --------------------------------------------------------- --}}
+{{--  --------------------------------  Vykreslenie grafu --------------------------------------------------------- --}}
            <div id="results" class="col-xs-12 col-sm-8 col-lg-8">  
             <div id="loader" class="loader"> </div>
             <div id="plotdiv"></div> 
            </div>
+{{--  --------------------------------  Koniec vykreslenia grafu --------------------------------------------------------- --}}
         </div>
 </div>
     @endif

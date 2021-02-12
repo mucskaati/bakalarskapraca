@@ -12722,6 +12722,10 @@ h6 {
   margin-bottom: 2rem;
 }
 
+.simulation h2 {
+  font-size: 1.3rem;
+}
+
 #results {
   min-height: 300px;
 }
@@ -12996,5 +13000,10 @@ a.ui-button:active,
   /*{bgActiveYPos}*/
   /*{bgActiveRepeat}*/
   font-weight: normal;
+}
+
+.comparison h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 

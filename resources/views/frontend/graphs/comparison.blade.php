@@ -1,9 +1,17 @@
 @extends('layouts.app', ['subpage' => true])
 
 @section('content')
-{{-- @if($experiment->template)
+@if($experiment->template)
 {!! $preset !!}
-@else --}}
+@else
+{{--  --------------------------------  Titulok a popis --------------------------------------------------------- --}}
+<div class="row">
+  <div class="col-md-12 comparison mb-5">
+    <h1>{{ $experiment->title }}</h1>
+  </div>
+</div>
+{{-- --------------------------------  Koniec titulku a popisu --------------------------------------------------------- --}}
+{{-- --------------------------------  Schémy --------------------------------------------------------- --}}
 <div class="div_choice" id="div_choice">
   @foreach($experiment->schemes as $scheme)
   <div class="tile" id="check_{{ $scheme->prefix }}">
@@ -24,6 +32,9 @@
   </div>
   @endforeach
 </div>   
+{{-- --------------------------------  Koniec schem --------------------------------------------------------- --}}
+{{-- --------------------------------  Priklady  --------------------------------------------------------- --}}
+
 <div id='modal'></div>
 <!--   OBRAZKY - KONIEC -->
     <div class="row mt-5">
@@ -38,26 +49,12 @@
           -->
         </div>
     </div>
-        
-  <div class="tab-content" id="home1">
-<!--
-<div class="row"> 
-    <div class="col-xs-12 col-sm-6 col-lg-6"> 
-        <b>CIM:</b>
-        <img src="img/symetry2020_s_FO_2LDFFw_SDOBdi_RM.png" alt="simulation scheme"  width="600">  
-    </div>
-    
-    <div class="col-xs-12 col-sm-6 col-lg-6">
-        <b>CRM:</b>
-        <img src="img/ifacWC2017_s_FOPDT_DFF_DOdi.png" alt="simulation scheme" width="500"> 
-    </div>
-    
-</div>
--->
- 
+{{-- --------------------------------  Koniec prikladov --------------------------------------------------------- --}}
+{{-- --------------------------------  Buttony --------------------------------------------------------- --}}  
+  <div class="tab-content" id="home1"> 
   <div class="row simulation mt-5">
     <div class="col-md-6">
-    Simulations
+      <h2>Simulations</h2>
     </div>
     <div class="col-md-6 text-right">
       <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
@@ -66,7 +63,9 @@
       @endif
     </div>
   </div>
+{{-- --------------------------------  Koniec buttonov --------------------------------------------------------- --}}
   <div class="row"> 
+{{-- --------------------------------  Slajdre a checkboxes --------------------------------------------------------- --}}
           <div class="col-xs-12 col-sm-4 col-lg-4"> 
           @foreach ($experiment->schemes()->has('sliders')->get() as $comparison)
           <fieldset class="border p-2 mb-5 div_params_{{ $comparison->prefix }}"> 
@@ -140,12 +139,15 @@
             @endforeach
             </div>
          </div>
+{{-- -------------------------------- Koniec  slajdrov a checkboxes --------------------------------------------------------- --}}
+{{-- --------------------------------  Zaciatok grafu --------------------------------------------------------- --}}
          <div id="results" class="col-xs-12 col-sm-8 col-lg-8">  
           <div id="loader" class="loader"> </div>
           <div id="plotdiv"></div> 
          </div>
+{{-- --------------------------------  Koneic grafu --------------------------------------------------------- --}}
       </div>
-{{-- @endif --}}
+@endif
 @endsection
 
 @section('js')

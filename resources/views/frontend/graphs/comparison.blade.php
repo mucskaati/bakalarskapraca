@@ -67,6 +67,52 @@
   <div class="row"> 
 {{-- --------------------------------  Slajdre a checkboxes --------------------------------------------------------- --}}
           <div class="col-xs-12 col-sm-4 col-lg-4"> 
+            <fieldset class="border p-2 mb-5 div_params_general"> 
+              <legend>General</legend>
+                <div class="row">       
+                  @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
+                  <div class="col-12 col-md-{{ $slider->columns }} mb-4">
+                    <div id="div_{{ $slider->title }}" class="vstup">
+                      <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
+                      <div class="sliders_show">
+                      <div id="slider_{{ $slider->title }}">    
+                          <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
+                      </div>
+                      </div>
+                      <div class="inputs" style="margin-bottom: 25px;">
+                        <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
+                      </div>  
+                    </div> 
+                  </div>
+                  @endforeach 
+                </div> 
+      
+              @if(!$experiment->layout->checkboxes->isEmpty())
+              <div class="row mt-5">
+              @foreach ($experiment->layout->checkboxes as $box)
+                <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5">
+                  <label for="checkbox_{{ $box->attribute_name }}">{{ $box->title }}</label>
+                  <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
+                </div>
+                @foreach ($box->dependentSliders->where('visible', 1) as $slider)
+                <div class="col-12 col-md-6 mb-5">
+                  <div id="div_{{ $slider->title }}" class="vstup">
+                    <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
+                    <div class="sliders_show">
+                    <div id="slider_{{ $slider->title }}">   
+                        <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
+                    </div>
+                    </div>
+                    <div class="inputs" style="margin-bottom: 25px;">
+                      <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
+                    </div>  
+                  </div>
+                </div>
+                @endforeach
+              @endforeach
+              </div>
+              @endif
+            </fieldset>
           @foreach ($experiment->schemes()->has('sliders')->get() as $comparison)
           <fieldset class="border p-2 mb-5 div_params_{{ $comparison->prefix }}"> 
             <legend>{{ $comparison->title }}</legend>

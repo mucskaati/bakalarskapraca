@@ -36,7 +36,19 @@
       var plotarray =[];
       
       
+      var varsGraph = [
+        @foreach($experiment->graphs as $graphKey => $graph)
+            @foreach($graph->traces as $key => $trace)
+             {'x': '{{ $trace->xaxis['id'] }}', 'y' : '{{ $trace->yaxis['id'] }}' },
+            @endforeach
+        @endforeach
+      ]
       var varsOrder = ["y", "u", "dor", "vf"];
+      var schemesPlotNames = {
+        @foreach($experiment->schemes as $scheme)
+        {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}' },
+        @endforeach
+      }
       var plotNames = {
                           "NR_CA_FOTD_b1": "NR-CA",
                           "Miky_FOTD_b2": "FSP2",
@@ -56,75 +68,6 @@
       '#17becf'   // blue-teal
   */                    
       
-  //     var layout = {
-  //             //https://plotly.com/javascript/subplots/
-  //             //https://stackoverflow.com/questions/31526045/remove-space-between-subplots-in-plotly
-  //             grid: {rows: 4, columns: 1, pattern: 'independent'},
-  //             //grid: {rows: 2, columns: 1},
-  //             height: 500,
-  //             margin: {l: 60, r: 20, b: 30, t: 30, pad: 4},
-  //             xaxis: {domain: [0, 1]}, 
-  //             yaxis1: {autorange: true, range: [0, 2]},
-  //             yaxis2: {autorange: true, range: [0, 2]},
-  //             yaxis3: {autorange: true, range: [0, 2]},
-  //             yaxis4: {autorange: true, range: [0, 2]},
-  //             //legend: {
-  //     //x: 1,
-  //    // y: 0.5
-
-  //  // },
-  //             //https://plotly.com/javascript/text-and-annotations/#subplot-annotations
-  //             annotations: [
-  //             { text: "y(t)",
-  //               font: { size: 14,
-  //                       color: 'black', },
-  //               textangle: 270, 
-  //               showarrow: false,
-  //               align: 'left',
-  //               x: -0.1, //position in x domain
-  //               y: 0.98, //position in y domain
-  //               xref: 'paper',
-  //               yref: 'paper',
-  //             },
-  //             { text: "u(t)",
-  //               font: { size: 14,
-  //                       color: 'black', },
-  //               textangle: 270, 
-  //               showarrow: false,
-  //               align: 'center',
-  //               //x: 0, //position in x domain
-  //               x: -.1,
-  //               y: 0.76,  // position in y domain
-  //               xref: 'paper',
-  //               yref: 'paper',
-  //               //sizex: 100, 
-  //               //xanchor: 'left',
-  //               //xsizemode: 'pixel',
-  //             },
-  //             { text: "dorec(t)",
-  //               font: { size: 14,
-  //                       color: 'black', },
-  //               textangle: 270, 
-  //               showarrow: false,
-  //               align: 'center',
-  //               x: -.1,   //position in x domain
-  //               y: 0.5,  // position in y domain
-  //               xref: 'paper',
-  //               yref: 'paper',
-  //             },
-  //             { text: "dof(t)",
-  //               font: { size: 14,
-  //                       color: 'black', },
-  //               textangle: 270, 
-  //               showarrow: false,
-  //               align: 'center',
-  //               x: -.1,   //position in x domain
-  //               y: 0.21,  // position in y domain
-  //               xref: 'paper',
-  //               yref: 'paper',
-  //             },                                 
-  //             ]
-  //     };
 
       //---------------------------------------------------Layout---------------------------------------------------------------
       var layout = {
@@ -156,7 +99,7 @@
               ]
       };
 
-       //------------------------------------------Sliders initi -----------------------------------------------------------------     
+       //------------------------------------------Sliders connected to schemes -----------------------------------------------------------------     
        @foreach ($experiment->schemes as $comparison)
        @foreach($comparison->sliders->where('default_function', null) as $slider)
           var parv_{{ $slider->title }} = { value: {{ $slider->default  }}, step: {{ $slider->step }} };
@@ -174,6 +117,21 @@
             createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
         @endforeach 
       @endforeach
+      //-------------------------------------------Slider connected to experiment layout -----------------------------------
+      @foreach($experiment->layout->sliders->where('default_function', null) as $slider)
+        var parv_{{ $slider->title }} = { value: {{ $slider->default  }} };
+        var parv_{{ $slider->title }}_input = { value: {{ $slider->default  }} };
+      @endforeach
+
+      @foreach($experiment->layout->sliders->where('default_function','!=', null) as $slider)
+        var parv_{{ $slider->title }} = { value: {{ $slider->default_function  }} };
+        var parv_{{ $slider->title }}_input = { value: {{ $slider->default_function  }} };
+      @endforeach
+      
+    
+      @foreach($experiment->layout->sliders as $slider)
+        createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
+      @endforeach   
        
       runAjaxCall()
   
@@ -184,6 +142,7 @@
       var counter = 0;
 
       var parv_json = {
+        what: [],
         @foreach ($experiment->schemes as $comparison)
           @foreach($comparison->sliders as $slider)
                 "{{ $slider->title }}": parv_{{ $slider->title }}.value,
@@ -196,7 +155,7 @@
              
       };
       
-          
+      //-------------------------------------------------------- Ajax call ----------------------------------------------------------
       function runAjaxCall() { 
       $.ajax({
         type: "GET",
@@ -234,7 +193,7 @@
           vars.shift(); tasks.shift();  //odstrani casovu premennu z oboch poli
           vars = _.uniq(vars);    // vyfiltruje iba unikatne hodnoty v danom poli      
           tasks = _.uniq(tasks);      
-          console.log(vars);
+          // console.log(tasks);
           //console.log(tasks);    
           t = data.t.split(",");
           let plotData = {};       //hodnoty kazdeho z grafov umiestnene do pola (nevyuziva sa, je len k dispozicii)
@@ -245,35 +204,31 @@
           let i = 0;  let k = 0;       
           $.each( tasks, function( keyt, valuet ) {
               $.each( vars, function( keyv, valuev ) {
-                  //console.log( valuev + "_" + valuet ); 
+                  console.log(valuet); 
                   plotData[valuev + "_" + valuet] = data[valuev + "_" + valuet].split(",");  
                   maxValues[valuev + "_" + valuet] = Math.max(...(plotData[valuev + "_" + valuet]).map(Number));  
               }); 
-              console.log(plotData)
-              $.each( varsOrder, function( index, valueo ) {  
-                //console.log(valueo)
+
+              $.each( varsGraph, function( index, valueo ) {  
                   traceData[++i] = {
-                  x: t,
-                  y: data[valueo + "_" + valuet].split(","), 
+                  x: valueo['x'],
+                  y: data[valueo['y'] + "_" + valuet].split(","), 
                   xaxis: 'x' + (index+1),
                   yaxis: 'y' + (index+1),
                   marker: {
-                      color: colors[k+counter],
+                      color: (schemesPlotNames[valuet]['color']) ? schemesPlotNames[valuet]['color'] : colors[k + counter],
                       line: {color: 'transparent'}
                   },  
                   legendgroup: 'a' + k + counter, 
                   showlegend: false, 
-                  name: plotNames[valuet]+ " " + counter
+                  name: schemesPlotNames[valuet]['name']+ " " + counter
                 }; 
-                  console.log('tu')
-                  console.log(traceData[i]) 
                   plotarray.push(traceData[i]); 
                   if (i % vars.length == 1)  {traceData[i].showlegend = "true";}                  
               });
               k++;
-          });
-          //console.log( maxValues );        
-          console.log( plotarray );
+          });     
+          //console.log( plotarray );
            
           i=0; 
           $.each( vars, function( keyv, valuev ) {
@@ -337,7 +292,6 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           iddPar.text( ui.value );
           $(idPar+'_input').val(ui.value);  
           lastChangeInSlider = true;
-          console.log('kok')
         },
         change: function(event, ui) { 
           defaultValue.value = ui.value;
@@ -345,7 +299,6 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           @foreach($comparison->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
 
-            console.log('lol')
                 @foreach($slider->dependencies as $dependency)
                   parv_{{ $dependency->title }}.value =  {{ ($dependency->pivot->value_same_as_added) ? 'parv_'.$slider->title.'.value' : $dependency->pivot->value_function }};
                   $('#par_{{ $dependency->title }}').text(round(parv_{{ $dependency->title }}.value,3)); 
@@ -380,6 +333,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
 //--------------------------------------------- Schemy -------------------------------------------------------------------
       $( function() {
 
+          $('.div_params_general').show();  // Slajdre a checkboxy naviazane priamo na experiment ukazovat stale
+          $('.div_checkbox_general').hide();
           //Pre kazdu schemu
           @foreach ($experiment->schemes as $key => $comparison)
           // Skry fieldsety defaultne
@@ -402,23 +357,17 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
             {
               $('.div_params_{{ $comparison->prefix }}').show();
               $('.div_checkbox_{{ $comparison->prefix }}').show();
+              parv_json.what.push('{{ $comparison->prefix }}');
             } else {
               $('.div_params_{{ $comparison->prefix }}').hide();
               $('.div_checkbox_{{ $comparison->prefix }}').hide();
+              parv_json.what = parv_json.what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; })
             }
           })
           @endforeach
 
          $( "#div_radio" ).controlgroup();
       } );  
-      
-     // $( "button" ).on( "click", runAjaxCall );  
-      
-      
-      $( "#runButton" ).click( function(  ) {         
-              runAjaxCall();
-      } );
-      
 
 //----------------------------------------------- Checkboxes ---------------------------------------------------------
   
@@ -488,10 +437,10 @@ $( function() {
 //----------------------------------------------------Toggle-------------------------------------------------------------
 
   $(".inputs").toggle();    
-    $("#switchButton").click(function(){
+  $("#switchButton").click(function(){
       $(".sliders_show").toggle();
       $(".inputs").toggle();
-    }); 
+  }); 
 
   $( "#runButton" ).click( function(  ) {         
             runAjaxCall();
@@ -499,7 +448,7 @@ $( function() {
 
   $(".toggle").click(function(){
         $("#div_sats").toggle();
-      }); 
+  }); 
 
 //----------------------------------------------------Functions----------------------------------------------------------
     

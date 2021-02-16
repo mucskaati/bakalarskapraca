@@ -7,3 +7,4 @@ import './checkbox';
 import './experiment';
 import './comparison-experiment';
 import './comparison';
+import './example';

@@ -155,5 +155,22 @@ return [
         ],
     ],
 
+    'example' => [
+        'title' => 'Examples',
+
+        'actions' => [
+            'index' => 'Examples',
+            'create' => 'New Example',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'experiment_id' => 'Experiment',
+            'title' => 'Title',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

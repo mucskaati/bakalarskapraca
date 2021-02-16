@@ -43,6 +43,14 @@
       @foreach($experiment->layout->sliders as $slider)
       createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
       setSlider("#slider_{{ $slider->title }}","#par_{{ $slider->title }}_input");
+      //Delay 100 stotin kym sa nastavia hodnoty a potom az pustime ajax call
+      //Riesi to problem s milion requestmi na server
+      @if(!$experiment->run_button)
+            $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
+                setTimeout(() => { runAjaxCall() }, 100);
+            });
+      @endif
+
       @endforeach     
       runAjaxCall()
   
@@ -214,9 +222,7 @@
                 @endforeach
           }
           @endforeach
-          @if(!$experiment->run_button)
-          runAjaxCall()
-          @endif
+         
         },
       }); 
       };
@@ -292,32 +298,21 @@ $( function() {
     //nastavi slider podla ciselneho vstupu a zaroven nastavi krok ciselneho vstupu
     $(inputbox).attr('step', eval("parv_"+inputbox.split('_')[1]).step); 
       $(inputbox).keyup( function(){
-          //$( slider ).slider( "option", "value", parseInt($(this).val()) );
+        lastChangeInSlider = true;
           $( slider ).slider( "option", "value", ($(this).val()) );
-          console.log($('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value));
-          //$('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
-          console.log($('#par_'+inputbox.split('_')[1]).val());
-          console.log(parseFloat($(inputbox).val()))
-          console.log(eval("parv_"+inputbox.split('_')[1]).value)
+          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
 
           //Nastav hodnotu do premennej parv_ID_input po vpisani hodnoty do textboxu 
           //a to v tom pripade len ked hodnota slajdra a textboxu sa lisi
-          if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
-            eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
-          }
-          lastChangeInSlider = false;
-          runAjaxCall()
+
+            if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
+              eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
+              lastChangeInSlider = false;
+            }
+          //Pockam kym sa nastavia slajdre az potom pustim ajax
+          setTimeout(() => { runAjaxCall() }, 200);
       });
-      $(inputbox).mouseup( function(){
-          //$( slider ).slider( "option", "value", parseInt($(this).val()) );
-          $( slider ).slider( "option", "value", ($(this).val()) );
-          //$('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
-          
-          if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
-            eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
-          }
-          lastChangeInSlider = false;
-      });
+
     };
 
   function changeSliderAndInput(what) {

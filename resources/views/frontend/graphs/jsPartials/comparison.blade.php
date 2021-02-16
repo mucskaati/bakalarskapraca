@@ -115,7 +115,12 @@
       @foreach ($experiment->schemes as $comparison)
         @foreach($comparison->sliders as $slider)
             createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
-        @endforeach 
+            @if(!$experiment->run_button)
+            $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
+                setTimeout(() => { runAjaxCall() }, 100);
+            });
+            @endif
+            @endforeach 
       @endforeach
       //-------------------------------------------Slider connected to experiment layout -----------------------------------
       @foreach($experiment->layout->sliders->where('default_function', null) as $slider)
@@ -131,7 +136,12 @@
     
       @foreach($experiment->layout->sliders as $slider)
         createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
-      @endforeach   
+        @if(!$experiment->run_button)
+            $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
+                setTimeout(() => { runAjaxCall() }, 100);
+            });
+        @endif
+        @endforeach   
        
       runAjaxCall()
   

@@ -207,5 +207,28 @@ return [
         ],
     ],
 
+    'example' => [
+        'title' => 'Príklady v porovnaniach',
+
+        'actions' => [
+            'index' => 'Príklady',
+            'create' => 'Nový príklad',
+            'edit' => 'Upraviť :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'experiment_id' => 'Porovnanie',
+            'title' => 'Názov príkladu',
+            'sliders' => 'Nastaviť slajder',
+            'checkboxes' => 'Zaskrtnúť checkbox',
+            'add_slider' => 'Pridať nastavenie slajdra',
+            'add_checkbox' => 'Zaškrtnúť ďalší checkbox',
+            'delete' => 'Zmazať',
+            'value' => 'Nastaviť na hodnotu'
+
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

@@ -106,3 +106,14 @@ $factory->define(App\Models\Comparison::class, static function (Faker\Generator 
         
     ];
 });
+/** @var  \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Example::class, static function (Faker\Generator $faker) {
+    return [
+        'experiment_id' => $faker->sentence,
+        'title' => $faker->sentence,
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});

@@ -94,4 +94,9 @@ class Slider extends Model
     {
         return $this->belongsToMany(Slider::class, 'slider_dependencies', 'dependend_slider_id', 'slider_id')->withPivot(['value_same_as_added', 'value_function'])->withTimestamps();
     }
+
+    public function examples()
+    {
+        return $this->belongsToMany(Example::class, 'example_slider');
+    }
 }

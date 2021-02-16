@@ -75,4 +75,9 @@ class Checkbox extends Model
     {
         return $this->belongsToMany(Slider::class, 'checkbox_slider', 'checkbox_id', 'slider_id')->withPivot(['value_function'])->withTimestamps();
     }
+
+    public function examples()
+    {
+        return $this->belongsToMany(Example::class, 'example_checkbox');
+    }
 }

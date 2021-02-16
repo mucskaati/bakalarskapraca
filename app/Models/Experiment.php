@@ -86,4 +86,9 @@ class Experiment extends Model
     {
         return $this->belongsToMany(ComparisonExperiment::class, 'comparison_scheme', 'experiment_id', 'scheme_id');
     }
+
+    public function examples()
+    {
+        return $this->hasMany(Example::class);
+    }
 }

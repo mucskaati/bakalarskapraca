@@ -33,21 +33,15 @@
   @endforeach
 </div>   
 {{-- --------------------------------  Koniec schem --------------------------------------------------------- --}}
-{{-- --------------------------------  Priklady  --------------------------------------------------------- --}}
-
 <div id='modal'></div>
-<!--   OBRAZKY - KONIEC -->
+{{-- --------------------------------  Priklady  --------------------------------------------------------- --}}
     <div class="row mt-5">
-        <div id="div_radio" class="col-xs-12 col-sm-9 col-lg-9">
-          @foreach ($experiment->examples as $example)
-          <label for="radio_demo{{ $example->id }}" class="radiobox-label">{{ $example->title }}</label>
-          <input type="radio" name="radio_demos" id="radio_demo{{ $example->id }}">
-          @endforeach
-          <!--
-          <label for="radio_demo3" class="radiobox-label">Example 3</label>
-          <input type="radio" name="radio_demos" id="radio_demo3">
-          -->
-        </div>
+      <div id="div_radio" class="col-xs-12 col-sm-9 col-lg-9">
+        @foreach ($experiment->examples as $example)
+        <label for="radio_demo{{ $example->id }}" class="radiobox-label">{{ $example->title }}</label>
+        <input type="radio" name="radio_demos" id="radio_demo{{ $example->id }}">
+        @endforeach
+      </div>
     </div>
 {{-- --------------------------------  Koniec prikladov --------------------------------------------------------- --}}
 {{-- --------------------------------  Buttony --------------------------------------------------------- --}}  

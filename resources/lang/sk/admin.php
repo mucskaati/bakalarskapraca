@@ -144,6 +144,7 @@ return [
 
         ],
         'experiments' => 'Experimenty',
+        'comparisons' => 'Porovnania',
         'settings' => 'Nastavenia grafov',
         'add_experiment' => 'PRIDAŤ EXPERIMENT',
         'edit_experiment' => 'UPRAVIŤ EXPERIMENT'

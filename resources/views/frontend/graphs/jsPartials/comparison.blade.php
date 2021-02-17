@@ -5,6 +5,7 @@
      //https://stackoverflow.com/questions/32486256/enlarge-image-when-hovering-over-parent-element
      //http://jsfiddle.net/k3oq1899/1/
       var currentMousePos = { x: -1, y: -1 };
+      let lastChangeInSlider = true;
       $(document).mousemove(function (event) {
           currentMousePos.x = event.pageX;
           currentMousePos.y = event.pageY;
@@ -180,6 +181,7 @@
           $( "fieldset" ).addClass( "elementDisabled" );
           $( "#div_button" ).addClass( "elementDisabled" );
           $( "#div_radio" ).addClass( "elementDisabled" );
+         
         },
         complete: function(){
           $('#loader').hide();
@@ -305,6 +307,12 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         },
         change: function(event, ui) { 
           defaultValue.value = ui.value;
+          let paramName = idPar.substring(5);
+          //Zmen hodnotu len v pripade ze zmena nastala v slajdri
+          if(lastChangeInSlider) {
+            parv_json[paramName] = ui.value
+          }
+
           @foreach ($experiment->schemes as $comparison)
           @foreach($comparison->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
@@ -359,6 +367,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           $('#choice_{{ $comparison->prefix }}').prop('checked',true).checkboxradio('refresh')
           $('.div_params_{{ $comparison->prefix }}').show();
           $('.div_checkbox_{{ $comparison->prefix }}').show();
+          parv_json.what.push('{{ $comparison->prefix }}');
           @endif
 
           //Na klik zisti ci je checkboxradio zaceknuty
@@ -499,6 +508,7 @@ $( function() {
        let whatPart = what.substring(5);
        $('#par_'+whatPart).text(eval(what).value); 
        $( "#slider_"+whatPart ).slider( "value", eval(what).value );
+      parv_json[whatPart] = eval(what).value;
      }
      
      function changeSliderAndInput(what) {
@@ -506,29 +516,35 @@ $( function() {
        $('#par_'+whatPart).text(eval(what).value); 
        $( "#slider_"+whatPart ).slider( "value", eval(what).value );
        $('#par_'+whatPart+'_input').val(eval(what).value);
+       parv_json[whatPart] = eval(what).value;
      }
      
-      function setSlider(slider,inputbox) {
-      //nastavi slider podla ciselneho vstupu a zaroven nastavi krok ciselneho vstupu
-      $(inputbox).attr('step', eval("parv_"+inputbox.split('_')[1]).step); 
-        $(inputbox).keyup( function(){
-            //$( slider ).slider( "option", "value", parseInt($(this).val()) );
-            $( slider ).slider( "option", "value", ($(this).val()) );
-            $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
-        });
-        $(inputbox).mouseup( function(){
-            //$( slider ).slider( "option", "value", parseInt($(this).val()) );
-            $( slider ).slider( "option", "value", ($(this).val()) );
-            $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
-        });
-      }; 
+     function setSlider(slider,inputbox, paramName) {
+    //nastavi slider podla ciselneho vstupu a zaroven nastavi krok ciselneho vstupu
+    $(inputbox).attr('step', eval("parv_"+inputbox.split('_')[1]).step); 
+      $(inputbox).keyup( function(){
+        lastChangeInSlider = true;
+          $( slider ).slider( "option", "value", ($(this).val()) );
+          $('#par_'+inputbox.split('_')[1]).text(eval("parv_"+inputbox.split('_')[1]).value); 
+          //Nastav hodnotu do premennej parv_ID_input po vpisani hodnoty do textboxu 
+          //a to v tom pripade len ked hodnota slajdra a textboxu sa lisi
+            if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
+              eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
+              lastChangeInSlider = false;  // Posledna zmena nastala v inpute preto ber hodnoty z inputu
+              parv_json[paramName] = parseFloat($(this).val());
+            }
+          //Pockam kym sa nastavia slajdre az potom pustim ajax
+          setTimeout(() => { runAjaxCall() }, 200);
+      });
+
+    };
       
       function setAllSliders(){
           let allSliders = $('[id^=slider_]'); 
           //console.log(allSliders);
           $.each(allSliders, function (i) {
             let paramName = $(allSliders[i]).attr('id').split('_')[1];  //odseparuje nazvy vsetkych premennych zo vsetkych sliderov v html kode, ktore zacinaju prefixom slider_
-            setSlider("#slider_"+paramName,"#par_"+paramName+"_input");
+            setSlider("#slider_"+paramName,"#par_"+paramName+"_input", paramName);
           });
       }
       

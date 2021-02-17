@@ -43,15 +43,16 @@
       @foreach($experiment->layout->sliders as $slider)
       createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
       setSlider("#slider_{{ $slider->title }}","#par_{{ $slider->title }}_input");
-      //Delay 100 stotin kym sa nastavia hodnoty a potom az pustime ajax call
+      //Delay 100 stotin kym sa nastavia hodnoty a potom az pustime ajax call po doslajdovani
       //Riesi to problem s milion requestmi na server
       @if(!$experiment->run_button)
             $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
                 setTimeout(() => { runAjaxCall() }, 100);
             });
       @endif
+      @endforeach
 
-      @endforeach     
+      //Prvotny ajax call po loadnuti stranky
       runAjaxCall()
   
   //-----------------------------------------------Export to PDF -----------------------------------------------------------
@@ -304,7 +305,6 @@ $( function() {
 
           //Nastav hodnotu do premennej parv_ID_input po vpisani hodnoty do textboxu 
           //a to v tom pripade len ked hodnota slajdra a textboxu sa lisi
-
             if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
               eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
               lastChangeInSlider = false;

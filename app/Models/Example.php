@@ -47,6 +47,11 @@ class Example extends Model
 
     public function checkboxes()
     {
-        return $this->belongsToMany(Checkbox::class, 'example_checkbox')->with(['dependentSliders']);
+        return $this->belongsToMany(Checkbox::class, 'example_checkbox')->with(['dependentSliders'])->withPivot(['checked']);
+    }
+
+    public function schemes()
+    {
+        return $this->belongsToMany(ComparisonExperiment::class, 'example_scheme', 'example_id', 'scheme_id')->withPivot(['checked']);
     }
 }

@@ -44,7 +44,7 @@
             @endforeach
         @endforeach
       ]
-      var varsOrder = ["y", "u", "dor", "vf"];
+      //var varsOrder = ["y", "u", "dor", "vf"];
       var schemesPlotNames = {
         @foreach($experiment->schemes as $scheme)
         {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}' },
@@ -312,7 +312,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           if(lastChangeInSlider) {
             parv_json[paramName] = ui.value
           }
-
+          // Dependencies na slajdri
           @foreach ($experiment->schemes as $comparison)
           @foreach($comparison->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
@@ -368,6 +368,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           $('.div_params_{{ $comparison->prefix }}').show();
           $('.div_checkbox_{{ $comparison->prefix }}').show();
           parv_json.what.push('{{ $comparison->prefix }}');
+          console.log(parv_json.what)
           @endif
 
           //Na klik zisti ci je checkboxradio zaceknuty
@@ -377,10 +378,12 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
               $('.div_params_{{ $comparison->prefix }}').show();
               $('.div_checkbox_{{ $comparison->prefix }}').show();
               parv_json.what.push('{{ $comparison->prefix }}');
+              console.log(parv_json.what)
             } else {
               $('.div_params_{{ $comparison->prefix }}').hide();
               $('.div_checkbox_{{ $comparison->prefix }}').hide();
               parv_json.what = parv_json.what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; })
+              console.log(parv_json.what)
             }
           })
           @endforeach
@@ -388,14 +391,88 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
          $( "#div_radio" ).controlgroup();
       } );  
 
+//----------------------------------------------- Examples -----------------------------------------------------------
+
+@foreach($experiment->examples as $example)
+    $( "#radio_demo{{ $example->id }}" ).on( "click", handleDemo{{ $example->id }} );
+    
+    function handleDemo{{ $example->id }}() { 
+      @foreach($example->sliders as $slider)
+        parv_{{ $slider->title }}.value = {{ $slider->pivot->value }}; changeSlider("parv_{{ $slider->title }}");
+      @endforeach
+
+      @if($example->schemes->count() > 0)
+      parv_json.what = [];
+
+      //--------------------------Odznacim vsetky schemy--------------------
+      @foreach($experiment->schemes as $schem)
+      $( '#choice_{{ $schem->prefix }}' ).prop( "checked", false).checkboxradio('refresh');
+      $('.div_params_{{ $schem->prefix }}').hide();
+      @endforeach
+       //--------------------------Koniec Odznacim vsetky schemy--------------------
+
+      @foreach($example->schemes as $scheme) 
+        @if($scheme->pivot->checked)
+        $( '#choice_{{ $scheme->prefix }}' ).prop( "checked", true).checkboxradio('refresh');  
+        parv_json.what.push('{{ $scheme->prefix }}')
+        $('.div_params_{{ $scheme->prefix }}').show();
+       
+        @else 
+        $( '#choice_{{ $scheme->prefix }}' ).prop( "checked", false).checkboxradio('refresh'); 
+        parv_json.what = parv_json.what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; }) 
+        $('.div_params_{{ $scheme->prefix }}').hide();
+        @endif
+      @endforeach
+      @endif
+
+      @foreach($example->checkboxes as $checkbox)
+        @if(!$checkbox->pivot->checked)
+        //-------- Pripad ked chechbox v priklade NEchceme zaskrtnut
+        if ($('#checkbox_{{ $checkbox->attribute_name }}').is(":checked")) { 
+            // Zmen aj zavisle slajdre na checkboxe predtym ako odskrtneme checkbox
+            @if($checkbox->slider_dependency_change)
+              if ( $("#checkbox_{{ $checkbox->attribute_name }}").prop("checked") )
+              { 
+                @foreach($checkbox->dependentSliders as $slider)
+                parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ? $slider->default_function : $slider->default }};
+                $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
+                $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+                changeSliderAndInput("parv_{{ $slider->title }}");
+                @endforeach
+              } 
+            @endif
+            $( '#checkbox_{{ $checkbox->attribute_name }}' ).prop("checked", false).checkboxradio('refresh');
+        }
+        @else 
+            // -------- Pripad ked chechbox v priklade chceme zaskrtnut
+            if (!$('#checkbox_{{ $checkbox->attribute_name }}').is(":checked")) {
+            $("#div_sats").toggle();
+            $( '#checkbox_{{ $checkbox->attribute_name }}' ).prop( "checked", true).checkboxradio('refresh'); 
+
+            // Zmen aj zavisle slajdre na checkboxe 
+            @if($checkbox->slider_dependency_change)
+              if ( $("#checkbox_{{ $checkbox->attribute_name }}").prop("checked") )
+              { 
+                @foreach($checkbox->dependentSliders as $slider)
+                parv_{{ $slider->title }}.value =   {{ $slider->pivot->value_function }};
+                $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
+                $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
+                changeSliderAndInput("parv_{{ $slider->title }}");
+                @endforeach
+              } 
+            @endif
+        }
+        @endif
+      @endforeach
+      
+      runAjaxCall()  
+    }  
+@endforeach  
 //----------------------------------------------- Checkboxes ---------------------------------------------------------
   
 $( function() {
-        $( "input[type=checkbox]" ).checkboxradio({   
-            //icon: false    
-            //label: "custom label"
-        });
-    } );
+        $( "input[type=checkbox]" ).checkboxradio({});
+});
 
   //Checkboxes connected to layout
   @foreach($experiment->layout->checkboxes as $checkbox)

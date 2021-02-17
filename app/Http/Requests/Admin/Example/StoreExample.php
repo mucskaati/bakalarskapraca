@@ -30,6 +30,7 @@ class StoreExample extends FormRequest
             'title' => ['required', 'string'],
             'sliders' => ['nullable', 'array'],
             'checkboxes' => ['nullable', 'array'],
+            'schemes' => ['nullable', 'array'],
 
         ];
     }

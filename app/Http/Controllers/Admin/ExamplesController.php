@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Example\IndexExample;
 use App\Http\Requests\Admin\Example\StoreExample;
 use App\Http\Requests\Admin\Example\UpdateExample;
 use App\Models\Checkbox;
+use App\Models\ComparisonExperiment;
 use App\Models\Example;
 use App\Models\Experiment;
 use App\Models\Slider;
@@ -70,11 +71,13 @@ class ExamplesController extends Controller
         $sliders = Slider::all();
         $checkboxes = Checkbox::all();
         $experiments = Experiment::where('type', 'comparison')->get();
+        $schemes = ComparisonExperiment::all();
 
         return view('admin.example.create', [
             'sliders' => $sliders,
             'checkboxes' => $checkboxes,
-            'experiments' => $experiments
+            'experiments' => $experiments,
+            'schemes' => $schemes
         ]);
     }
 
@@ -126,17 +129,19 @@ class ExamplesController extends Controller
     {
         $this->authorize('admin.example.edit', $example);
 
-        $example->load(['sliders', 'checkboxes', 'experiment']);
+        $example->load(['sliders', 'checkboxes', 'schemes', 'experiment']);
 
         $sliders = Slider::all();
         $checkboxes = Checkbox::all();
+        $schemes = ComparisonExperiment::all();
         $experiments = Experiment::where('type', 'comparison')->get();
 
         return view('admin.example.edit', [
             'example' => $example,
             'sliders' => $sliders,
             'checkboxes' => $checkboxes,
-            'experiments' => $experiments
+            'experiments' => $experiments,
+            'schemes' => $schemes
         ]);
     }
 
@@ -219,17 +224,28 @@ class ExamplesController extends Controller
             ];
         })->toArray();
 
-        $checkboxes = collect($data['checkboxes'])->map(function ($item) {
-            return $item['id'];
+        $checkboxes = collect($data['checkboxes'])->mapWithKeys(function ($item) {
+            return [
+                $item['id'] => [
+                    'checked' => $item['pivot']['checked'],
+                ],
+            ];
         })->toArray();
+
+        $schemes = collect($data['schemes'])->mapWithKeys(function ($item) {
+            return [
+                $item['id'] => [
+                    'checked' => $item['pivot']['checked'],
+                ],
+            ];
+        })->toArray();
+
 
         //Syn dependencies to model
         if (count($data) > 0 || $mode == 'update') {
             $model->sliders()->sync($sliders);
-        }
-
-        if (count($data) > 0 || $mode == 'update') {
             $model->checkboxes()->sync($checkboxes);
+            $model->schemes()->sync($schemes);
         }
 
         return true;

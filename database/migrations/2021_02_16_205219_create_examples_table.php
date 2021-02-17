@@ -47,6 +47,7 @@ class CreateExamplesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('example_id')->index();
             $table->unsignedBigInteger('checkbox_id')->index();
+            $table->boolean('checked')->default(false);
             $table->timestamps();
 
             $table->foreign('example_id')
@@ -57,6 +58,24 @@ class CreateExamplesTable extends Migration
             $table->foreign('checkbox_id')
                 ->references('id')
                 ->on('checkboxes')
+                ->onDelete('cascade');
+        });
+
+        Schema::create('example_scheme', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('example_id')->index();
+            $table->unsignedBigInteger('scheme_id')->index();
+            $table->boolean('checked')->default(false);
+            $table->timestamps();
+
+            $table->foreign('example_id')
+                ->references('id')
+                ->on('examples')
+                ->onDelete('cascade');
+
+            $table->foreign('scheme_id')
+                ->references('id')
+                ->on('comparison_experiments')
                 ->onDelete('cascade');
         });
     }
@@ -81,8 +100,15 @@ class CreateExamplesTable extends Migration
             $table->dropForeign(['checkbox_id']);
         });
 
+        Schema::table('example_scheme', function (Blueprint $table) {
+            $table->dropForeign(['example_id']);
+            $table->dropForeign(['scheme_id']);
+        });
+
+
         Schema::dropIfExists('examples');
         Schema::dropIfExists('example_slider');
         Schema::dropIfExists('example_checkbox');
+        Schema::dropIfExists('example_scheme');
     }
 }

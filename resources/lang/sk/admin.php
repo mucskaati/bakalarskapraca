@@ -221,11 +221,14 @@ return [
             'experiment_id' => 'Porovnanie',
             'title' => 'Názov príkladu',
             'sliders' => 'Nastaviť slajder',
-            'checkboxes' => 'Zaskrtnúť checkbox',
+            'checkboxes' => 'Checkbox',
             'add_slider' => 'Pridať nastavenie slajdra',
-            'add_checkbox' => 'Zaškrtnúť ďalší checkbox',
+            'add_checkbox' => 'Pridať ďalší checkbox',
             'delete' => 'Zmazať',
-            'value' => 'Nastaviť na hodnotu'
+            'value' => 'Nastaviť na hodnotu',
+            'schemes' => 'Schéma',
+            'add_scheme' => 'Pridať nastavenie viditeľnosti schémy',
+            'checked' => 'Zaškrtnúť v príklade'
 
         ],
     ],

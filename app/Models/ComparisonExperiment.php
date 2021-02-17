@@ -87,4 +87,9 @@ class ComparisonExperiment extends Model implements HasMedia
     {
         return $this->belongsToMany(Experiment::class, 'comparison_scheme', 'scheme_id', 'experiment_id');
     }
+
+    public function examples()
+    {
+        return $this->belongsToMany(Example::class, 'example_scheme');
+    }
 }

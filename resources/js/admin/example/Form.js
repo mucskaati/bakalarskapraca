@@ -8,7 +8,8 @@ Vue.component("example-form", {
                 experiment_id: "",
                 title: "Example 1",
                 sliders: [],
-                checkboxes: []
+                checkboxes: [],
+                schemes: []
             }
         };
     },
@@ -34,7 +35,10 @@ Vue.component("example-form", {
 
         addCheckbox: function(event) {
             this.form.checkboxes.push({
-                id: this.form.sliders.length
+                id: this.form.sliders.length,
+                pivot: {
+                    checked: false
+                }
             });
         },
 
@@ -42,6 +46,29 @@ Vue.component("example-form", {
             this.form.checkboxes.splice(index, 1);
         },
 
-        addCountCheckbox: function(index) {}
+        addCountCheckbox: function(index) {
+            this.form.checkboxes[index].pivot = {
+                checked: false
+            };
+        },
+
+        addScheme: function(event) {
+            this.form.schemes.push({
+                id: this.form.schemes.length,
+                pivot: {
+                    checked: false
+                }
+            });
+        },
+
+        deleteScheme: function(index) {
+            this.form.schemes.splice(index, 1);
+        },
+
+        addCountScheme: function(index) {
+            this.form.schemes[index].pivot = {
+                checked: false
+            };
+        }
     }
 });

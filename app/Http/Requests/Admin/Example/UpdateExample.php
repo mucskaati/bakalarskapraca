@@ -30,6 +30,7 @@ class UpdateExample extends FormRequest
             'title' => ['sometimes', 'string'],
             'sliders' => ['nullable', 'array'],
             'checkboxes' => ['nullable', 'array'],
+            'schemes' => ['nullable', 'array'],
 
 
         ];

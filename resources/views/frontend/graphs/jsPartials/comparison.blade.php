@@ -50,10 +50,7 @@
         {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}' },
         @endforeach
       }
-      var plotNames = {
-                          "NR_CA_FOTD_b1": "NR-CA",
-                          "Miky_FOTD_b2": "FSP2",
-                      };
+
       var colors = ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b','#e377c2','#7f7f7f','#bcbd22','#17becf'];                    
                       
   /*
@@ -142,18 +139,14 @@
                 setTimeout(() => { runAjaxCall() }, 100);
             });
         @endif
-        @endforeach   
-       
-      runAjaxCall()
-  
-      //document.getElementById("par_tsim_input").step = ".1";
-      //$("#par_tsim_input").attr('step', parv_tsim.step);
+      @endforeach   
+
        
       setAllSliders();
       var counter = 0;
 
+      //Nastavenie parametrov do objectu ktory sa bude posielat na server
       var parv_json = {
-        what: [],
         @foreach ($experiment->schemes as $comparison)
           @foreach($comparison->sliders as $slider)
                 "{{ $slider->title }}": parv_{{ $slider->title }}.value,
@@ -165,6 +158,13 @@
         @endforeach
              
       };
+
+      // Zvolene schemy
+      var what = [];
+      //Prvy load po case aby sa nacitali parametre
+      setTimeout(() => {
+        runAjaxCall();
+      }, 200)
       
       //-------------------------------------------------------- Ajax call ----------------------------------------------------------
       function runAjaxCall() { 
@@ -174,7 +174,10 @@
         //data: {"tsim":parv_tsim.value,"Ts":parv_Ts.value,"tw":parv_tw.value,"w":parv_w.value,"tvi":parv_tvi.value,"vi":parv_vi.value,"tvo":parv_tvo.value,"vo":parv_vo.value,"Ks":parv_Ks.value,"Ksm":parv_Ksm.value,"a":parv_a.value,"am":parv_am.value,"Kc":parv_Kc.value,"KP":parv_KP.value,"Tf":parv_Tf.value,"Tc":parv_Tc.value,"b":parv_b.value,"Umin":parv_Umin.value,"Umax":parv_Umax.value,"Uifmin":parv_Uifmin.value,"Uifmax":parv_Uifmax.value},
         //"Td":parv_Td.value,"Tdm":parv_Tdm.value,
         //data: {"vi":parv_vi},
-        data: parv_json,
+        data: {
+          what: '['+what.toString()+']',
+          ...parv_json
+        },
         dataType: 'json',
         beforeSend: function() {
           $('#loader').show();
@@ -264,8 +267,8 @@
             //  maxs = []; mins = [];
           });
   
-          let dor = data.dor_Miky_FOTD_b2.split(",");       //dor*(Kp-1/Kn)
-          us_RM = dor.map(function(x) { return x *(parv_Kp.value-1/parv_Ksm.value); });
+          // let dor = data.dor_Miky_FOTD_b2.split(",");       //dor*(Kp-1/Kn)
+          // us_RM = dor.map(function(x) { return x *(parv_Kp.value-1/parv_Ksm.value); });
   
          
               //console.log($('#choice_noRM').is(":checked"));   
@@ -367,8 +370,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           $('#choice_{{ $comparison->prefix }}').prop('checked',true).checkboxradio('refresh')
           $('.div_params_{{ $comparison->prefix }}').show();
           $('.div_checkbox_{{ $comparison->prefix }}').show();
-          parv_json.what.push('{{ $comparison->prefix }}');
-          console.log(parv_json.what)
+          what.push('{{ $comparison->prefix }}');
+          console.log(what);
           @endif
 
           //Na klik zisti ci je checkboxradio zaceknuty
@@ -377,13 +380,12 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
             {
               $('.div_params_{{ $comparison->prefix }}').show();
               $('.div_checkbox_{{ $comparison->prefix }}').show();
-              parv_json.what.push('{{ $comparison->prefix }}');
-              console.log(parv_json.what)
+              what.push('{{ $comparison->prefix }}');
             } else {
               $('.div_params_{{ $comparison->prefix }}').hide();
               $('.div_checkbox_{{ $comparison->prefix }}').hide();
-              parv_json.what = parv_json.what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; })
-              console.log(parv_json.what)
+              what = what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; })
+              
             }
           })
           @endforeach
@@ -402,7 +404,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
       @endforeach
 
       @if($example->schemes->count() > 0)
-      parv_json.what = [];
+      what = [];
 
       //--------------------------Odznacim vsetky schemy--------------------
       @foreach($experiment->schemes as $schem)
@@ -414,12 +416,12 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
       @foreach($example->schemes as $scheme) 
         @if($scheme->pivot->checked)
         $( '#choice_{{ $scheme->prefix }}' ).prop( "checked", true).checkboxradio('refresh');  
-        parv_json.what.push('{{ $scheme->prefix }}')
+        what.push('{{ $scheme->prefix }}')
         $('.div_params_{{ $scheme->prefix }}').show();
        
         @else 
         $( '#choice_{{ $scheme->prefix }}' ).prop( "checked", false).checkboxradio('refresh'); 
-        parv_json.what = parv_json.what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; }) 
+        what = what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; }) 
         $('.div_params_{{ $scheme->prefix }}').hide();
         @endif
       @endforeach
@@ -624,7 +626,6 @@ $( function() {
             setSlider("#slider_"+paramName,"#par_"+paramName+"_input", paramName);
           });
       }
-      
                 
     } );
     </script>

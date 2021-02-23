@@ -14,6 +14,7 @@
 {{-- --------------------------------  Schémy --------------------------------------------------------- --}}
 <div class="div_choice" id="div_choice">
   @foreach($experiment->schemes as $scheme)
+  <fieldset class="schemes">
   <div class="tile" id="check_{{ $scheme->prefix }}">
       <span>
             <label for="choice_{{ $scheme->prefix }}" id="choice_label_{{ $scheme->prefix }}" class="checkbox-choice-label">{{ $scheme->title }}</label>
@@ -30,6 +31,7 @@
           </div>
       </div>
   </div>
+  </fieldset>
   @endforeach
 </div>   
 {{-- --------------------------------  Koniec schem --------------------------------------------------------- --}}
@@ -45,17 +47,26 @@
     </div>
 {{-- --------------------------------  Koniec prikladov --------------------------------------------------------- --}}
 {{-- --------------------------------  Buttony --------------------------------------------------------- --}}  
-  <div class="tab-content" id="home1"> 
+<div class="tab-content" id="home1"> 
   <div class="row simulation mt-5">
-    <div class="col-md-6">
+    <div class="col-md-3">
       <h2>Simulations</h2>
     </div>
-    <div class="col-md-6 text-right">
+    <div class="col-md-4">
+      <div id="div_check_comparisons">
+        <label for="checkbox_comparisons">Show history</label>
+        <input type="checkbox" name="checkbox_comparisons" id="checkbox_comparisons">
+      </div>
+    </div>
+    <div class="col-md-5 text-right">
       <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
       @if($experiment->run_button)
       <button id="runButton" class="d-inline-block btn btn-danger">Run</button>
       @endif
     </div>
+  </div>
+
+  <div class="row comparisons mb-4">
   </div>
 {{-- --------------------------------  Koniec buttonov --------------------------------------------------------- --}}
   <div class="row"> 

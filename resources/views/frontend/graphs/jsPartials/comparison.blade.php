@@ -1,11 +1,8 @@
 <script src="{{ asset('js/jquery.ui.touch-punch.min.js') }}"></script>
 <script>
     $( function() {
-     //==================zvacsovanie thumbnailov==============================
-     //https://stackoverflow.com/questions/32486256/enlarge-image-when-hovering-over-parent-element
-     //http://jsfiddle.net/k3oq1899/1/
+     //==================zvacsovanie thumbnailov=============================
       var currentMousePos = { x: -1, y: -1 };
-      let lastChangeInSlider = true;
       $(document).mousemove(function (event) {
           currentMousePos.x = event.pageX;
           currentMousePos.y = event.pageY;
@@ -35,6 +32,7 @@
   
       $('.sum').hide();
       var plotarray =[];
+      let lastChangeInSlider = true;
       
       
       var varsGraph = [
@@ -144,6 +142,8 @@
        
       setAllSliders();
       var counter = 0;
+      let paramsHistory = [];
+      let paramsHistoryEnabled = false;
 
       //Nastavenie parametrov do objectu ktory sa bude posielat na server
       var parv_json = {
@@ -171,9 +171,6 @@
       $.ajax({
         type: "GET",
         url: "http://apps.iolab.sk:9000/symetry2",
-        //data: {"tsim":parv_tsim.value,"Ts":parv_Ts.value,"tw":parv_tw.value,"w":parv_w.value,"tvi":parv_tvi.value,"vi":parv_vi.value,"tvo":parv_tvo.value,"vo":parv_vo.value,"Ks":parv_Ks.value,"Ksm":parv_Ksm.value,"a":parv_a.value,"am":parv_am.value,"Kc":parv_Kc.value,"KP":parv_KP.value,"Tf":parv_Tf.value,"Tc":parv_Tc.value,"b":parv_b.value,"Umin":parv_Umin.value,"Umax":parv_Umax.value,"Uifmin":parv_Uifmin.value,"Uifmax":parv_Uifmax.value},
-        //"Td":parv_Td.value,"Tdm":parv_Tdm.value,
-        //data: {"vi":parv_vi},
         data: {
           what: '['+what.toString()+']',
           ...parv_json
@@ -191,9 +188,15 @@
           $( "fieldset" ).removeClass( "elementDisabled" );
           $( "#div_button" ).removeClass( "elementDisabled" );
           $( "#div_radio" ).removeClass( "elementDisabled" );
+
+          toggleHideFieldsets();
         },
         success:function(data)   
-        { console.log(data);
+        {
+
+          //Pridavanie do historie porovnania
+          addComparison();
+          addComparisonToHTML(counter)
 
           $('.loader').hide();
           //$.each( data, function( key, value ) { console.log( key + ": " + value ); });   
@@ -216,7 +219,9 @@
           let maxs = [];
           let mins = [];
           let traceData = {};      //zostavenie jednotlivych grafov, je to potrebne pre plotly
-          let i = 0;  let k = 0;       
+          let i = 0;  let k = 0; 
+
+          //Vytvorenie stop na graph      
           $.each( tasks, function( keyt, valuet ) {
               $.each( vars, function( keyv, valuev ) {
                   console.log(valuet); 
@@ -231,7 +236,7 @@
                   xaxis: 'x' + (index+1),
                   yaxis: 'y' + (index+1),
                   marker: {
-                      color: (schemesPlotNames[valuet]['color']) ? schemesPlotNames[valuet]['color'] : colors[k + counter],
+                      color: (schemesPlotNames[valuet]['color'] && counter == 0) ? schemesPlotNames[valuet]['color'] : colors[k + counter],
                       line: {color: 'transparent'}
                   },  
                   legendgroup: 'a' + k + counter, 
@@ -256,32 +261,14 @@
              let maxsnew = maxs.filter(function(x) {
                   return x > -10 && x < 10;
              });
-             //console.log("yaxis"+i);
-             //console.log(maxs);
-             //console.log(mins);
-             //console.log(round(Math.min(...mins),1)-0.4);
-            //  if (Math.max(...maxs)>10)
-            //       {layout["yaxis"+i].autorange = false; layout["yaxis"+i].range = [round(Math.min(...mins),1)-0.4, round(Math.max(...maxsnew),1)+0.4]; }
-            //  //else                                                      //toto je sice dobre, ale to netreba
-            //  //     {layout["yaxis"+i].autorange = true; }
-            //  maxs = []; mins = [];
           });
-  
-          // let dor = data.dor_Miky_FOTD_b2.split(",");       //dor*(Kp-1/Kn)
-          // us_RM = dor.map(function(x) { return x *(parv_Kp.value-1/parv_Ksm.value); });
-  
          
-              //console.log($('#choice_noRM').is(":checked"));   
-          if ($('#checkbox_sat').is(":checked") && counter>0) 
+          //Ak je povolena hsitoria pridaj cestu ak nie vytvor graph nanovo
+          if ($('#checkbox_comparisons').is(":checked") && counter>0) 
               { Plotly.addTraces($('#plotdiv')[0], plotarray); }
           else
-          //Plotly.addTraces($('#plotdiv')[0], [{x: [100,200,300], y: [4, 5, 6]},{x: [100,200,300], y: [4, 5, 6],xaxis:'x2',yaxis: 'y2'}]);
-          //
               { Plotly.newPlot($('#plotdiv')[0], plotarray, layout, {displaylogo: false, responsive: true}); }
-          if ($('#checkbox_sat').is(":checked")) 
-              { counter++; }
-          else
-              { counter = 0; }
+
           plotarray = [];
           maxs = [];
         }     
@@ -393,6 +380,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
          $( "#div_radio" ).controlgroup();
       } );  
 
+
 //----------------------------------------------- Examples -----------------------------------------------------------
 
 @foreach($experiment->examples as $example)
@@ -466,14 +454,13 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         }
         @endif
       @endforeach
-      
       runAjaxCall()  
     }  
 @endforeach  
 //----------------------------------------------- Checkboxes ---------------------------------------------------------
   
 $( function() {
-        $( "input[type=checkbox]" ).checkboxradio({});
+    $( "input[type=checkbox]" ).checkboxradio({});
 });
 
   //Checkboxes connected to layout
@@ -547,6 +534,13 @@ $( function() {
   $(".toggle").click(function(){
         $("#div_sats").toggle();
   }); 
+
+  $("#checkbox_comparisons").click(function(){
+       toggleParamsHistory();
+  }); 
+
+
+
 
 //----------------------------------------------------Functions----------------------------------------------------------
     
@@ -625,6 +619,80 @@ $( function() {
             let paramName = $(allSliders[i]).attr('id').split('_')[1];  //odseparuje nazvy vsetkych premennych zo vsetkych sliderov v html kode, ktore zacinaju prefixom slider_
             setSlider("#slider_"+paramName,"#par_"+paramName+"_input", paramName);
           });
+      }
+
+      function addComparisonToHTML(counter) {
+        //Pridaj comparison popup
+        if(counter >= 0)
+        {
+          let comparison = $(".comparisons");
+          comparison.empty();
+          for(let i = 0; i <= counter; i++) {
+            let content = `<b>Comparison paremeters:</b><br><br>`;
+            Object.entries(paramsHistory[i]).forEach(([key, value]) => {
+              if(key != 'id') {
+              content += `<b>${key}</b>: ${value},  `
+              }
+            });
+            let html = `<button id="comparison_params" class="btn btn-primary col-6 col-md-2" data-container="body" data-toggle="popover" data-placement="bottom" 
+            title="${content}">
+                            Comparison ${i}
+                        </button>`;
+          comparison.append(html);
+          
+          $('[data-toggle="popover"]').tooltip({
+            content: function () {
+                return $(this).prop('title');
+            }
+          });
+
+
+          }
+        }
+      }
+
+      function addComparison()
+      {
+        if ($('#checkbox_comparisons').is(":checked")) 
+              { counter++; 
+                paramsHistoryEnabled = true;
+                paramsHistory.push({
+                  id:counter,
+                  ...parv_json
+                })
+              }
+
+          else
+              { 
+                counter = 0;
+                paramsHistoryEnabled = false;
+                paramsHistory = [];
+                paramsHistory.push({
+                  id:counter,
+                  ...parv_json
+                })
+              }
+      }
+
+      function toggleHideFieldsets()
+      {
+
+        if(paramsHistoryEnabled)
+           {
+            $("#div_radio" ).addClass( "elementDisabled" );
+            $(".schemes").addClass( "elementDisabled" );
+            $('.comparisons').show();
+           } else {
+            $( "#div_radio" ).removeClass( "elementDisabled" );
+            $( ".schemes" ).removeClass( "elementDisabled" );
+            $('.comparisons').hide();
+           }
+      }
+
+      function toggleParamsHistory()
+      {
+        paramsHistoryEnabled = !paramsHistoryEnabled;
+        toggleHideFieldsets();
       }
                 
     } );

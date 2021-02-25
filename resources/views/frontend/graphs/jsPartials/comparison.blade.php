@@ -45,7 +45,7 @@
       //var varsOrder = ["y", "u", "dor", "vf"];
       var schemesPlotNames = {
         @foreach($experiment->schemes as $scheme)
-        {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}' },
+        {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}', 'legendgroup': '{{ $scheme->legendgroup }}' },
         @endforeach
       }
 
@@ -224,7 +224,6 @@
           //Vytvorenie stop na graph      
           $.each( tasks, function( keyt, valuet ) {
               $.each( vars, function( keyv, valuev ) {
-                  console.log(valuet); 
                   plotData[valuev + "_" + valuet] = data[valuev + "_" + valuet].split(",");  
                   maxValues[valuev + "_" + valuet] = Math.max(...(plotData[valuev + "_" + valuet]).map(Number));  
               }); 
@@ -239,9 +238,9 @@
                       color: (schemesPlotNames[valuet]['color'] && counter == 0) ? schemesPlotNames[valuet]['color'] : colors[k + counter],
                       line: {color: 'transparent'}
                   },  
-                  legendgroup: 'a' + k + counter, 
+                  legendgroup: schemesPlotNames[valuet]['legendgroup'] + k + counter, 
                   showlegend: false, 
-                  name: schemesPlotNames[valuet]['name']+ " " + counter
+                  name: schemesPlotNames[valuet]['name']+ " - Comparison " + (counter+1)
                 }; 
                   plotarray.push(traceData[i]); 
                   if (i % vars.length == 1)  {traceData[i].showlegend = "true";}                  
@@ -539,9 +538,6 @@ $( function() {
        toggleParamsHistory();
   }); 
 
-
-
-
 //----------------------------------------------------Functions----------------------------------------------------------
     
       function round(value, decimals) {
@@ -631,12 +627,12 @@ $( function() {
             let content = `<b>Comparison paremeters:</b><br><br>`;
             Object.entries(paramsHistory[i]).forEach(([key, value]) => {
               if(key != 'id') {
-              content += `<b>${key}</b>: ${value},  `
+              content += `<b>${key+1}</b>: ${value},  `
               }
             });
             let html = `<button id="comparison_params" class="btn btn-primary col-6 col-md-2" data-container="body" data-toggle="popover" data-placement="bottom" 
             title="${content}">
-                            Comparison ${i}
+                            Comparison ${i+1}
                         </button>`;
           comparison.append(html);
           

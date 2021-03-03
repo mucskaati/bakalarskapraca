@@ -19,6 +19,7 @@ Route::get('/comparison/{id}/{slug}', 'Frontend\GraphController@comparison')->na
 
 //Export PDF
 Route::post('/export/pdf', 'Frontend\ExportPDFController@export')->name('export');
+Route::post('/export/comparison/pdf', 'Frontend\ExportPDFController@exportComparisonPDF')->name('export.comparison');
 
 
 /* Auto-generated admin routes */
@@ -142,8 +143,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
-        Route::prefix('examples')->name('examples/')->group(static function() {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('examples')->name('examples/')->group(static function () {
             Route::get('/',                                             'ExamplesController@index')->name('index');
             Route::get('/create',                                       'ExamplesController@create')->name('create');
             Route::post('/',                                            'ExamplesController@store')->name('store');

@@ -159,6 +159,8 @@
              
       };
 
+      //PDF
+      var newButton = {};
       // Zvolene schemy
       var what = [];
       //Prvy load po case aby sa nacitali parametre
@@ -194,7 +196,7 @@
     }
   });
 
-  var newButton = {
+   newButton = {
       icon: pdfIcon,
       name: 'Export to PDF',
       click: function(gd) {   
@@ -327,11 +329,21 @@
                                       //console.log(image64);
                                       }); }
           else
-              { Plotly.newPlot($('#plotdiv')[0], plotarray, layout, {displaylogo: false, responsive: true, modeBarButtonsToAdd: [newButton]}).then((gd) => { return Plotly.toImage(gd); })
+              { 
+                @if($experiment->export)
+                Plotly.newPlot($('#plotdiv')[0], plotarray, layout, {displaylogo: false, responsive: true, modeBarButtonsToAdd: [newButton]}).then((gd) => { return Plotly.toImage(gd); })
                 .then((dataURI) => { //console.log(dataURI); 
                                       image64 = dataURI;
                                       //console.log(image64);
                                       }); }
+                @else 
+                Plotly.newPlot($('#plotdiv')[0], plotarray, layout, {displaylogo: false, responsive: true}).then((gd) => { return Plotly.toImage(gd); })
+                .then((dataURI) => { //console.log(dataURI); 
+                                      image64 = dataURI;
+                                      //console.log(image64);
+                                      }); }
+                @endif
+
 
           plotarray = [];
           maxs = [];

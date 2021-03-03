@@ -540,7 +540,10 @@ $( function() {
 
 //----------------------------------------------------Functions----------------------------------------------------------
     
-
+      function round(value, decimals) {
+        //return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+        return Number(Math.sign(value) * Math.abs(value).toFixed(decimals));
+      }
       
       function KpGain(Km,T1m,Tdm) {           //FSP1-4 P controller gain
           return round(T1m/Km/Tdm*Math.exp(-1+Tdm/T1m),6);

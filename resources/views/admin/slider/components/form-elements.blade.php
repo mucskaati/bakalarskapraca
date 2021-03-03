@@ -3,14 +3,14 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('type'), 'has-success': fields.type && fields.type.valid }">
             <label for="type" class="col-12 col-form-label text-md-left">{{ trans('admin.slider.columns.type') }}</label>
                 <div class="col-md-6 text-center">
-                <label for="type" class="col-form-label text-md-center">Experiment FO</label>
+                <label for="type" class="col-form-label text-md-center">{{ trans('admin.slider.columns.experiment_fo') }}</label>
                     <div>
                         <input type="radio" v-model="form.type" value="fo">
                         <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <label for="type" class="col-form-label text-md-center">Schéma (provnávací experiment)</label>
+                    <label for="type" class="col-form-label text-md-center">{{ trans('admin.slider.columns.scheme') }}</label>
                         <div>
                             <input type="radio" v-model="form.type" value="comparison">
                             <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>
@@ -63,7 +63,7 @@
             <label for="columns" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.columns') }}</label>
                 <div :class="'col-md-12'">
                 <input type="text" v-model="form.columns"  @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('columns'), 'form-control-success': fields.columns && fields.columns.valid}" id="columns" name="columns" placeholder="{{ trans('admin.slider.columns.columns') }}">
-                <small>V kolkátich stĺpcoch sa má zobraziť, v prípade celého riadku uvedťe 12</small>
+                <small>{{ trans('admin.slider.columns.columns_desc') }}</small>
                 <div v-if="errors.has('columns')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('columns') }}</div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             <label for="sorting" class="col-form-label text-md-left col-md-12">{{ trans('admin.slider.columns.sorting') }}</label>
                 <div :class="'col-md-12'">
                 <input type="text" v-model="form.sorting"  @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('sorting'), 'form-control-success': fields.sorting && fields.sorting.valid}" id="sorting" name="sorting" placeholder="{{ trans('admin.slider.columns.sorting') }}">
-                <small>Poradie v akom sa majú slajdre zobrazovať. Ak chcete aby sa zobrazil slajder ako prvý, uvedťe číslo 1</small>
+                <small>{{ trans('admin.slider.columns.sorting_desc') }}</small>
                 <div v-if="errors.has('sorting')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('sorting') }}</div>
             </div>
         </div>

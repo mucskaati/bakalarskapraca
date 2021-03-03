@@ -1,10 +1,10 @@
 <div v-if="show_third_step">
 <div class="row mt-5">
     <div class="col-12 col-md-12 text-center mb-3">
-        <h5>4. KROK</h5>
+        <h5>{{ __('admin.experiment.steps.fourth') }}</h5>
     </div>
     <div class="col-12 text-center">
-        <h3>Experimenty na porovnanie (schémy)</h3>
+        <h3>{{ __('admin.comparison.columns.experiment_schemes') }}</h3>
     </div>
 </div>
 <div v-for="(input, index) in form.schemes" :key="index">

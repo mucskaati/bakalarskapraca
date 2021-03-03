@@ -1,6 +1,6 @@
 <div class="row mt-5">
     <div class="col-6 offset-1">
-        <h2>Ak je checkbox zakliknutý</h2>
+        <h2>{{ trans('admin.checkbox.columns.checkbox_checked') }}</h2>
     </div>
 </div>
 <div v-for="(input, index) in form.dependent_sliders" :key="index">

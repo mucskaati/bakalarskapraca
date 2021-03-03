@@ -1,14 +1,14 @@
 <div v-if="show_third_step">
 <div class="row d-flex justify-content-center mt-5">
     <div class="col-12 col-md-12 text-center">
-        <h5>5. KROK</h5>
+        <h5>{{ __('admin.experiment.steps.fifth') }}</h5>
     </div>
 </div>
 <div v-for="(input, index) in form.graphs" :key="index" v-if="form.graphs.length > 0">
 <div class="row d-flex align-items-center justify-content-center mt-5">
     <div class="col-md-12 text-center">
         <h3>
-            Graf @{{ index+1 }}
+            {{ __('admin.experiment.columns.graph') }} @{{ index+1 }}
         </h3>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
@@ -26,15 +26,15 @@
         </div>
         <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align'), 'has-success': fields.align && fields.align.valid }">
             <input :id="'left'+ index" type="radio" value="left" class="mr-2" v-model="form.graphs[index].align"> 
-            <label :for="'left'+ index">Doľava</label>
+            <label :for="'left'+ index">{{ __('admin.experiment.columns.left') }}</label>
         </div>
         <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align'), 'has-success': fields.align && fields.align.valid }">
             <input :id="'center'+ index" type="radio" value="center" class="mr-2" v-model="form.graphs[index].align"> 
-            <label :for="'center'+ index">Na stred</label>
+            <label :for="'center'+ index">{{ __('admin.experiment.columns.center') }}</label>
         </div>
         <div class="form-group row align-items-center justify-content-center" :class="{'has-danger': errors.has('align'), 'has-success': fields.align && fields.align.valid }">
             <input :id="'right'+ index" type="radio" value="right" class="mr-2" v-model="form.graphs[index].align"> 
-            <label :for="'right'+ index">Doprava</label>
+            <label :for="'right'+ index">{{ __('admin.experiment.columns.right') }}</label>
         </div>
     </div>
     <div class="col-6 col-md-2 justify-content-end">
@@ -69,7 +69,7 @@
     <hr>
     <div class="row align-items-center">
         <div class="col-12 col-md-12 text-center">
-            <h6>Stopa @{{ traceIndex+1 }}</h6>
+            <h6>{{ __('admin.experiment.columns.trace') }} @{{ traceIndex+1 }}</h6>
         </div>
         <div class="col-12 col-md-2">
             <div class="form-group row align-items-center" :class="{'has-danger': errors.has('traces_title'+traceIndex + index), 'has-success': fields.traces_title+traceIndex+index && (fields.traces_title+traceIndex+index).valid }">
@@ -100,13 +100,13 @@
         </div>
         <div class="col-md-2">
             <div class="text-center">
-                <button type="submit" class="btn btn-danger" @click.prevent="deleteTraceFromGraph(index, traceIndex)">Zmazať stopu</button>
+                <button type="submit" class="btn btn-danger" @click.prevent="deleteTraceFromGraph(index, traceIndex)">{{ __('admin.experiment.columns.delete_trace') }}</button>
             </div>
         </div>
     </div>
 </div>
 <div class="col-md-12 text-center">
-    <button type="submit" class="btn btn-success" @click.prevent="addTraceToGraph(index)">Pridať stopu</button>
+    <button type="submit" class="btn btn-success" @click.prevent="addTraceToGraph(index)">{{ __('admin.experiment.columns.add_trace') }}</button>
 </div>
 </div>
 
@@ -123,17 +123,17 @@
         </div>
     </div>
 </div>
-{{-- <div class="row">
+<div class="row">
     <div class="col-12 col-md-12">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('custom_js'), 'has-success': fields.custom_js && fields.custom_js.valid }">
             <label for="custom_js" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.custom_js') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
                 <div>
-                    <wysiwyg v-model="form.custom_js" v-validate="" id="custom_js" name="custom_js" :config="mediaWysiwygConfig"></wysiwyg>
+                    <prism-editor class="my-editor" v-model="form.custom_js" :highlight="highlighter" line-numbers></prism-editor>
                 </div>
                 <div v-if="errors.has('custom_js')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('custom_js') }}</div>
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 </div>

@@ -12992,11 +12992,13 @@ a.ui-button:active,
 
 .simulation h2 {
   font-size: 1.3rem;
+  margin-bottom: 25px;
 }
 
 #div_check_comparisons {
   position: relative;
   top: 15px;
+  margin-bottom: 30px;
 }
 
 #comparison_params {
@@ -13037,5 +13039,9 @@ a.ui-button:active,
   background: #58d68d;
   border-radius: 20px;
   box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
+}
+
+fieldset.schemes {
+  margin-bottom: 30px;
 }
 

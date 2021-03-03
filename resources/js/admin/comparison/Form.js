@@ -224,7 +224,20 @@ Vue.component("comparison-form", {
 {{-- --------------------------------  Koneic grafu --------------------------------------------------------- --}}
       </div>`,
                 graphs: [],
-                schemes: []
+                schemes: [],
+                custom_js: `
+                // Defined functions ready to use:
+                // round(value, decimals)
+                // KpGain(Km,T1m,Tdm)
+                // KPGain(alfa,Tc)
+                // KDGain(alfa,Tc)
+                // beta1Gain(alfa,Tf,Tdm)
+                // beta2Gain(alfa,Tf,Tdm)
+                // alfaGain(T1m,Tdm)
+                <script>
+                // Your definitions of functions
+                </script>
+                `
             },
             responses: [],
             show_third_step: false,

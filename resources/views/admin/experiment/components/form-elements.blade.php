@@ -1,7 +1,7 @@
 @include('admin.experiment.components.step1')
 <div class="row">
     <div class="col-12 col-md-12 text-center">
-        <h5>2. KROK</h5>
+        <h5>{{ __('admin.experiment.steps.second') }}</h5>
     </div>
 </div>
 <div class="row mb-5">
@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="col-12 col-md-12 text-center d-flex justify-content-center" v-if="form.layout && form.ajax_url">
-        <button type="submit" @click.prevent="getResponsesFromServer" class="btn btn-primary d-flex text-uppercase">Prejsť na 3. krok</button>
+        <button type="submit" @click.prevent="getResponsesFromServer" class="btn btn-primary d-flex text-uppercase">{{ __('admin.experiment.steps.go_to_third') }}</button>
     </div>
 </div>
 @include('admin.experiment.components.step3')

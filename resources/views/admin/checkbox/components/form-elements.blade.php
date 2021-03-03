@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('type'), 'has-success': fields.type && fields.type.valid }">
-            <label for="type" class="col-12 col-form-label text-md-left">{{ trans('admin.slider.columns.type') }}</label>
+            <label for="type" class="col-12 col-form-label text-md-left">{{ trans('admin.checkbox.columns.type') }}</label>
                 <div class="col-md-6 text-center">
-                <label for="type" class="col-form-label text-md-center">Experiment FO</label>
+                <label for="type" class="col-form-label text-md-center">{{ trans('admin.checkbox.columns.experiment_fo') }}</label>
                     <div>
                         <input type="radio" v-model="form.type" value="fo">
                         <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <label for="type" class="col-form-label text-md-center">Schéma (provnávací experiment)</label>
+                    <label for="type" class="col-form-label text-md-center">{{ trans('admin.checkbox.columns.scheme') }}</label>
                         <div>
                             <input type="radio" v-model="form.type" value="comparison">
                             <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>

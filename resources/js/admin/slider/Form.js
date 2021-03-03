@@ -18,6 +18,9 @@ Vue.component("slider-form", {
                 visible: true,
                 dependencies: [],
                 type: null
+            },
+            filters: {
+                experiments: []
             }
         };
     },

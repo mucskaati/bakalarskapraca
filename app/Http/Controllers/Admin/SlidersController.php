@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Slider\IndexSlider;
 use App\Http\Requests\Admin\Slider\StoreSlider;
 use App\Http\Requests\Admin\Slider\UpdateSlider;
 use App\Models\ComparisonExperiment;
+use App\Models\Experiment;
 use App\Models\Layout;
 use App\Models\Slider;
 use Brackets\AdminListing\Facades\AdminListing;
@@ -42,7 +43,18 @@ class SlidersController extends Controller
             ['default', 'id', 'layout_id', 'comparison_experiment_id', 'max', 'min', 'step', 'title', 'sorting'],
 
             // set columns to searchIn
-            ['default_function', 'id', 'title']
+            ['default_function', 'id', 'title'],
+
+            function ($query) use ($request) {
+                if ($request->has('layouts')) {
+                    $query->whereIn('layout_id', $request->get('layouts'));
+                }
+
+                if ($request->has('schemes')) {
+
+                    $query->whereIn('comparison_experiment_id', $request->get('schemes'));
+                }
+            }
         );
 
         if ($request->ajax()) {
@@ -54,7 +66,10 @@ class SlidersController extends Controller
             return ['data' => $data];
         }
 
-        return view('admin.slider.index', ['data' => $data]);
+        $layouts = Layout::all();
+        $comaprisons =  ComparisonExperiment::all();
+
+        return view('admin.slider.index', ['data' => $data, 'layouts' => $layouts, 'comparisons' => $comaprisons]);
     }
 
     /**
@@ -74,7 +89,7 @@ class SlidersController extends Controller
         return view('admin.slider.create', [
             'layouts' => $layouts,
             'sliders' => $sliders,
-            'comparisonExperiments' => $comparisonExperiments
+            'comparisonExperiments' => $comparisonExperiments,
         ]);
     }
 

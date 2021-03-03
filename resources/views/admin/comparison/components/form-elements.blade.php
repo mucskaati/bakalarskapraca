@@ -1,7 +1,7 @@
 @include('admin.comparison.components.step1')
 <div class="row">
     <div class="col-12 col-md-12 text-center">
-        <h5>3. KROK</h5>
+        <h5>{{ __('admin.experiment.steps.third') }}</h5>
     </div>
 </div>
 <div class="row mb-5">
@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="col-12 col-md-12 text-center d-flex justify-content-center" v-if="form.layout && form.ajax_url">
-        <button type="submit" @click.prevent="getResponsesFromServer" class="btn btn-primary d-flex text-uppercase">Prejsť na 4. krok</button>
+        <button type="submit" @click.prevent="getResponsesFromServer" class="btn btn-primary d-flex text-uppercase">{{ __('admin.experiment.steps.go_to_fourth') }}</button>
     </div>
 </div>
 @include('admin.comparison.components.schemes')

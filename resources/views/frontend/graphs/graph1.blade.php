@@ -87,4 +87,7 @@
 
 @section('js')
     @include('frontend.graphs.jsPartials.graph1')
+    @if($experiment->custom_js)
+    {!! $experiment->custom_js !!}
+    @endif
 @endsection

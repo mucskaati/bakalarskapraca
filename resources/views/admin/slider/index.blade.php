@@ -19,14 +19,34 @@
                     <div class="card-body" v-cloak>
                         <div class="card-block">
                             <form @submit.prevent="">
-                                <div class="row justify-content-md-between">
-                                    <div class="col col-lg-7 col-xl-5 form-group">
+                                <div class="row justify-content-md-baseline align-items-end">
+                                    <div class="col col-lg-7 col-xl-4 form-group">
                                         <div class="input-group">
                                             <input class="form-control" placeholder="{{ trans('brackets/admin-ui::admin.placeholder.search') }}" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
                                             <span class="input-group-append">
                                                 <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; {{ trans('brackets/admin-ui::admin.btn.search') }}</button>
                                             </span>
                                         </div>
+                                    </div>
+                                    <div class="col col-12 col-xl-4 form-group">
+                                        <label>{{ trans('admin.slider.filters.layout') }}</label>
+                                        <multiselect v-model="layoutMultiselect"
+                                             :options="{{ $layouts->toJson() }}"
+                                             label="name"
+                                             track-by="id"
+                                             placeholder="{{ trans('admin.slider.filters.layout') }}"
+                                             :multiple="true">
+                                        </multiselect>
+                                    </div>
+                                    <div class="col col-12 col-xl-4 form-group">
+                                        <label>{{ trans('admin.slider.filters.comparison') }}</label>
+                                        <multiselect v-model="comparisonMultiselect"
+                                             :options="{{ $comparisons->toJson() }}"
+                                             label="title"
+                                             track-by="id"
+                                             placeholder="{{ trans('admin.slider.filters.comparison') }}"
+                                             :multiple="true">
+                                        </multiselect>
                                     </div>
                                     <div class="col-sm-auto form-group ">
                                         <select class="form-control" v-model="pagination.state.per_page">
@@ -85,7 +105,7 @@
                                         <td>@{{ item.layoutTitle }}</td>
                                         <td>@{{ item.min }}</td>
                                         <td>@{{ item.max }}</td>
-                                        <td>@{{ (item.default) ? item.default : 'funkcia' }}</td>
+                                        <td>@{{ (item.default) ? item.default : 'function' }}</td>
                                         <td>@{{ item.step }}</td>
                                         <td>@{{ item.sorting }}</td>
                                         

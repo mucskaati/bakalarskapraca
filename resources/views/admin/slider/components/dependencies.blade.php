@@ -1,7 +1,7 @@
 <div v-if="form.type !== null">
 <div class="row mt-5">
     <div class="col-6 offset-1">
-        <h2>Závislosti slajdrov na tomto slajdri</h2>
+        <h2>{{ trans('admin.slider.columns.dependencies') }}</h2>
     </div>
 </div>
 <div v-for="(input, index) in form.dependencies" :key="index">

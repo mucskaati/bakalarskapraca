@@ -203,4 +203,7 @@
 
 @section('js')
     @include('frontend.graphs.jsPartials.comparison')
+    @if($experiment->custom_js)
+    {!! $experiment->custom_js !!}
+    @endif
 @endsection

@@ -245,12 +245,14 @@ a.ui-button:active,
 
     h2 {
         font-size: 1.3rem;
+        margin-bottom: 25px;
     }
 }
 
 #div_check_comparisons {
     position: relative;
     top: 15px;
+    margin-bottom: 30px;
 }
 
 #comparison_params {
@@ -294,4 +296,10 @@ a.ui-button:active,
     -webkit-box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 32px -17px rgba(0, 0, 0, 0.75);
+}
+
+fieldset {
+    &.schemes {
+        margin-bottom: 30px;
+    }
 }

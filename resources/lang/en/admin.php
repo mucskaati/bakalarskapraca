@@ -174,6 +174,7 @@ return [
             'fourth' => '4. STEP',
             'fifth' => '5. STEP',
             'go_to_third' => 'GO TO 3. STEP',
+            'go_to_fourth' => 'GO TO 4. STEP',
             'go_to_fifth' => 'GO TO 5. STEP'
         ],
         'experiments' => 'Experiments',

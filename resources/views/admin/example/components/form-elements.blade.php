@@ -16,7 +16,7 @@
 
 <div class="row mt-5">
     <div class="col-6 offset-1">
-        <h4>Nastaviť slajdre v príklade</h4>
+        <h4>{{ __('admin.example.columns.set_slider_in_example') }}</h4>
     </div>
 </div>
 <div v-for="(input, index) in form.sliders" :key="index">
@@ -60,7 +60,7 @@
 
 <div class="row mt-5">
     <div class="col-6 offset-1">
-        <h4>Nastaviť checkbox v príklade</h4>
+        <h4>{{ __('admin.example.columns.set_checkbox_in_example') }}</h4>
     </div>
 </div>
 <div v-for="(input, index) in form.checkboxes" :key="index + 'A'">
@@ -106,7 +106,7 @@
 
 <div class="row mt-5">
     <div class="col-6 offset-1">
-        <h4>Nastaviť viditeľnosť schémy v príklade</h4>
+        <h4>{{ __('admin.example.columns.set_scheme_visibility_in_example') }}</h4>
     </div>
 </div>
 <div v-for="(input, index) in form.schemes" :key="index + 'b'">

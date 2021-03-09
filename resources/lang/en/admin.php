@@ -253,7 +253,7 @@ return [
 
         'actions' => [
             'index' => 'Examples',
-            'create' => 'New experiment',
+            'create' => 'New example',
             'edit' => 'Edit :name',
         ],
 
@@ -269,7 +269,10 @@ return [
             'value' => 'Set value to',
             'schemes' => 'Scheme',
             'add_scheme' => 'Add schema visibility settings',
-            'checked' => 'Check in the example'
+            'checked' => 'Check in the example',
+            'set_slider_in_example' => 'Set sliders in example',
+            'set_checkbox_in_example' => 'Set checkboxes in example',
+            'set_scheme_visibility_in_example' => 'Set scheme visibility in example'
         ],
     ],
 

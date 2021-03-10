@@ -30,16 +30,17 @@ class StoreComparisonExperiment extends FormRequest
             'description' => ['required', 'string'],
             'prefix' => ['required', 'string'],
             'trace_color' => ['nullable', 'string'],
+            'shortcut' => ['required', 'string'],
             'legendgroup' => ['required', 'string'],
-            
+
         ];
     }
 
     /**
-    * Modify input data
-    *
-    * @return array
-    */
+     * Modify input data
+     *
+     * @return array
+     */
     public function getSanitized(): array
     {
         $sanitized = $this->validated();

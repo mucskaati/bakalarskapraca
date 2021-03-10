@@ -7,6 +7,13 @@
                 <div v-if="errors.has('title')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('title') }}</div>
             </div>
         </div>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('shortcut'), 'has-success': fields.shortcut && fields.shortcut.valid }">
+            <label for="shortcut" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.comparison-experiment.columns.shortcut') }}</label>
+                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-12'">
+                <input type="text" v-model="form.shortcut" v-validate="''" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('shortcut'), 'form-control-success': fields.shortcut && fields.shortcut.valid}" id="shortcut" name="shortcut" placeholder="{{ trans('admin.comparison-experiment.columns.shortcut') }}">
+                <div v-if="errors.has('shortcut')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('shortcut') }}</div>
+            </div>
+        </div>
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('prefix'), 'has-success': fields.prefix && fields.prefix.valid }">
             <label for="prefix" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.comparison-experiment.columns.prefix') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-12'">

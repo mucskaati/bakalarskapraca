@@ -9,7 +9,8 @@ Vue.component("comparison-experiment-form", {
                 description: "",
                 prefix: "",
                 trace_color: "",
-                legendgroup: ""
+                legendgroup: "",
+                shortcut: ""
             },
             mediaCollections: ["schema"]
         };

@@ -23,7 +23,7 @@ class ComparisonExperiment extends Model implements HasMedia
         'prefix',
         'trace_color',
         'legendgroup',
-
+        'shortcut'
     ];
 
 

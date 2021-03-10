@@ -31,10 +31,10 @@ return [
     ],
 
     'layout' => [
-        'title' => 'Layout of graphs',
+        'title' => 'Graph layouts',
 
         'actions' => [
-            'index' => 'Layout of graphs',
+            'index' => 'Graph layouts',
             'create' => 'New layout',
             'edit' => 'Edit layout - :name',
         ],
@@ -126,12 +126,12 @@ return [
     ],
 
     'experiment' => [
-        'title' => 'FO type experiments',
+        'title' => 'Single experiments',
 
         'actions' => [
-            'index' => 'FO type experiments',
-            'create' => 'New FO type experiment',
-            'edit' => 'Edit FO type experiment - :name',
+            'index' => 'Single experiments',
+            'create' => 'New single experiment',
+            'edit' => 'Edit single experiment - :name',
         ],
 
         'columns' => [
@@ -187,10 +187,10 @@ return [
     ],
 
     'comparison-experiment' => [
-        'title' => 'Schemes for comparisons',
+        'title' => 'Schemes (comparisons)',
 
         'actions' => [
-            'index' => 'Schemes for comparisons',
+            'index' => 'Schemes (comparisons)',
             'create' => 'New scheme',
             'edit' => 'Edit :name',
         ],
@@ -202,16 +202,17 @@ return [
             'prefix' => 'Server response prefix',
             'trace_color' => 'Trace color',
             'legendgroup' => 'Legendgroup',
-            'schema' => 'Image of scheme'
+            'schema' => 'Image of scheme',
+            'shortcut' => 'Shortcut'
         ],
     ],
 
     'comparison' => [
-        'title' => 'Comparison type experiments',
+        'title' => 'Comparisons',
 
         'actions' => [
-            'index' => 'Comparison type experiments',
-            'create' => 'New comparison type experiment',
+            'index' => 'Comparisons',
+            'create' => 'New comparison',
             'edit' => 'Edit :name',
         ],
 
@@ -249,7 +250,7 @@ return [
     ],
 
     'example' => [
-        'title' => 'Examples in comparisons',
+        'title' => 'Demos (comaprisons)',
 
         'actions' => [
             'index' => 'Examples',
@@ -259,7 +260,7 @@ return [
 
         'columns' => [
             'id' => 'ID',
-            'experiment_id' => 'Comparison type experiment',
+            'experiment_id' => 'Single experiment',
             'title' => 'Title of example',
             'sliders' => 'Set the slider',
             'checkboxes' => 'Checkbox',

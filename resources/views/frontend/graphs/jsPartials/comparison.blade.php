@@ -45,7 +45,7 @@
       //var varsOrder = ["y", "u", "dor", "vf"];
       var schemesPlotNames = {
         @foreach($experiment->schemes as $scheme)
-        {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}', 'legendgroup': '{{ $scheme->legendgroup }}' },
+        {{ $scheme->prefix }}: {'name': '{{ $scheme->title }}', 'shortcut': '{{ $scheme->shortcut }}' ,'prefix' : '{{ $scheme->prefix }}', 'color': '{{ $scheme->trace_color }}', 'legendgroup': '{{ $scheme->legendgroup }}' },
         @endforeach
       }
 
@@ -301,7 +301,7 @@
                   },
                   legendgroup: schemesPlotNames[valuet]['legendgroup'] + k + counter,
                   showlegend: false,
-                  name: schemesPlotNames[valuet]['name']+ " - Comparison " + (counter+1)
+                  name: schemesPlotNames[valuet]['shortcut'] + " - Comp. " + (counter+1)
                 };
                   plotarray.push(traceData[i]);
                   if (i % vars.length == 1)  {traceData[i].showlegend = "true";}

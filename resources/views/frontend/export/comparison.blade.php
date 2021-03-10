@@ -16,7 +16,7 @@
     <tr>
         @foreach($experiment->schemes()->whereIn('prefix', $schemes)->get() as $scheme)
         <th>
-            <h1>{{ $scheme->title }}</h1>
+            <h1>{{ $scheme->title }} ({{ $scheme->shortcut }})</h1>
         </th>
         @endforeach
     </tr>

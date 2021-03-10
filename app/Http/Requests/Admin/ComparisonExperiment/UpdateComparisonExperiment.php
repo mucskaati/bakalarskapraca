@@ -30,8 +30,9 @@ class UpdateComparisonExperiment extends FormRequest
             'description' => ['sometimes', 'string'],
             'prefix' => ['sometimes', 'string'],
             'trace_color' => ['nullable', 'string'],
+            'shortcut' => ['required', 'string'],
             'legendgroup' => ['sometimes', 'string'],
-            
+
         ];
     }
 

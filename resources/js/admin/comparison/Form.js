@@ -81,7 +81,7 @@ Vue.component("comparison-form", {
                   <fieldset class="schemes">
                   <div class="tile" id="check_{{ $scheme->prefix }}">
                       <span>
-                            <label for="choice_{{ $scheme->prefix }}" id="choice_label_{{ $scheme->prefix }}" class="checkbox-choice-label">{{ $scheme->title }}</label>
+                            <label for="choice_{{ $scheme->prefix }}" id="choice_label_{{ $scheme->prefix }}" class="checkbox-choice-label">{{ $scheme->title }} ({{ $scheme->shortcut }})</label>
                             <input type="checkbox" name="choice_{{ $scheme->prefix }}" value="1" id="choice_{{ $scheme->prefix }}">
                       </span>
                       <div class="img_holder">

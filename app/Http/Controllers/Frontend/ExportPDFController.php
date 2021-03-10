@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Experiment;
+use App\Services\ExtendedMpdf;
 use Carbon\Carbon;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use DOMDocument;
@@ -28,7 +29,7 @@ class ExportPDFController
         $imgs = $doc->getElementsByTagName('img');
         $img = collect($imgs)->first();
 
-        $mpdf = new Mpdf();
+        $mpdf = new ExtendedMpdf();
         $mpdf->showImageErrors = false;
 
         $mpdf->WriteHTML(view('frontend.export.fo', compact('experiment', 'params', 'imgResult', 'date', 'img')));
@@ -47,7 +48,7 @@ class ExportPDFController
         $schemes = $request->schemes;
         $date = Carbon::now();
 
-        $mpdf = new Mpdf();
+        $mpdf = new ExtendedMpdf();
         $mpdf->showImageErrors = false;
         $rowHeight = 5;
         $offset = 15;

@@ -12,6 +12,7 @@
         </td>
     </tr>
 </table>
+@if($img)
 <table width="100%" style="" border="0">
     <tr>
         <td width="100%">
@@ -21,6 +22,7 @@
     <tr>
     </tr>
 </table>
+@endif
 <table style="" border="0">
     <tr>
         <td>

@@ -31,7 +31,7 @@ class Experiment extends Model
         'export' => 'boolean'
     ];
 
-    protected $appends = ['resource_url', 'layoutName', 'detail_url', 'comparison_url', 'comparison_detail_url'];
+    protected $appends = ['resource_url', 'layoutName', 'detail_url', 'comparison_url', 'comparison_detail_url', 'nyquist_url', 'nyquist_detail_url'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -43,6 +43,11 @@ class Experiment extends Model
     public function getComparisonUrlAttribute()
     {
         return url('/admin/comparisons/' . $this->getKey());
+    }
+
+    public function getNyquistUrlAttribute()
+    {
+        return url('/admin/nyquist-experiments/' . $this->getKey());
     }
 
     public function getTypeAttribute($value)
@@ -62,6 +67,14 @@ class Experiment extends Model
     {
         if ($this->getKey()) {
             return route('comparison', ['id' => $this->getKey(), 'slug' => $this->slug]);
+        }
+        return;
+    }
+
+    public function getNyquistDetailUrlAttribute()
+    {
+        if ($this->getKey()) {
+            return route('graph_nyquist', ['id' => $this->getKey(), 'slug' => $this->slug]);
         }
         return;
     }
@@ -90,5 +103,10 @@ class Experiment extends Model
     public function examples()
     {
         return $this->hasMany(Example::class);
+    }
+
+    public function paths()
+    {
+        return $this->hasMany(Path::class);
     }
 }

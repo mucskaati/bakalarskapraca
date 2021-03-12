@@ -116,7 +116,7 @@
                 setTimeout(() => { runAjaxCall() }, 100);
             });
             @endif
-            @endforeach
+        @endforeach
       @endforeach
       //-------------------------------------------Slider connected to experiment layout -----------------------------------
       @foreach($experiment->layout->sliders->where('default_function', null) as $slider)

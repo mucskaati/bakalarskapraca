@@ -9,6 +9,7 @@ trait GraphableTraceableTrait
 {
     protected function createGraphsAndTraces($data, $model)
     {
+        $colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
         $model->graphs()->delete();
 
         foreach ($data['graphs'] as $graph) {
@@ -21,11 +22,11 @@ trait GraphableTraceableTrait
                 'yaxis' => $graph['yaxis'],
             ]);
 
-            foreach ($graph['traces'] as $trace) {
+            foreach ($graph['traces'] as $key => $trace) {
                 $trace = Trace::create([
                     'title' => $trace['title'],
                     'graph_id' => $graphCreate->id,
-                    'color' => $trace['color'],
+                    'color' => ($trace['color']) ?: $colors[$key],
                     'legendgroup' => $trace['legendgroup'],
                     'show_legend' => $trace['show_legend'],
                     'xaxis' => $trace['xaxis']['id'],

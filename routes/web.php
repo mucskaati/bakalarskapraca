@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('/fo/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
+Route::get('/nyquist/{id}/{slug}', 'Frontend\GraphController@graphNyquist')->name('graph_nyquist');
 Route::get('/comparison/{id}/{slug}', 'Frontend\GraphController@comparison')->name('comparison');
 
 //Export PDF
@@ -105,6 +106,21 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/bulk-destroy',                                'ExperimentsController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{experiment}',                                'ExperimentsController@update')->name('update');
             Route::delete('/{experiment}',                              'ExperimentsController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function () {
+        Route::prefix('nyquist-experiments')->name('nyquist.experiments/')->group(static function () {
+            Route::get('/',                                             'NyquistExperimentsController@index')->name('index');
+            Route::get('/create',                                       'NyquistExperimentsController@create')->name('create');
+            Route::post('/',                                            'NyquistExperimentsController@store')->name('store');
+            Route::get('/{experiment}/edit',                            'NyquistExperimentsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'NyquistExperimentsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{experiment}',                                'NyquistExperimentsController@update')->name('update');
+            Route::delete('/{experiment}',                              'NyquistExperimentsController@destroy')->name('destroy');
         });
     });
 });

@@ -105,7 +105,7 @@
                                         <td>@{{ item.layoutTitle }}</td>
                                         <td>@{{ item.min }}</td>
                                         <td>@{{ item.max }}</td>
-                                        <td>@{{ (item.default) ? item.default : 'function' }}</td>
+                                        <td>@{{ (item.default != null) ? item.default : 'function' }}</td>
                                         <td>@{{ item.step }}</td>
                                         <td>@{{ item.sorting }}</td>
                                         

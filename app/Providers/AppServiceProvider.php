@@ -26,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layouts.app', function ($view) {
-            $view->with('fos', Experiment::where('type', 'fo')->orWhere('type', null)->get())->withComparisons(Experiment::where('type', 'comparison')->get());
+            $view
+                ->with('fos', Experiment::where('type', 'fo')->orWhere('type', null)->get())
+                ->withComparisons(Experiment::where('type', 'comparison')->get())
+                ->withNyquist(Experiment::where('type', 'nyquist')->get());
         });
     }
 }

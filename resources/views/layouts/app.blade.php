@@ -41,6 +41,14 @@
           </div>
         </li>
         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Nyquist Controllers</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            @foreach ($nyquist as $nyq)
+            <a class="dropdown-item" href="{{ route('graph_nyquist', ['id' => $nyq->id, 'slug' => $nyq->slug]) }}">{{ $nyq->title }}</a>
+            @endforeach
+          </div>
+        </li>
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comparisons</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @foreach ($comparisons as $comparison)

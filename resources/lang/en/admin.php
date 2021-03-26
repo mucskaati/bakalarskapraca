@@ -126,7 +126,7 @@ return [
     ],
 
     'experiment' => [
-        'title' => 'Single experiments',
+        'title' => 'Single exp.',
 
         'actions' => [
             'index' => 'Single experiments',
@@ -187,7 +187,7 @@ return [
     ],
 
     'comparison-experiment' => [
-        'title' => 'Schemes (comparisons)',
+        'title' => 'Schemes (comp.)',
 
         'actions' => [
             'index' => 'Schemes (comparisons)',
@@ -208,11 +208,11 @@ return [
     ],
 
     'comparison' => [
-        'title' => 'Comparisons',
+        'title' => 'Comparison exp.',
 
         'actions' => [
-            'index' => 'Comparisons',
-            'create' => 'New comparison',
+            'index' => 'Comparison exp.',
+            'create' => 'New comparison experiment',
             'edit' => 'Edit :name',
         ],
 
@@ -250,7 +250,7 @@ return [
     ],
 
     'example' => [
-        'title' => 'Demos (comaprisons)',
+        'title' => 'Demos (comp.)',
 
         'actions' => [
             'index' => 'Examples',
@@ -260,7 +260,7 @@ return [
 
         'columns' => [
             'id' => 'ID',
-            'experiment_id' => 'Single experiment',
+            'experiment_id' => 'Comparison experiment',
             'title' => 'Example title',
             'sliders' => 'Set the slider',
             'checkboxes' => 'Checkbox',
@@ -278,11 +278,11 @@ return [
     ],
 
     'nyquist_experiment' => [
-        'title' => 'Nyquist experiments',
+        'title' => 'Path based exp.',
 
         'actions' => [
-            'index' => 'Nyquist experiments',
-            'create' => 'New nyquist experiment',
+            'index' => 'Path based experiments',
+            'create' => 'New path based experiment',
             'edit' => 'Edit :name',
         ],
 

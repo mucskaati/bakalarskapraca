@@ -153,12 +153,12 @@ Vue.component("experiment-form", {
 </footer>`,
                 graphs: [],
                 custom_js: `
+<script>
 // Defined functions ready to use:
 // round(value, decimals)
 // KPGain(Km,am,Tc)
 // KcGain(Km,am,Tc)
 // bGain(am,Tf)
-<script>
 // Your definitions of functions
 </script>
                 `

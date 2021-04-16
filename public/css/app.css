@@ -12689,7 +12689,7 @@ html .ui-button.ui-state-disabled:active {
 label {
   display: block !important;
   float: left !important;
-  width: 100px;
+  width: auto;
   text-align: left !important;
   padding-right: 10px !important;
   margin-top: -1.8em !important;

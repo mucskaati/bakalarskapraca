@@ -20,7 +20,7 @@
             <label for="value_function" class="col-form-label text-md-left col-md-12">{{ trans('admin.checkbox.columns.value_function') }}</label>
             <div :class="'col-md-12'">
                 <div>
-                    <textarea class="form-control" v-model="form.dependent_sliders[index].pivot.value_function" v-validate="''" id="value_function" name="value_function"></textarea>
+                    <textarea class="form-control" v-model="form.dependent_sliders[index].pivot.value_function" v-validate="'required'" id="value_function" name="value_function"></textarea>
                 </div>
                 <div v-if="errors.has('value_function')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('value_function') }}</div>
             </div>

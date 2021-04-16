@@ -270,6 +270,7 @@ Vue.component("comparison-form", {
                 graphs: [],
                 schemes: [],
                 custom_js: `
+                <script>
                 // Defined functions ready to use:
                 // round(value, decimals)
                 // KpGain(Km,T1m,Tdm)
@@ -278,7 +279,6 @@ Vue.component("comparison-form", {
                 // beta1Gain(alfa,Tf,Tdm)
                 // beta2Gain(alfa,Tf,Tdm)
                 // alfaGain(T1m,Tdm)
-                <script>
                 // Your definitions of functions
                 </script>
                 `

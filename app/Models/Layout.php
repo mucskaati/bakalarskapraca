@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Layout extends Model
 {
+
+    const TYPES = [
+        'fo' => 'Single',
+        'porovnanie' => 'Comparison',
+        'nyquist' => 'Path based'
+    ];
     protected $fillable = [
         'columns',
         'height',
@@ -26,7 +32,7 @@ class Layout extends Model
 
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url', 'layoutType'];
 
     /* ************************ ACCESSOR ************************* */
 
@@ -48,6 +54,11 @@ class Layout extends Model
     public function getMarginAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getLayoutTypeAttribute()
+    {
+        return self::TYPES[$this->type];
     }
 
     /* ************************ RELATIONSHIPS ************************* */

@@ -50,8 +50,9 @@ return [
             'width' => 'Width',
             'xaxis' => 'Xaxis',
             'yaxis' => 'Yaxis',
-            'type_fo' => 'Single experiment',
+            'type_fo' => 'Single',
             'type_comparison' => 'Comparison',
+            'type_path' => 'Path based',
 
         ],
     ],

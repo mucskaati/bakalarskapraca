@@ -79,7 +79,7 @@
                                         </td>
 
                                         <td>@{{ item.id }}</td>
-                                        <td>@{{ item.type }}</td>
+                                        <td>@{{ item.layoutType }}</td>
                                         <td>@{{ item.name }}</td>
                                         <td>@{{ item.columns }}</td>
                                         <td>@{{ item.rows }}</td>

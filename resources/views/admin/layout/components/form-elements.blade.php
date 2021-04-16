@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 text-center">
-                    <label for="type" class="col-form-label text-md-center">Nyquist</label>
+                    <label for="type" class="col-form-label text-md-center">{{ __('admin.layout.columns.type_path') }}</label>
                         <div>
                             <input type="radio" v-model="form.type" value="nyquist">
                             <div v-if="errors.has('type')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('type') }}</div>

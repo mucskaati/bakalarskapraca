@@ -12636,6 +12636,7 @@ html .ui-button.ui-state-disabled:active {
   font-weight: normal;
   color: white;
   border-radius: 20px;
+  font-size: 13px;
 }
 
 .ui-widget.ui-widget-content {
@@ -12708,6 +12709,7 @@ label {
   text-align: left !important;
   padding-right: 10px !important;
   margin-top: -1.8em !important;
+  font-size: 12px;
 }
 
 .labelrow {

@@ -145,7 +145,7 @@ html .ui-button.ui-state-disabled:active {
     font-weight: normal /*{fwDefault}*/;
     color: white /*{fcDefault}*/;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .ui-widget.ui-widget-content {
@@ -163,5 +163,10 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .slider-roller {
-    padding-right: 45px;
+    padding-right: 30px;
+}
+
+.border {
+    border: 1px solid #dee2e6 !important;
+    border-right: 0px !important;
 }

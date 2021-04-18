@@ -6,6 +6,10 @@ header {
     height: 90vh;
 }
 
+p {
+    width: 100% !important;
+}
+
 .navbar-brand {
     display: inline-block;
     padding-top: 0.3125rem;
@@ -115,6 +119,11 @@ header {
 
 .small-header {
     height: 20vh;
+
+    @include media-breakpoint-down(lg) {
+        height: auto;
+        padding-bottom: 40px;
+    }
 }
 
 footer {
@@ -150,4 +159,8 @@ html .ui-button.ui-state-disabled:active {
     background: #f4f4f4;
     border-color: #f4f4f4;
     color: #000;
+}
+
+.slider-roller {
+    padding-right: 45px;
 }

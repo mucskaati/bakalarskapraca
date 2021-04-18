@@ -40,6 +40,7 @@ class ComparisonExperiment extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('schema')
+            ->accepts('image/*')
             ->singleFile();
     }
 
@@ -47,7 +48,6 @@ class ComparisonExperiment extends Model implements HasMedia
     {
 
         $this->autoRegisterThumb200();
-
         $this->addMediaConversion('thumbnail')
             ->width(300)
             ->performOnCollections('schema');

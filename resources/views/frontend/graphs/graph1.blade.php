@@ -32,11 +32,11 @@
 {{--  --------------------------------  Koniec buttonov --------------------------------------------------------- --}}
     <div class="row"> 
 {{-- ------------------------ Slajdre a checkboxy ----------------------------------------------- --}}
-            <div class="col-xs-12 col-sm-4 col-lg-4"> 
+            <div class="col-xs-12 col-sm-4 col-lg-4 p-5"> 
             <fieldset> 
               <div class="row">       
                 @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
-                <div class="col-12 col-md-{{ $slider->columns }} mb-4">
+                <div class="col-12 col-md-{{ $slider->columns }} mb-4 slider-roller">
                   <div id="div_{{ $slider->title }}" class="vstup">
                     <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                     <div class="sliders_show">
@@ -59,7 +59,7 @@
                 <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
               </div>
               @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-              <div class="col-12 col-md-6 mb-5">
+              <div class="col-12 col-md-{{ $slider->columns }} mb-5 slider-roller">
                 <div id="div_{{ $slider->title }}" class="vstup">
                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                   <div class="sliders_show">

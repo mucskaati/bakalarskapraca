@@ -78,5 +78,16 @@ h6 {
     h1 {
         font-size: 1.8rem;
         font-weight: 700;
+
+        @include media-breakpoint-down(md) {
+            text-align: center;
+        }
+    }
+
+    .desc {
+        justify-content: initial;
+        @include media-breakpoint-down(md) {
+            justify-content: center;
+        }
     }
 }

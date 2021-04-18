@@ -74,7 +74,7 @@ return [
             'max' => 'Maximum',
             'min' => 'Minimum',
             'step' => 'Step',
-            'title' => 'Parameter title',
+            'title' => 'Parameter name',
             'depended_slider_id' => 'Set the slider value',
             'same_as_added_slider' => 'The same as the added slider',
             'value_function' => 'Or the function value written below',

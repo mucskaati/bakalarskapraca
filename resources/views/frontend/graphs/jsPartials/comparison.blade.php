@@ -229,7 +229,7 @@
       function runAjaxCall() {
       $.ajax({
         type: "GET",
-        url: "http://apps.iolab.sk:9000/symetry2",
+        url: "{{ $experiment->ajax_url }}",
         data: {
           what: '['+what.toString()+']',
           ...parv_json

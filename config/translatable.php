@@ -12,6 +12,5 @@ return [
     */
     'locales' => [
         'en',
-        'sk'
     ],
 ];

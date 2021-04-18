@@ -102,7 +102,7 @@ Vue.component("comparison-form", {
                 <div id='modal'></div>
                 {{-- --------------------------------  Priklady  --------------------------------------------------------- --}}
                     <div class="row mt-5">
-                      <div id="div_radio" class="col-xs-12 col-sm-9 col-lg-9">
+                      <div id="div_radio" class="col-xs-12 col-sm-9 col-lg-9 d-flex">
                         @foreach ($experiment->examples as $example)
                         <label for="radio_demo{{ $example->id }}" class="radiobox-label">{{ $example->title }}</label>
                         <input type="radio" name="radio_demos" id="radio_demo{{ $example->id }}">
@@ -140,7 +140,7 @@ Vue.component("comparison-form", {
                               <legend>General</legend>
                                 <div class="row">       
                                   @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
-                                  <div class="col-12 col-md-{{ $slider->columns }} mb-4">
+                                  <div class="col-12 col-md-{{ $slider->columns }} mb-4 slider-roller">
                                     <div id="div_{{ $slider->title }}" class="vstup">
                                       <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                                       <div class="sliders_show">
@@ -159,7 +159,7 @@ Vue.component("comparison-form", {
                               @if(!$experiment->layout->checkboxes->isEmpty())
                               <div class="row mt-5">
                               @foreach ($experiment->layout->checkboxes as $box)
-                                <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5">
+                                <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5 slider-roller">
                                   <label for="checkbox_{{ $box->attribute_name }}">{{ $box->title }}</label>
                                   <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
                                 </div>
@@ -187,7 +187,7 @@ Vue.component("comparison-form", {
                             <legend>{{ $comparison->title }}</legend>
                               <div class="row">       
                                 @foreach ($comparison->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
-                                <div class="col-12 col-md-{{ $slider->columns }} mb-4">
+                                <div class="col-12 col-md-{{ $slider->columns }} mb-4 slider-roller">
                                   <div id="div_{{ $slider->title }}" class="vstup">
                                     <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                                     <div class="sliders_show">
@@ -206,12 +206,12 @@ Vue.component("comparison-form", {
                             @if(!$comparison->checkboxes->isEmpty())
                             <div class="row mt-5">
                             @foreach ($comparison->checkboxes as $box)
-                              <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5">
+                              <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5 slider-roller">
                                 <label for="checkbox_{{ $box->attribute_name }}">{{ $box->title }}</label>
                                 <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
                               </div>
                               @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-                              <div class="col-12 col-md-6 mb-5">
+                              <div class="col-12 col-md-{{ $slider->columns }} mb-5 slider-roller">
                                 <div id="div_{{ $slider->title }}" class="vstup">
                                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                                   <div class="sliders_show">
@@ -232,12 +232,12 @@ Vue.component("comparison-form", {
                           @endforeach
                           <div class="row mt-5">
                             @foreach ($experiment->layout->checkboxes as $box)
-                              <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5">
+                              <div id="div_check_{{ $box->attribute_name }}" class="col-12 col-md-12 mb-5 slider-roller">
                                 <label for="checkbox_{{ $box->attribute_name }}">{{ $box->title }}</label>
                                 <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
                               </div>
                               @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-                              <div class="col-12 col-md-6 mb-5 div_checkbox_{{ $slider->comparisonExperiment->prefix }}">
+                              <div class="col-12 col-md-{{ $slider->columns }} mb-5 slider-roller div_checkbox_{{ $slider->comparisonExperiment->prefix }}">
                                 <div id="div_{{ $slider->title }}" class="vstup2">
                                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                                   <div class="sliders_show">

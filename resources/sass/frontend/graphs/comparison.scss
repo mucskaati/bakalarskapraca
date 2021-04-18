@@ -152,6 +152,12 @@ input[type="number"] {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+
+    @include media-breakpoint-down(lg) {
+        height: auto;
+        padding-bottom: 40px;
+        justify-content: center;
+    }
 }
 
 .tile {
@@ -233,6 +239,9 @@ a.ui-button:active,
     h1 {
         font-size: 1.8rem;
         font-weight: 700;
+        @include media-breakpoint-down(md) {
+            text-align: center;
+        }
     }
 }
 

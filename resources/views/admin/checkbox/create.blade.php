@@ -10,6 +10,7 @@
         
         <checkbox-form
             :action="'{{ url('admin/checkboxes') }}'"
+            :sliders="{{ $sliders->toJSON() }}"
             v-cloak
             inline-template>
 

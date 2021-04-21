@@ -19,20 +19,28 @@
 {{-- --------------------------------  Koniec titulku a popisu --------------------------------------------------------- --}}
 {{-- ---------------------------- Buttony Toggle a Run ----------------------------------------------- --}}    
     <div class="row simulation mt-5">
-      <div class="col-md-6">
-      <h2>Simulations</h2>
+      <div class="col-md-3">
+        <h2>Simulations</h2>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-md-4">
+        <div id="div_check_comparisons">
+          <label for="checkbox_comparisons">Show history</label>
+          <input type="checkbox" name="checkbox_comparisons" id="checkbox_comparisons">
+        </div>
+      </div>
+      <div class="col-md-5 text-right">
         <button id="switchButton" class="d-inline-block btn btn-primary">Toggle Sliders / Text Inputs</button>
         @if($experiment->run_button)
         <button id="runButton" class="d-inline-block btn btn-danger">Run</button>
         @endif
       </div>
     </div>
+    <div class="row comparisons mb-4">
+    </div>
 {{--  --------------------------------  Koniec buttonov --------------------------------------------------------- --}}
     <div class="row"> 
 {{-- ------------------------ Slajdre a checkboxy ----------------------------------------------- --}}
-            <div class="col-xs-12 col-sm-4 col-lg-4 p-5"> 
+            <div class="col-xs-12 col-sm-4 col-lg-4"> 
             <fieldset> 
               <div class="row">       
                 @foreach ($experiment->layout->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
@@ -88,7 +96,7 @@
 </div>
 </div>
 @include('frontend.partials.footer')
-    @endif
+@endif
 @endsection
 
 @section('js')

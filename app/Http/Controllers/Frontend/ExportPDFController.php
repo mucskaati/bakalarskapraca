@@ -17,6 +17,7 @@ class ExportPDFController
     {
         $params = $request->params;
         $imgResult = $request->imgResult;
+        $history = $request->history;
 
         $experiment = Experiment::findOrFail($request->experiment_id);
 
@@ -32,7 +33,7 @@ class ExportPDFController
         $mpdf = new ExtendedMpdf();
         $mpdf->showImageErrors = false;
 
-        $mpdf->WriteHTML(view('frontend.export.fo', compact('experiment', 'params', 'imgResult', 'date', 'img')));
+        $mpdf->WriteHTML(view('frontend.export.fo', compact('experiment', 'history', 'params', 'imgResult', 'date', 'img')));
         $content = $mpdf->Output("", "S");
         return chunk_split(base64_encode($content));
     }

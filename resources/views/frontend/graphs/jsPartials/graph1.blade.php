@@ -3,6 +3,11 @@
     $( function() {
       let changeCounter = 0;  
       let lastChangeInSlider = true;
+      var counter = 0;
+      let paramsHistory = [];
+      let paramsHistoryEnabled = false;
+      var colors = ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b','#e377c2','#7f7f7f','#bcbd22','#17becf'];
+
 //---------------------------------------------------Layout---------------------------------------------------------------
       var layout = {
               grid: {rows: {{ $experiment->layout->rows }}, columns: {{ $experiment->layout->columns }} },
@@ -52,6 +57,13 @@
       @endif
       @endforeach
 
+      //Nastavenie parametrov do objectu ktory sa bude posielat na server
+      var parv_json = {
+        @foreach($experiment->layout->sliders as $slider)
+        "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
+        @endforeach
+      };
+
       //Prvotny ajax call po loadnuti stranky
       runAjaxCall()
   
@@ -92,6 +104,7 @@
         @endforeach    
         },
         experiment_id: {{ $experiment->id }}, 
+        history: paramsHistory,
       "imgResult": image64,
     },{responseType:'arraybuffer'})
       .done(function (response) {
@@ -110,11 +123,7 @@
       $.ajax({
         type: "GET",
         url: "{{ $experiment->ajax_url }}",
-        data: {
-          @foreach($experiment->layout->sliders as $slider)
-          "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
-          @endforeach
-        },
+        data: parv_json,
         dataType: 'json',
         beforeSend: function() {
           $('#loader').show();
@@ -127,6 +136,11 @@
         success:function(data)   
         { 
           changeCounter = 0;
+
+          //Pridavanie do historie porovnania
+          addExperiment();
+          addExperimentToHTML(counter)
+
           @foreach($experiment->graphs as $graphKey => $graph)
             @foreach($graph->traces as $key => $trace)
             let trace{{ $trace->id }} = {
@@ -142,10 +156,31 @@
               xaxis: 'x{{ $graphKey+1 }}',
               yaxis: 'y{{ $graphKey+1 }}', 
               @endif
-              name: '{{ $trace->title }}'};  
+              name: "Hist. " + (counter+1) + ' - {{ $trace->title }}'
+            };  
             @endforeach
           @endforeach
          
+          //Ak je povolena hsitoria pridaj cestu ak nie vytvor graph nanovo
+          if ($('#checkbox_comparisons').is(":checked") && counter>0) {
+            @foreach($experiment->graphs as $graphKey => $graph)
+                @foreach($graph->traces as $key => $trace)
+                  trace{{ $trace->id }}.marker.color = colors[counter + 1];
+                  console.log(trace{{ $trace->id }}.marker.color);
+                @endforeach
+              @endforeach
+            Plotly.addTraces($('#plotdiv')[0], [
+              @foreach($experiment->graphs as $graphKey => $graph)
+                @foreach($graph->traces as $key => $trace)
+                  trace{{ $trace->id }},
+                @endforeach
+              @endforeach
+            ]).then((gd) => { return Plotly.toImage(gd); })
+                .then((dataURI) => { //console.log(dataURI);
+                                      image64 = dataURI;
+                                      //console.log(image64);
+                                      });
+          } else {
           @if($experiment->export)
           Plotly.newPlot($('#plotdiv')[0], 
           [
@@ -169,6 +204,7 @@
               @endforeach
             ], layout, {displaylogo: false, responsive: true});
           @endif
+          }
         }     
       }).done(function( o ) {
          // do something                                                                     
@@ -195,6 +231,11 @@
         },
         change: function(event, ui) { 
           defaultValue.value = ui.value;
+          let paramName = idPar.substring(5);
+          //Zmen hodnotu len v pripade ze zmena nastala v slajdri
+          if(lastChangeInSlider) {
+            parv_json[paramName] = ui.value
+          }
           @foreach($experiment->layout->sliders()->whereHas('dependencies')->get() as $slider)  
           if ( idPar == "#par_{{ $slider->title }}") {
 
@@ -238,12 +279,20 @@ $( function() {
     } );
 
   @foreach($experiment->layout->checkboxes as $checkbox)
+     @foreach($checkbox->dependentSliders as $slider)
+     $('#par_{{ $slider->title }}').hide(); 
+     $( "#slider_{{ $slider->title }}" ).hide();
+     $( "#div_{{ $slider->title }}" ).hide();
+     @endforeach
      $( ".toggle{{ $checkbox->id }}" ).on( "change", handleToggle{{ $checkbox->id }} );
      function handleToggle{{ $checkbox->id }}( e ) {
       var target = $( e.target );
  
       if ( target.is( ":checked" ) ) {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').show(); 
+        $( "#slider_{{ $slider->title }}" ).show();
+        $( "#div_{{ $slider->title }}" ).show();
         parv_{{ $slider->title }}.value =  {{ $slider->pivot->value_function }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
@@ -252,6 +301,9 @@ $( function() {
       } 
       else {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').hide(); 
+        $( "#slider_{{ $slider->title }}" ).hide();
+        $( "#div_{{ $slider->title }}" ).hide();
         parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ?: $slider->default }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3)); 
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
@@ -259,7 +311,7 @@ $( function() {
         @endforeach        
       }
       @if(!$experiment->run_button)
-      runAjaxCall()
+       runAjaxCall()
       @endif
     } 
     
@@ -276,6 +328,10 @@ $( function() {
   $( "#runButton" ).click( function(  ) {         
             runAjaxCall();
   } );
+
+  $("#checkbox_comparisons").click(function(){
+       toggleParamsHistory();
+  });
 
 //----------------------------------------------------Functions----------------------------------------------------------
       
@@ -321,6 +377,79 @@ $( function() {
      $( "#slider_"+whatPart ).slider( "value", eval(what).value );
      $('#par_'+whatPart+'_input').val(eval(what).value);
    }
+
+
+   function addExperimentToHTML(counter) {
+        //Pridaj comparison popup
+        if(counter >= 0)
+        {
+          let comparison = $(".comparisons");
+          comparison.empty();
+          for(let i = 0; i <= counter; i++) {
+            let content = `<b>History paremeters:</b><br><br>`;
+            Object.entries(paramsHistory[i]).forEach(([key, value]) => {
+              if(key != 'id') {
+              content += `<b>${key}</b>: ${value},  `
+              }
+            });
+            let html = `<button id="comparison_params" class="btn btn-primary col-6 col-md-2" data-container="body" data-toggle="popover" data-placement="bottom"
+            title="${content}">
+                            History ${i+1}
+                        </button>`;
+          comparison.append(html);
+
+          $('[data-toggle="popover"]').tooltip({
+            content: function () {
+                return $(this).prop('title');
+            }
+          });
+
+
+          }
+        }
+      }
+
+      function addExperiment()
+      {
+        if ($('#checkbox_comparisons').is(":checked"))
+              { counter++;
+                paramsHistoryEnabled = true;
+                paramsHistory.push({
+                  id:counter,
+                  ...parv_json
+                })
+              }
+
+          else
+              {
+                counter = 0;
+                paramsHistoryEnabled = false;
+                paramsHistory = [];
+                paramsHistory.push({
+                  id:counter,
+                  ...parv_json
+                })
+              }
+      }
+
+      function toggleHideFieldsets()
+      {
+
+        if(paramsHistoryEnabled)
+           {
+            $("#div_radio" ).addClass( "elementDisabled" );
+            $('.comparisons').show();
+           } else {
+            $( "#div_radio" ).removeClass( "elementDisabled" );
+            $('.comparisons').hide();
+           }
+      }
+
+      function toggleParamsHistory()
+      {
+        paramsHistoryEnabled = !paramsHistoryEnabled;
+        toggleHideFieldsets();
+      }
                      
     });
 </script>

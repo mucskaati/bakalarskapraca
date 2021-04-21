@@ -530,12 +530,20 @@ $( function() {
 
   //Checkboxes connected to layout
   @foreach($experiment->layout->checkboxes as $checkbox)
+     @foreach($checkbox->dependentSliders as $slider)
+      $('#par_{{ $slider->title }}').hide(); 
+      $( "#slider_{{ $slider->title }}" ).hide();
+      $( "#div_{{ $slider->title }}" ).hide();
+     @endforeach
      $( ".toggle{{ $checkbox->id }}" ).on( "change", handleToggle{{ $checkbox->id }} );
      function handleToggle{{ $checkbox->id }}( e ) {
       var target = $( e.target );
 
       if ( target.is( ":checked" ) ) {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').show(); 
+        $( "#slider_{{ $slider->title }}" ).show();
+        $( "#div_{{ $slider->title }}" ).show();
         parv_{{ $slider->title }}.value =  {{ $slider->pivot->value_function }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3));
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
@@ -544,6 +552,9 @@ $( function() {
       }
       else {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').hide(); 
+        $( "#slider_{{ $slider->title }}" ).hide();
+        $( "#div_{{ $slider->title }}" ).hide();
         parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ?: $slider->default }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3));
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
@@ -558,12 +569,20 @@ $( function() {
   //Checkboxes connected to schemes
   @foreach ($experiment->schemes as $key => $comparison)
   @foreach($comparison->checkboxes as $checkbox)
+     @foreach($checkbox->dependentSliders as $slider)
+      $('#par_{{ $slider->title }}').hide(); 
+      $( "#slider_{{ $slider->title }}" ).hide();
+      $( "#div_{{ $slider->title }}" ).hide();
+     @endforeach
      $( ".toggle{{ $checkbox->id }}" ).on( "change", handleToggle{{ $checkbox->id }} );
      function handleToggle{{ $checkbox->id }}( e ) {
       var target = $( e.target );
 
       if ( target.is( ":checked" ) ) {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').show(); 
+        $( "#slider_{{ $slider->title }}" ).show();
+        $( "#div_{{ $slider->title }}" ).show();
         parv_{{ $slider->title }}.value =  {{ $slider->pivot->value_function }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3));
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );
@@ -572,6 +591,9 @@ $( function() {
       }
       else {
         @foreach($checkbox->dependentSliders as $slider)
+        $('#par_{{ $slider->title }}').hide(); 
+        $( "#slider_{{ $slider->title }}" ).hide();
+        $( "#div_{{ $slider->title }}" ).hide();
         parv_{{ $slider->title }}.value =  {{ ($slider->default_function) ?: $slider->default }};
         $('#par_{{ $slider->title }}').text(round(parv_{{ $slider->title }}.value,3));
         $( "#slider_{{ $slider->title }}" ).slider( "value", parv_{{ $slider->title }}.value );

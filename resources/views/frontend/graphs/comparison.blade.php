@@ -88,7 +88,7 @@
                           <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                       </div>
                       </div>
-                      <div class="inputs" style="margin-bottom: 25px;">
+                      <div class="inputs">
                         <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
                       </div>  
                     </div> 
@@ -104,15 +104,15 @@
                   <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
                 </div>
                 @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-                <div class="col-12 col-md-{{ $slider->columns }} mb-5 slider-roller">
-                  <div id="div_{{ $slider->title }}" class="vstup">
+                <div class="col-12 col-md-{{ $slider->columns }} slider-roller">
+                  <div id="div_{{ $slider->title }}" class="vstup mb-5 ">
                     <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                     <div class="sliders_show">
                     <div id="slider_{{ $slider->title }}">   
                         <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                     </div>
                     </div>
-                    <div class="inputs" style="margin-bottom: 25px;">
+                    <div class="inputs">
                       <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
                     </div>  
                   </div>
@@ -127,7 +127,7 @@
             <legend>{{ $comparison->title }}</legend>
               <div class="row">       
                 @foreach ($comparison->sliders()->doesntHave('dependentCheckboxes')->where('visible',1)->orderBy('sorting')->get() as $slider)
-                <div class="col-12 col-md-{{ $slider->columns }} mb-4 slider-roller">
+                <div class="col-12 col-md-{{ $slider->columns }} slider-roller mb-4">
                   <div id="div_{{ $slider->title }}" class="vstup">
                     <label for="slider_{{ $slider->title }}">{{ ($slider->label) ?: $slider->title }}:</label>
                     <div class="sliders_show">
@@ -135,7 +135,7 @@
                         <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                     </div>
                     </div>
-                    <div class="inputs" style="margin-bottom: 25px;">
+                    <div class="inputs">
                       <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
                     </div>  
                   </div> 
@@ -151,15 +151,15 @@
                 <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
               </div>
               @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-              <div class="col-12 col-md-{{ $slider->columns }} mb-5 slider-roller">
-                <div id="div_{{ $slider->title }}" class="vstup">
+              <div class="col-12 col-md-{{ $slider->columns }} slider-roller">
+                <div id="div_{{ $slider->title }}" class="vstup mb-5">
                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                   <div class="sliders_show">
                   <div id="slider_{{ $slider->title }}">   
                       <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                   </div>
                   </div>
-                  <div class="inputs" style="margin-bottom: 25px;">
+                  <div class="inputs">
                     <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
                   </div>  
                 </div>
@@ -177,15 +177,15 @@
                 <input type="checkbox" name="checkbox_{{ $box->attribute_name }}" id="checkbox_{{ $box->attribute_name }}" class="toggle{{ $box->id }}">
               </div>
               @foreach ($box->dependentSliders->where('visible', 1) as $slider)
-              <div class="col-12 col-md-6 mb-5 div_checkbox_{{ $slider->comparisonExperiment->prefix }}">
-                <div id="div_{{ $slider->title }}" class="vstup2">
+              <div class="col-12 col-md-6 div_checkbox_{{ $slider->comparisonExperiment->prefix }}">
+                <div id="div_{{ $slider->title }}" class="vstup2 mb-5">
                   <label for="slider_{{ $slider->title }}">{{ $slider->title }}:</label>
                   <div class="sliders_show">
                   <div id="slider_{{ $slider->title }}">   
                       <div id="par_{{ $slider->title }}" class="ui-slider-handle paramClass"></div>
                   </div>
                   </div>
-                  <div class="inputs" style="margin-bottom: 25px;">
+                  <div class="inputs">
                     <input type="number" id="par_{{ $slider->title }}_input" class="form-control">
                   </div>  
                 </div>

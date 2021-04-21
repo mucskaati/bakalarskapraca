@@ -64,12 +64,13 @@ h6 {
 }
 
 .inputs > input {
-    margin-top: 0em;
-    margin-bottom: 0.5em;
+    margin-top: -0.42em;
+    margin-bottom: 0;
     display: block;
     float: left;
     width: 100%;
-    border-radius: 20px;
+    border-radius: 5px;
+    height: 1.6em !important;
 }
 
 .checkbox-label {

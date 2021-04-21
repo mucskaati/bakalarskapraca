@@ -1,7 +1,8 @@
 import AppForm from "../app-components/Form/AppForm";
+import SliderFilterMixin from "../mixins/FilterSliderMixin";
 
 Vue.component("checkbox-form", {
-    mixins: [AppForm],
+    mixins: [AppForm, SliderFilterMixin],
     data: function() {
         return {
             form: {

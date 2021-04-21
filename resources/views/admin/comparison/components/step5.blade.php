@@ -71,7 +71,7 @@
         <div class="col-12 col-md-12 text-center">
             <h6>{{ __('admin.experiment.columns.trace') }} @{{ traceIndex+1 }}</h6>
         </div>
-        <div class="col-12 col-md-2">
+        {{-- <div class="col-12 col-md-2">
             <div class="form-group row align-items-center" :class="{'has-danger': errors.has('traces_title'+traceIndex + index), 'has-success': fields.traces_title+traceIndex+index && (fields.traces_title+traceIndex+index).valid }">
                 <label :for="'traces_title' + traceIndex + index" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.traces_title') }}</label>
                     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
@@ -79,7 +79,7 @@
                     <div v-if="errors.has('traces_title'+traceIndex+index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('traces_title' + traceIndex+index) }}</div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-12 col-md-4">
             <div class="form-group row align-items-center" :class="{'has-danger': errors.has('xaxis'+traceIndex+index), 'has-success': fields.xaxis+traceIndex+index && (fields.xaxis+traceIndex+index).valid }">
                 <label :for="'xaxis'+traceIndex+index" class="col-12 col-form-label">{{ trans('admin.experiment.columns.response_xaxis') }}</label>
@@ -111,15 +111,22 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12 text-center mt-5">
+        <hr>
+        <a href="" @click.prevent="toggleTemplate" v-if="!showTemplate" class="col-md-3 btn btn-primary">Edit template</a>
+        <a href="" @click.prevent="toggleTemplate" v-if="showTemplate" class="col-md-3 btn btn-primary">Hide template</a>
+    </div>
+</div>
+<div class="row" v-if="showTemplate">
     <div class="col-12 col-md-12">
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('template'), 'has-success': fields.template && fields.template.valid }">
-            <label for="template" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.template') }}</label>
+            <label for="template" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{ trans('admin.experiment.columns.template') }}</label>
                 <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
                 <div>
                     <prism-editor class="my-editor" v-model="form.template" :highlight="highlighter" line-numbers></prism-editor>
                 </div>
                 <div v-if="errors.has('template')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('template') }}</div>
-            </div>
+                </div>
         </div>
     </div>
 </div>

@@ -39,14 +39,14 @@ class GraphController extends Controller
 
         $template = view(
             ['template' => $experiment->template],
-            ['experiment' => $experiment, 'fos' => $fos, 'compars' => $comparisons, 'nyquist' => $nyquist],
+            ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $comparisons, 'nyquist' => $nyquist],
         );
 
         return view('frontend.graphs.nyquist', [
             'experiment' => $experiment,
             'preset' => $template,
             'fos' => $fos,
-            'compars' => $comparisons,
+            'comparisons' => $comparisons,
             'nyquist' => $nyquist
         ]);
     }

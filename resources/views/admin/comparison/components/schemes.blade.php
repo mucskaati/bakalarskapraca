@@ -11,12 +11,12 @@
     <hr>
 <div class="row">
     <div class="col-12 offset-md-1 col-md-6 mt-1">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('schemes'), 'has-success': fields.schemes && fields.schemes.valid }">
-            <label for="schemes" class="col-6 col-form-label">{{ trans('admin.comparison.columns.scheme') }}</label>
+        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('schemes' + index), 'has-success': fields.schemes && fields.schemes.valid }">
+            <label :for="'schemes'+ index" class="col-6 col-form-label">{{ trans('admin.comparison.columns.scheme') }}</label>
                 <div class="col-12">
                     <multiselect v-model="form.schemes[index]"  @input="addCountScheme(index)" :options="{{ $comparisonExperiments
                     ->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleAndPrefix]; })->toJson() }}" placeholder="{{ trans('admin.comparison.columns.scheme') }}" label="title" track-by="id" :multiple="false"></multiselect>
-                <div v-if="errors.has('schemes')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('schemes') }}</div>
+                <div v-if="errors.has('schemes' + index)" class="form-control-feedback form-text" v-cloak>@{{ errors.first('schemes' + index) }}</div>
             </div>
         </div>
     </div>

@@ -55,7 +55,7 @@ var layout = {
   
       @foreach($experiment->layout->sliders as $slider)
       createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
-      setSlider("#slider_{{ $slider->title }}","#par_{{ $slider->title }}_input");
+      setSlider("#slider_{{ $slider->title }}","#par_{{ $slider->title }}_input", "{{ $slider->title }}");
       //Delay 100 stotin kym sa nastavia hodnoty a potom az pustime ajax call po doslajdovani
       //Riesi to problem s milion requestmi na server
       @if(!$experiment->run_button)
@@ -385,7 +385,7 @@ $( function() {
       return (1 - (1 - am * Tf) * (1 - am * Tf) * Math.exp(-Tm * am)) / am;
     };
 
-    function setSlider(slider,inputbox) {
+    function setSlider(slider,inputbox, paramName) {
     //nastavi slider podla ciselneho vstupu a zaroven nastavi krok ciselneho vstupu
     $(inputbox).attr('step', eval("parv_"+inputbox.split('_')[1]).step); 
       $(inputbox).keyup( function(){
@@ -398,6 +398,7 @@ $( function() {
             if(parseFloat($(inputbox).val()) != eval("parv_"+inputbox.split('_')[1]).value) {
               eval("parv_"+inputbox.split('_')[1]+'_input').value = parseFloat($(this).val())   
               lastChangeInSlider = false;
+              parv_json[paramName] = parseFloat($(this).val());
             }
           //Pockam kym sa nastavia slajdre az potom pustim ajax
           setTimeout(() => { runAjaxCall() }, 200);
@@ -410,6 +411,7 @@ $( function() {
      $('#par_'+whatPart).text(eval(what).value); 
      $( "#slider_"+whatPart ).slider( "value", eval(what).value );
      $('#par_'+whatPart+'_input').val(eval(what).value);
+     parv_json[whatPart] = eval(what).value;
    }
 
    function getPath(arr1, arr2) {

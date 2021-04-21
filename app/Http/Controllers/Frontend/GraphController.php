@@ -58,16 +58,30 @@ class GraphController extends Controller
         $compars = Experiment::where('type', 'comparison')->get();
         $nyquist = Experiment::where('type', 'nyquist')->get();
 
+        $schemeSliders = collect([]);
+        foreach ($experiment->schemes as $comparison) {
+            foreach ($comparison->sliders->where('default_function', null) as $slider) {
+                $schemeSliders->push(['title' => $slider->title, 'default' => $slider->default, 'step' => $slider->step]);
+            }
+            foreach ($comparison->sliders->where('default_function', '!=', null) as $slider) {
+                $schemeSliders->push(['title' => $slider->title, 'default' => $slider->default_function, 'step' => $slider->step]);
+            }
+        }
+        $schemeSliders = $schemeSliders->mapWithKeys(function ($item) {
+            return [$item['title'] => $item];
+        });
+
         $template = view(
             ['template' => $experiment->template],
-            ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $compars, 'nyquist' => $nyquist],
+            ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $compars, 'nyquist' => $nyquist, 'sliderSchemes' => $schemeSliders],
         );
         return view('frontend.graphs.comparison', [
             'experiment' => $experiment,
             'preset' => $template,
             'fos' => $fos,
             'comparisons' => $compars,
-            'nyquist' => $nyquist
+            'nyquist' => $nyquist,
+            'sliderSchemes' => $schemeSliders
         ]);
     }
 }

@@ -276,6 +276,7 @@ Vue.component("comparison-form", {
             axios
                 .get(this.form.ajax_url)
                 .then(function(response) {
+                    console.log(response.data);
                     let keys = collect(Object.keys(response.data));
                     keys = keys.map(item => {
                         // zisti ci "_" sa nachadza v stringu ak nie tak vrat povodny item

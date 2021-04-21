@@ -96,17 +96,10 @@
       };
 
        //------------------------------------------Sliders connected to schemes -----------------------------------------------------------------
-       @foreach ($experiment->schemes as $comparison)
-       @foreach($comparison->sliders->where('default_function', null) as $slider)
-          var parv_{{ $slider->title }} = { value: {{ $slider->default  }}, step: {{ $slider->step }} };
-          var parv_{{ $slider->title }}_input = { value: {{ $slider->default  }}, step: {{ $slider->step }} };
+       @foreach ($sliderSchemes as $slider)
+          var parv_{{ $slider['title'] }} = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
+          var parv_{{ $slider['title'] }}_input = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
        @endforeach
-
-        @foreach($comparison->sliders->where('default_function','!=', null) as $slider)
-          var parv_{{ $slider->title }} = { value: {{ $slider->default_function  }}, step: {{ $slider->step }} };
-          var parv_{{ $slider->title }}_input = { value: {{ $slider->default_function  }}, step: {{ $slider->step }} };
-        @endforeach
-      @endforeach
 
       @foreach ($experiment->schemes as $comparison)
         @foreach($comparison->sliders as $slider)
@@ -147,10 +140,8 @@
 
       //Nastavenie parametrov do objectu ktory sa bude posielat na server
       var parv_json = {
-        @foreach ($experiment->schemes as $comparison)
-          @foreach($comparison->sliders as $slider)
-                "{{ $slider->title }}": parv_{{ $slider->title }}.value,
-          @endforeach
+        @foreach ($sliderSchemes as $slider)
+          "{{ $slider['title'] }}": parv_{{ $slider['title'] }}.value,
         @endforeach
 
         @foreach($experiment->layout->sliders as $slider)
@@ -205,10 +196,8 @@
         @foreach($experiment->layout->sliders as $slider)
         "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
         @endforeach
-        @foreach ($experiment->schemes as $comparison)
-          @foreach($comparison->sliders as $slider)
-          "{{ $slider->title }}":  (parv_{{ $slider->title }}.value != parv_{{ $slider->title }}_input.value && !lastChangeInSlider) ? parv_{{ $slider->title }}_input.value : parv_{{ $slider->title }}.value,
-          @endforeach
+        @foreach ($sliderSchemes as $slider)
+          "{{ $slider['title'] }}":  (parv_{{ $slider['title'] }}.value != parv_{{ $slider['title'] }}_input.value && !lastChangeInSlider) ? parv_{{ $slider['title'] }}_input.value : parv_{{ $slider['title'] }}.value,
         @endforeach
         },
         history: paramsHistory,
@@ -363,8 +352,10 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         change: function(event, ui) {
           defaultValue.value = ui.value;
           let paramName = idPar.substring(5);
+          console.log(paramName);
           //Zmen hodnotu len v pripade ze zmena nastala v slajdri
           if(lastChangeInSlider) {
+            console.log(parv_json);
             parv_json[paramName] = ui.value
           }
           // Dependencies na slajdri

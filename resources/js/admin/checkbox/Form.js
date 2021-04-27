@@ -16,6 +16,9 @@ Vue.component("checkbox-form", {
             }
         };
     },
+    mounted() {
+        this.filterSliders();
+    },
     methods: {
         addDependency: function(event) {
             this.form.dependent_sliders.push({

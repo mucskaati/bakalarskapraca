@@ -83,30 +83,37 @@
         </div>
     </div>
 
-<div class="row">
-    <div class="col-12 col-md-12">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('template'), 'has-success': fields.template && fields.template.valid }">
-            <label for="template" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.template') }}</label>
-                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <div>
-                    <prism-editor class="my-editor" v-model="form.template" :highlight="highlighter" line-numbers></prism-editor>
-                </div>
-                <div v-if="errors.has('template')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('template') }}</div>
+    <div class="row">
+        <div class="col-md-12 text-center mt-5">
+            <hr>
+            <a href="" @click.prevent="toggleTemplate" v-if="!showTemplate" class="col-md-3 btn btn-primary">Edit template</a>
+            <a href="" @click.prevent="toggleTemplate" v-if="showTemplate" class="col-md-3 btn btn-primary">Hide template</a>
+        </div>
+    </div>
+    <div class="row" v-if="showTemplate">
+        <div class="col-12 col-md-12">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('template'), 'has-success': fields.template && fields.template.valid }">
+                <label for="template" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{ trans('admin.experiment.columns.template') }}</label>
+                    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                    <div>
+                        <prism-editor class="my-editor" v-model="form.template" :highlight="highlighter" line-numbers></prism-editor>
+                    </div>
+                    <div v-if="errors.has('template')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('template') }}</div>
+                    </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12 col-md-12">
-        <div class="form-group row align-items-center" :class="{'has-danger': errors.has('custom_js'), 'has-success': fields.custom_js && fields.custom_js.valid }">
-            <label for="custom_js" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.custom_js') }}</label>
-                <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
-                <div>
-                    <prism-editor class="my-editor" v-model="form.custom_js" :highlight="highlighter" line-numbers></prism-editor>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('custom_js'), 'has-success': fields.custom_js && fields.custom_js.valid }">
+                <label for="custom_js" class="col-form-label" :class="isFormLocalized ? 'col-md-4' : 'col-md-12'">{{ trans('admin.experiment.columns.custom_js') }}</label>
+                    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-12 col-xl-12'">
+                    <div>
+                        <prism-editor class="my-editor" v-model="form.custom_js" :highlight="highlighter" line-numbers></prism-editor>
+                    </div>
+                    <div v-if="errors.has('custom_js')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('custom_js') }}</div>
                 </div>
-                <div v-if="errors.has('custom_js')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('custom_js') }}</div>
             </div>
         </div>
     </div>
-</div>
-</div>
+    </div>

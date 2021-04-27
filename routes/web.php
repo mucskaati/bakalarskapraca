@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
-Route::get('/fo/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
-Route::get('/nyquist/{id}/{slug}', 'Frontend\GraphController@graphNyquist')->name('graph_nyquist');
+Route::get('/single/{id}/{slug}', 'Frontend\GraphController@graph1')->name('graph_fo');
+Route::get('/path-based/{id}/{slug}', 'Frontend\GraphController@graphNyquist')->name('graph_nyquist');
 Route::get('/comparison/{id}/{slug}', 'Frontend\GraphController@comparison')->name('comparison');
 
 //Export PDF

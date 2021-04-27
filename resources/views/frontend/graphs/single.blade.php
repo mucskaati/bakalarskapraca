@@ -100,7 +100,7 @@
 @endsection
 
 @section('js')
-    @include('frontend.graphs.jsPartials.graph1')
+    @include('frontend.graphs.jsPartials.single')
     @if($experiment->custom_js)
     {!! $experiment->custom_js !!}
     @endif

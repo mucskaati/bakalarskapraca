@@ -33,7 +33,7 @@ class ExportPDFController
         $mpdf = new ExtendedMpdf();
         $mpdf->showImageErrors = false;
 
-        $mpdf->WriteHTML(view('frontend.export.fo', compact('experiment', 'history', 'params', 'imgResult', 'date', 'img')));
+        $mpdf->WriteHTML(view('frontend.export.single_and_pathbased', compact('experiment', 'history', 'params', 'imgResult', 'date', 'img')));
         $content = $mpdf->Output("", "S");
         return chunk_split(base64_encode($content));
     }

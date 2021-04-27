@@ -100,7 +100,7 @@
 @endsection
 
 @section('js')
-    @include('frontend.graphs.jsPartials.graphNyquist')
+    @include('frontend.graphs.jsPartials.path_based')
     @if($experiment->custom_js)
       {!! $experiment->custom_js !!}
     @endif

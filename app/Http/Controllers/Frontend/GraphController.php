@@ -21,7 +21,7 @@ class GraphController extends Controller
             ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $compars, 'nyquist' => $nyquist],
         );
 
-        return view('frontend.graphs.graph1', [
+        return view('frontend.graphs.single', [
             'experiment' => $experiment,
             'preset' => $template,
             'fos' => $fos,
@@ -42,7 +42,7 @@ class GraphController extends Controller
             ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $comparisons, 'nyquist' => $nyquist],
         );
 
-        return view('frontend.graphs.nyquist', [
+        return view('frontend.graphs.path_based', [
             'experiment' => $experiment,
             'preset' => $template,
             'fos' => $fos,

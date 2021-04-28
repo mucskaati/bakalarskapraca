@@ -40,7 +40,7 @@ class CheckboxesController extends Controller
             $request,
 
             // set columns to query
-            ['attribute_name', 'id', 'layout_id', 'comparison_experiment_id', 'title'],
+            ['attribute_name', 'id', 'layout_id', 'title'],
 
             // set columns to searchIn
             ['attribute_name', 'id', 'title']
@@ -95,6 +95,7 @@ class CheckboxesController extends Controller
 
         //Sync dependent sliders
         $this->syncDependentSliders($sanitized, $checkbox);
+        $this->syncSchemes($sanitized, $checkbox);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/checkboxes'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -132,7 +133,7 @@ class CheckboxesController extends Controller
         $layouts = Layout::all();
         $comparisonExperiments = ComparisonExperiment::all();
 
-        $checkbox->load(['dependentSliders', 'layout', 'comparisonExperiment']);
+        $checkbox->load(['dependentSliders', 'layout', 'comparisonExperiments']);
 
         return view('admin.checkbox.edit', [
             'checkbox' => $checkbox,
@@ -159,6 +160,7 @@ class CheckboxesController extends Controller
 
         //Sync dependent sliders
         $this->syncDependentSliders($sanitized, $checkbox, 'update');
+        $this->syncSchemes($sanitized, $checkbox, 'update');
 
         if ($request->ajax()) {
             return [
@@ -224,6 +226,19 @@ class CheckboxesController extends Controller
         //Syn dependencies to model
         if (count($data) > 0 || $mode == 'update') {
             $model->dependentSliders()->sync($colelction);
+        }
+
+        return true;
+    }
+
+    private function syncSchemes($data, $model, $mode = 'create')
+    {
+        if (!isset($data['comparison_experiments'])) return false;
+        $colelction = collect($data['comparison_experiments'])->pluck('id')->toArray();
+
+        //Syn dependencies to model
+        if (count($data) > 0 || $mode == 'update') {
+            $model->comparisonExperiments()->sync($colelction);
         }
 
         return true;

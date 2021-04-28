@@ -29,7 +29,7 @@ class StoreCheckbox extends FormRequest
             'attribute_name' => ['required', 'string'],
             'type' => ['required', 'string'],
             'layout' => ['required_if:type,fo'],
-            'comparison_experiment' => ['required_if:type,comparison'],
+            'comparison_experiments' => ['required_if:type,comparison'],
             'title' => ['required', 'string'],
             'slider_dependency_change' => ['required', 'boolean'],
             'dependent_sliders' => ['nullable', 'array']
@@ -45,7 +45,6 @@ class StoreCheckbox extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = $this->validated();
-        $sanitized['comparison_experiment_id'] = ($sanitized['comparison_experiment']) ? $sanitized['comparison_experiment']['id'] : null;
         $sanitized['layout_id'] = ($sanitized['layout']) ? $sanitized['layout']['id'] : null;
 
         //Add your code for manipulation with request data here

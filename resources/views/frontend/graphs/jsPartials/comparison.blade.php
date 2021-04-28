@@ -50,7 +50,8 @@
       }
 
       var colors = ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b','#e377c2','#7f7f7f','#bcbd22','#17becf'];
-
+      let showSliderInAdditional = [];
+      let showCheckboxInAdditional = [];
   /*
       '#1f77b4',  // muted blue
       '#ff7f0e',  // safety orange
@@ -101,16 +102,52 @@
           var parv_{{ $slider['title'] }}_input = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
        @endforeach
 
-      @foreach ($experiment->schemes as $comparison)
-        @foreach($comparison->sliders as $slider)
+       @foreach ($slidersAdditional as $slider)
+          @if($slider->comparison_experiments_count > 1)
+          var parv_{{ $slider['title'] }} = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
+          var parv_{{ $slider['title'] }}_input = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
+          @endif
+       @endforeach
+
+       @foreach ($slidersAdditionalHasDependent as $slider)
+          @if($slider->comparison_experiments_count > 1)
+          var parv_{{ $slider['title'] }} = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
+          var parv_{{ $slider['title'] }}_input = { value: {{ $slider['default'] }}, step: {{ $slider['step'] }} };
+          @endif
+       @endforeach
+
+
+      @foreach ($sliderSchemes as $slider)
+            createSlider("#slider_{{ $slider['title'] }}", "#par_{{ $slider['title'] }}", {{ $slider['min'] }}, {{ $slider['max'] }}, parv_{{ $slider['title'] }}, {{ $slider['step'] }});
+            @if(!$experiment->run_button)
+            $("#slider_{{ $slider['title'] }}").on( "slidestop", function( event, ui ) {
+                setTimeout(() => { runAjaxCall() }, 100);
+            });
+            @endif
+      @endforeach
+
+      @foreach ($slidersAdditional as $slider)
+          @if($slider->comparison_experiments_count > 1)
             createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
             @if(!$experiment->run_button)
             $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
                 setTimeout(() => { runAjaxCall() }, 100);
             });
             @endif
-        @endforeach
-      @endforeach
+          @endif
+       @endforeach
+
+       @foreach ($slidersAdditionalHasDependent as $slider)
+          @if($slider->comparison_experiments_count > 1)
+            createSlider("#slider_{{ $slider->title }}", "#par_{{ $slider->title }}", {{ $slider->min }}, {{ $slider->max }}, parv_{{ $slider->title }}, {{ $slider->step }});
+            @if(!$experiment->run_button)
+            $("#slider_{{ $slider->title }}").on( "slidestop", function( event, ui ) {
+                setTimeout(() => { runAjaxCall() }, 100);
+            });
+            @endif
+          @endif
+       @endforeach
+
       //-------------------------------------------Slider connected to experiment layout -----------------------------------
       @foreach($experiment->layout->sliders->where('default_function', null) as $slider)
         var parv_{{ $slider->title }} = { value: {{ $slider->default  }} };
@@ -360,7 +397,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           }
           // Dependencies na slajdri
           @foreach ($experiment->schemes as $comparison)
-          @foreach($comparison->sliders()->whereHas('dependencies')->get() as $slider)
+          @foreach($comparison->sliders()->withCount('comparisonExperiments')->whereHas('dependencies')->get() as $slider)
+          @if($slider->comparison_experiments_count == 1)
           if ( idPar == "#par_{{ $slider->title }}") {
 
                 @foreach($slider->dependencies as $dependency)
@@ -387,6 +425,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
                   @endif
                 @endforeach
           }
+          @endif
           @endforeach
           @endforeach
 
@@ -405,6 +444,20 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
           $('.div_params_{{ $comparison->prefix }}').hide();
           $('.div_checkbox_{{ $comparison->prefix }}').hide();
 
+          @foreach ($comparison->sliders()->withCount('comparisonExperiments')->doesntHave('dependentCheckboxes')->get() as $slider)
+          @if($slider->comparison_experiments_count > 1) 
+              $('#div_{{ $slider->title }}').hide();
+          @endif
+          @endforeach
+
+          @foreach ($comparison->checkboxes()->withCount('comparisonExperiments')->has('dependentSliders')->get() as $check)
+          @if($check->comparison_experiments_count > 1) 
+              $('#div_check_{{ $check->attribute_name }}').hide();
+              @foreach ($check->dependentSliders as $slider)
+              $('#div_{{ $slider->title }}').hide();
+              @endforeach
+          @endif
+          @endforeach
            // Vytvor checkboxradio pre kazdu schemu
           $( "#choice_{{ $comparison->prefix }}").checkboxradio();
 
@@ -424,11 +477,44 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
               $('.div_params_{{ $comparison->prefix }}').show();
               $('.div_checkbox_{{ $comparison->prefix }}').show();
               what.push('{{ $comparison->prefix }}');
+
+              @foreach ($comparison->sliders()->withCount('comparisonExperiments')->doesntHave('dependentCheckboxes')->get() as $slider)
+              showSliderInAdditional.push('{{ $slider->title }}');
+                $('#div_{{ $slider->title }}').show();
+              @endforeach
+
+              @foreach ($comparison->checkboxes()->withCount('comparisonExperiments')->has('dependentSliders')->get() as $check)
+              @if($check->comparison_experiments_count > 1) 
+                  showCheckboxInAdditional.push('{{ $check->attribute_name }}');
+                  $('#div_check_{{ $check->attribute_name }}').show();
+              @endif
+              @endforeach
+
             } else {
               $('.div_params_{{ $comparison->prefix }}').hide();
               $('.div_checkbox_{{ $comparison->prefix }}').hide();
               what = what.filter(function(scheme){ return scheme != '{{ $comparison->prefix }}'; })
+              
+              @foreach ($comparison->sliders()->withCount('comparisonExperiments')->doesntHave('dependentCheckboxes')->get() as $slider)
+              for( var i = 0; i < showSliderInAdditional.length; i++){ if ( showSliderInAdditional[i] === '{{ $slider->title }}') { showSliderInAdditional.splice(i, 1); i--; break; }}
+              console.log(showSliderInAdditional);
+              if(!showSliderInAdditional.includes("{{ $slider->title }}")) {
+                $('#div_{{ $slider->title }}').hide();
+              }
+              @endforeach
 
+              @foreach ($comparison->checkboxes()->withCount('comparisonExperiments')->has('dependentSliders')->get() as $check)
+              @if($check->comparison_experiments_count > 1) 
+              for( var i = 0; i < showCheckboxInAdditional.length; i++){ if ( showCheckboxInAdditional[i] === '{{ $check->attribute_name }}') { showCheckboxInAdditional.splice(i, 1); i--; break; }}
+              if(!showCheckboxInAdditional.includes("{{ $check->attribute_name }}")) {
+                $('#checkbox_{{ $check->attribute_name }}' ).prop( "checked", false).checkboxradio('refresh');
+                $('#div_check_{{ $check->attribute_name }}').hide();
+                  @foreach ($check->dependentSliders as $slider)
+                  $('#div_{{ $slider->title }}').hide();
+                  @endforeach
+              }
+              @endif
+              @endforeach
             }
           })
           @endforeach

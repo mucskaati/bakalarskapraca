@@ -11,7 +11,6 @@ class Checkbox extends Model
         'layout_id',
         'title',
         'slider_dependency_change',
-        'comparison_experiment_id',
         'type'
     ];
 
@@ -41,22 +40,28 @@ class Checkbox extends Model
 
     public function getLayoutTitleAttribute()
     {
+        $name = "";
         if ($this->layout_id) {
-            $name = $this->layout->name;
-        } elseif ($this->comparison_experiment_id) {
-            $name = $this->comparisonExperiment->title;
+            $name = '<span class="badge badge-primary mr-1">' . $this->layout->name . '</span>';
+        } elseif ($this->comparisonExperiments->count() > 0) {
+            foreach ($this->comparisonExperiments as $scheme) {
+                $name .= '<span class="badge badge-primary mr-1">' . $scheme->title . '</span>';
+            }
         }
         return $name;
     }
 
     public function getTitleWithLayoutAttribute()
     {
+        $name = "";
         if ($this->layout_id) {
-            $name = $this->layout->name;
-        } elseif ($this->comparison_experiment_id) {
-            $name = $this->comparisonExperiment->title;
+            $name = '<span class="badge badge-primary mr-1">' . $this->layout->name . '</span>';
+        } elseif ($this->comparisonExperiments->count() > 0) {
+            foreach ($this->comparisonExperiments as $scheme) {
+                $name .= '<span class="badge badge-primary mr-1">' . $scheme->title . '</span>';
+            }
         }
-        return $this->title . ' [' . $name . ']';
+        return $this->title . ' - ' . $name;
     }
 
     /* ************************ RELATIONSHIPS ************************* */
@@ -66,9 +71,9 @@ class Checkbox extends Model
         return $this->belongsTo(Layout::class, 'layout_id');
     }
 
-    public function comparisonExperiment()
+    public function comparisonExperiments()
     {
-        return $this->belongsTo(ComparisonExperiment::class, 'comparison_experiment_id');
+        return $this->belongsToMany(ComparisonExperiment::class, 'checkbox_comparison_experiment', 'checkbox_id', 'comparison_experiment_id');
     }
 
     public function dependentSliders()

@@ -102,7 +102,7 @@
                                         </td>
                                         <td>@{{ item.id }}</td>
                                         <td>@{{ item.title }}</td>
-                                        <td>@{{ item.layoutTitle }}</td>
+                                        <td v-html="item.layoutTitle"></td>
                                         <td>@{{ item.min }}</td>
                                         <td>@{{ item.max }}</td>
                                         <td>@{{ (item.default != null) ? item.default : 'function' }}</td>

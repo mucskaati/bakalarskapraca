@@ -86,7 +86,7 @@ return [
             'columns_desc' => 'The number of columns should be displayed, in the case of the whole row enter 12',
             'sorting' => 'Sliders order',
             'sorting_desc' => 'The order in which the slides should be displayed. If you want the slider to be displayed first, enter the number 1',
-            'comparison_experiment_id' => 'Slider to the scheme',
+            'comparison_experiment_id' => 'Slider to the schemes',
             'type' => 'Slider connected to',
             'experiment_fo' => 'Experiment',
             'scheme' => 'Scheme (comparison experiment)',
@@ -110,7 +110,7 @@ return [
         'columns' => [
             'id' => 'ID',
             'attribute_name' => 'Attribute name',
-            'layout_id' => 'Layout',
+            'layout_id' => 'Layout/Scheme',
             'title' => 'Checkbox title',
             'add_dependency' => 'Add another dependency',
             'slider_id' => 'Set the slider value',
@@ -121,7 +121,8 @@ return [
             'experiment_fo' => 'Experiment',
             'scheme' => 'Scheme (comparison experiment)',
             'dependencies' => 'Sliders dependencies on this slider',
-            'checkbox_checked' => 'If the checkbox is checked'
+            'checkbox_checked' => 'If the checkbox is checked',
+            'comparison_experiment_id' => 'Checkbox to the schemes',
 
         ],
     ],

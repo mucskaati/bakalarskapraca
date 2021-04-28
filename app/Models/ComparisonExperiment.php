@@ -75,12 +75,12 @@ class ComparisonExperiment extends Model implements HasMedia
 
     public function sliders()
     {
-        return $this->hasMany(Slider::class)->with('dependencies');
+        return $this->belongsToMany(Slider::class, 'slider_comparison_experiment')->with('dependencies');
     }
 
     public function checkboxes()
     {
-        return $this->hasMany(Checkbox::class)->with(['dependentSliders']);
+        return $this->belongsToMany(Checkbox::class, 'checkbox_comparison_experiment')->with(['dependentSliders']);
     }
 
     public function experiments()

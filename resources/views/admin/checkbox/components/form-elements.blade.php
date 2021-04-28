@@ -27,9 +27,9 @@
     </div>
 </div>
 <div v-if="form.type == 'comparison'" class="form-group row align-items-center" :class="{'has-danger': errors.has('comparison_experiment_id'), 'has-success': fields.comparison_experiment_id && fields.comparison_experiment_id.valid }">
-    <label for="comparison_experiment_id" class="col-2 col-form-label text-right">{{ trans('admin.slider.columns.comparison_experiment_id') }}</label>
+    <label for="comparison_experiment_id" class="col-2 col-form-label text-right">{{ trans('admin.checkbox.columns.comparison_experiment_id') }}</label>
         <div class="col-8">
-            <multiselect v-model="form.comparison_experiment" @input="filterSliders" :options="{{ $comparisonExperiments->toJson() }}" placeholder="{{ trans('admin.slider.columns.comparison_experiment_id') }}" label="title" track-by="id" :multiple="false"></multiselect>
+            <multiselect v-model="form.comparison_experiments" @input="filterSliders" :options="{{ $comparisonExperiments->toJson() }}" placeholder="{{ trans('admin.checkbox.columns.comparison_experiment_id') }}" label="title" track-by="id" :multiple="true" :taggable="true"></multiselect>
         <div v-if="errors.has('comparison_experiment')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('comparison_experiment') }}</div>
     </div>
 </div>

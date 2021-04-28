@@ -29,7 +29,7 @@ class UpdateSlider extends FormRequest
             'default' => ['nullable', 'numeric'],
             'default_function' => ['nullable', 'string'],
             'layout' => ['required_if:type,fo'],
-            'comparison_experiment' => ['required_if:type,comparison'],
+            'comparison_experiments' => ['required_if:type,comparison'],
             'max' => ['sometimes', 'numeric'],
             'min' => ['sometimes', 'numeric'],
             'step' => ['sometimes', 'numeric'],
@@ -51,7 +51,6 @@ class UpdateSlider extends FormRequest
     public function getSanitized(): array
     {
         $sanitized = collect($this->validated())->except(['dependencies'])->toArray();
-        $sanitized['comparison_experiment_id'] = ($sanitized['comparison_experiment']) ? $sanitized['comparison_experiment']['id'] : null;
         $sanitized['layout_id'] = ($sanitized['layout']) ? $sanitized['layout']['id'] : null;
 
 

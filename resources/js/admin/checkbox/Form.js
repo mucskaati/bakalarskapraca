@@ -11,7 +11,7 @@ Vue.component("checkbox-form", {
                 title: "",
                 slider_dependency_change: false,
                 dependent_sliders: [],
-                comparison_experiment: "",
+                comparison_experiments: [],
                 type: null
             }
         };

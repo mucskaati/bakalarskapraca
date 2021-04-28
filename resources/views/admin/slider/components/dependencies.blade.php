@@ -11,7 +11,10 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('layout_id'), 'has-success': fields.layout_id && fields.layout_id.valid }">
             <label for="layout_id" class="col-6 col-form-label">{{ trans('admin.slider.columns.depended_slider_id') }}</label>
                 <div class="col-12">
-                    <multiselect v-model="form.dependencies[index]"  @input="addCountDependency(index)" :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <multiselect v-model="form.dependencies[index]" :show-labels="false"  @input="addCountDependency(index)" :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false">
+                        <template slot="singleLabel" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                        <template slot="option" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                    </multiselect>
                 <div v-if="errors.has('layout_id')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('layout_id') }}</div>
             </div>
         </div>

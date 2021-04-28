@@ -79,7 +79,7 @@
                                         <td>@{{ item.id }}</td>
                                         <td>@{{ item.title }}</td>
                                         <td>@{{ item.attribute_name }}</td>
-                                        <td>@{{ item.layoutTitle }}</td>
+                                        <td v-html="item.layoutTitle"></td>
                                         <td>
                                             <div class="row no-gutters">
                                                 <div class="col-auto">

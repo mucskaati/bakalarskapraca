@@ -8,7 +8,7 @@ Vue.component("slider-form", {
                 default: "",
                 default_function: "",
                 layout: "",
-                comparison_experiment: [],
+                comparison_experiments: [],
                 max: "",
                 min: "",
                 step: "",

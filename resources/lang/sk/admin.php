@@ -99,7 +99,7 @@ return [
         'columns' => [
             'id' => 'ID',
             'attribute_name' => 'Atribút name',
-            'layout_id' => 'Layout',
+            'layout_id' => 'Layout/Scheme',
             'title' => 'Názov checkboxu',
             'add_dependency' => 'Pridať ďalšiu závislosť',
             'slider_id' => 'Nastaviť hodnotu slajdra',

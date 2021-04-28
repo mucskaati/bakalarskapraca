@@ -1,3 +1,5 @@
+import { collect } from "collect.js";
+
 var mixin = {
     props: ["sliders"],
     data: function() {
@@ -12,12 +14,18 @@ var mixin = {
         filterSliders() {
             let th = this;
             this.filteredSliders = this.sliders.filter(item => {
-                if (this.form.type == "fo") {
+                if (th.form.type == "fo") {
                     return item.layout_id == th.form.layout.id;
                 } else {
                     return (
-                        item.comparison_experiment_id ==
-                        th.form.comparison_experiment.id
+                        collect(item.comparison_experiments)
+                            .whereIn(
+                                "id",
+                                collect(th.form.comparison_experiments)
+                                    .pluck("id")
+                                    .toArray()
+                            )
+                            .count() > 0
                     );
                 }
             });

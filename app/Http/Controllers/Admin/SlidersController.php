@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
@@ -40,7 +41,7 @@ class SlidersController extends Controller
             $request,
 
             // set columns to query
-            ['default', 'id', 'layout_id', 'comparison_experiment_id', 'max', 'min', 'step', 'title', 'sorting'],
+            ['default', 'id', 'layout_id', 'max', 'min', 'step', 'title', 'sorting'],
 
             // set columns to searchIn
             ['default_function', 'id', 'title'],
@@ -51,8 +52,9 @@ class SlidersController extends Controller
                 }
 
                 if ($request->has('schemes')) {
-
-                    $query->whereIn('comparison_experiment_id', $request->get('schemes'));
+                    $query->whereHas('comparisonExperiments', function (Builder $builder) use ($request) {
+                        $builder->whereIn('comparison_experiment_id', $request->get('schemes'));
+                    });
                 }
             }
         );
@@ -109,6 +111,7 @@ class SlidersController extends Controller
         $slider = Slider::create($sanitized);
 
         $this->syncDependencies($sanitizedDependencies, $slider);
+        $this->syncSchemes($sanitized, $slider);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/sliders'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -148,7 +151,7 @@ class SlidersController extends Controller
 
         $slider->load('layout');
         $slider->load('dependencies');
-        $slider->load('comparisonExperiment');
+        $slider->load('comparisonExperiments');
 
         return view('admin.slider.edit', [
             'slider' => $slider,
@@ -175,6 +178,7 @@ class SlidersController extends Controller
         $slider->update($sanitized);
 
         $this->syncDependencies($sanitizedDependencies, $slider, 'update');
+        $this->syncSchemes($sanitized, $slider, 'update');
 
         if ($request->ajax()) {
             return [
@@ -241,6 +245,19 @@ class SlidersController extends Controller
         //Syn dependencies to model
         if (count($data) > 0 || $mode == 'update') {
             $model->dependencies()->sync($colelction);
+        }
+
+        return true;
+    }
+
+    private function syncSchemes($data, $model, $mode = 'create')
+    {
+        if (!isset($data['comparison_experiments'])) return false;
+        $colelction = collect($data['comparison_experiments'])->pluck('id')->toArray();
+
+        //Syn dependencies to model
+        if (count($data) > 0 || $mode == 'update') {
+            $model->comparisonExperiments()->sync($colelction);
         }
 
         return true;

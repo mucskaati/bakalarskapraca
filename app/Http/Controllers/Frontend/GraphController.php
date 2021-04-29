@@ -74,6 +74,21 @@ class GraphController extends Controller
                 $query->whereIn('comparison_experiments.id', $experiment->schemes->pluck('id')->toArray());
             })->get();
 
+        $slidersAdditionalCount = Slider::withCount('comparisonExperiments')->has('comparisonExperiments', '>', 1)->whereHas('comparisonExperiments', function (Builder $query) use ($experiment) {
+            $query->whereIn('comparison_experiments.id', $experiment->schemes->pluck('id')->toArray());
+        })->where('visible', 1)->count();
+        $checkboxesAdditionalCount = Checkbox::withCount('comparisonExperiments')->has('comparisonExperiments', '>', 1)->whereHas('comparisonExperiments', function (Builder $query) use ($experiment) {
+            $query->whereIn('comparison_experiments.id', $experiment->schemes->pluck('id')->toArray());
+        })->count();
+
+        // $experimentDoesntHaveSlidersWithMoreSchemes = $experiment->schemes()->whereHas('sliders', function (Builder $query) {
+        //     $query->has('comparisonSchemes', '=', 1);
+        // })->count();
+
+        // $experimentDoesntHaveCheckboxesWithMoreSchemes = $experiment->schemes()->whereHas('checkboxes', function (Builder $query) {
+        //     $query->has('comparisonSchemes', '=', 1);
+        // })->count();
+
         $schemeSliders = collect([]);
         foreach ($experiment->schemes as $comparison) {
             foreach ($comparison->sliders()->withCount('comparisonExperiments')->where('default_function', null)->get() as $slider) {
@@ -93,7 +108,19 @@ class GraphController extends Controller
 
         $template = view(
             ['template' => $experiment->template],
-            ['experiment' => $experiment, 'fos' => $fos, 'comparisons' => $compars, 'nyquist' => $nyquist, 'sliderSchemes' => $schemeSliders, 'slidersAdditional' => $slidersAdditional, 'checkboxesAdditional' => $checkboxesAdditional],
+            [
+                'experiment' => $experiment,
+                'fos' => $fos,
+                'comparisons' => $compars,
+                'nyquist' => $nyquist,
+                'sliderSchemes' => $schemeSliders,
+                'slidersAdditional' => $slidersAdditional,
+                'checkboxesAdditional' => $checkboxesAdditional,
+                'checkboxesAdditionalCount' => $checkboxesAdditionalCount,
+                'slidersAdditionalCount' => $slidersAdditionalCount,
+                // 'slidersWithMoreSchemes' => $experimentDoesntHaveSlidersWithMoreSchemes,
+                // 'checkboxesWithMoreSchemes' => $experimentDoesntHaveCheckboxesWithMoreSchemes
+            ],
         );
         return view('frontend.graphs.comparison', [
             'experiment' => $experiment,
@@ -104,7 +131,11 @@ class GraphController extends Controller
             'sliderSchemes' => $schemeSliders,
             'slidersAdditional' => $slidersAdditional,
             'slidersAdditionalHasDependent' => $slidersAdditionalHasDependent,
-            'checkboxesAdditional' => $checkboxesAdditional
+            'checkboxesAdditional' => $checkboxesAdditional,
+            'checkboxesAdditionalCount' => $checkboxesAdditionalCount,
+            'slidersAdditionalCount' => $slidersAdditionalCount,
+            // 'experimentDoesntHaveSlidersWithMoreSchemes' => $experimentDoesntHaveSlidersWithMoreSchemes,
+            // 'experimentDoesntHaveCheckboxesWithMoreSchemes' => $experimentDoesntHaveCheckboxesWithMoreSchemes
         ]);
     }
 }

@@ -548,7 +548,7 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         $( '#choice_{{ $scheme->prefix }}' ).prop( "checked", true).checkboxradio('refresh');
         what.push('{{ $scheme->prefix }}')
         $('.div_params_{{ $scheme->prefix }}').show();
-        @foreach($example->sliders as $checkbox)
+        @foreach($scheme->sliders as $slider)
         $('#div_{{ $slider->title }}').show();
         @endforeach
 

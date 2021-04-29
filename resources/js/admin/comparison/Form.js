@@ -91,6 +91,7 @@ Vue.component("comparison-form", {
                         <label for="choice_{{ $scheme->prefix }}" id="choice_label_{{ $scheme->prefix }}" class="checkbox-choice-label">{{ $scheme->title }} ({{ $scheme->shortcut }})</label>
                         <input type="checkbox" name="choice_{{ $scheme->prefix }}" value="1" id="choice_{{ $scheme->prefix }}">
                   </span>
+                  @if($scheme->schema)
                   <div class="img_holder">
                     <div class='image'>
                           <img src="{{ $scheme->schema }}" alt="{{ $scheme->title }}">
@@ -101,6 +102,7 @@ Vue.component("comparison-form", {
                           </span>
                       </div>
                   </div>
+                  @endif
               </div>
               </fieldset>
               @endforeach
@@ -190,6 +192,7 @@ Vue.component("comparison-form", {
                           @endif
                         </fieldset>
             
+                        @if($slidersAdditionalCount > 0 || $checkboxesAdditionalCount > 0)
                         <fieldset class="border p-2 mb-5 div_params_additional"> 
                           <legend>Common fields of schemes</legend>
                             <div class="row">       
@@ -242,8 +245,10 @@ Vue.component("comparison-form", {
                             </div>
                             @endif
                         </fieldset>
+                        @endif
             
                       @foreach ($experiment->schemes()->has('sliders')->get() as $comparison)
+                      @if($comparison->sliders()->withCount('comparisonExperiments')->has('comparisonExperiments', '=', 1)->count() > 0)
                       <fieldset class="border p-2 mb-5 div_params_{{ $comparison->prefix }}"> 
                         <legend>{{ $comparison->title }}</legend>
                           <div class="row">       
@@ -296,6 +301,7 @@ Vue.component("comparison-form", {
                         </div>
                         @endif
                       </fieldset>
+                      @endif
                       @endforeach
                      </div>
             {{-- -------------------------------- Koniec  slajdrov a checkboxes --------------------------------------------------------- --}}

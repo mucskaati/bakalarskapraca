@@ -26,7 +26,10 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('slider'), 'has-success': fields.slider && fields.slider.valid }">
             <label for="slider" class="col-6 col-form-label">{{ trans('admin.example.columns.sliders') }}</label>
                 <div class="col-12">
-                    <multiselect v-model="form.sliders[index]"  @input="addCountSlider(index)" :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.example.columns.sliders') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <multiselect v-model="form.sliders[index]" @input="addCountSlider(index)" :show-labels="false"  :options="{{ $sliders->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false">
+                        <template slot="singleLabel" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                        <template slot="option" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                    </multiselect>
                 <div v-if="errors.has('slider')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('slider') }}</div>
             </div>
         </div>
@@ -70,7 +73,10 @@
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('checkbox'), 'has-success': fields.checkbox && fields.checkbox.valid }">
             <label for="checkbox" class="col-6 col-form-label">{{ trans('admin.example.columns.checkboxes') }}</label>
                 <div class="col-12">
-                    <multiselect v-model="form.checkboxes[index]"  @input="addCountCheckbox(index)" :options="{{ $checkboxes->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.example.columns.checkboxes') }}" label="title" track-by="id" :multiple="false"></multiselect>
+                    <multiselect v-model="form.checkboxes[index]" @input="addCountCheckbox(index)" :show-labels="false"  :options="{{ $checkboxes->map(function($item) { return  ['id' => $item->id, 'title' => $item->titleWithLayout]; })->toJson() }}" placeholder="{{ trans('admin.slider.columns.depended_slider_id') }}" label="title" track-by="id" :multiple="false">
+                        <template slot="singleLabel" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                        <template slot="option" slot-scope="props"><div class="option__image" v-html="props.option.title"></div></template>
+                    </multiselect>
                 <div v-if="errors.has('checkbox')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('checkbox') }}</div>
             </div>
         </div>

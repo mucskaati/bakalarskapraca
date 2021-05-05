@@ -438,6 +438,12 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
 
           $('.div_params_general').show();  // Slajdre a checkboxy naviazane priamo na experiment ukazovat stale
           $('.div_checkbox_general').hide();
+          $('.div_params_additional').hide();
+
+          setTimeout(() => {
+            hasCommonFieldVisibleSliders();
+          }, 200);
+         
           //Pre kazdu schemu
           @foreach ($experiment->schemes as $key => $comparison)
           // Skry fieldsety defaultne
@@ -490,6 +496,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
               @endif
               @endforeach
 
+              hasCommonFieldVisibleSliders()
+
             } else {
               $('.div_params_{{ $comparison->prefix }}').hide();
               $('.div_checkbox_{{ $comparison->prefix }}').hide();
@@ -515,6 +523,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
               }
               @endif
               @endforeach
+
+              hasCommonFieldVisibleSliders();
             }
           })
           @endforeach
@@ -599,9 +609,11 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         }
         @endif
       @endforeach
+
       runAjaxCall()
     }
 @endforeach
+
 //----------------------------------------------- Checkboxes ---------------------------------------------------------
 
 $( function() {
@@ -858,5 +870,31 @@ $( function() {
         paramsHistoryEnabled = !paramsHistoryEnabled;
         toggleHideFieldsets();
       }
+
+      function hasCommonFieldVisibleSliders()
+      {
+        // setTimeout(() => {
+              let isThereSlider = false;
+              let common3 = $('.div_params_additional').children().find('.vstup')
+              common3.each((key, item) => {
+                if($(item).css('display') == 'block') {
+                  isThereSlider = true;
+                }
+              });
+
+              if(isThereSlider) {
+                $('.div_params_additional').show();
+              } else {
+                $('.div_params_additional').hide();
+              }
+        // }, 200);
+      }
+
+      setTimeout(() => {
+        let common = $('.div_params_additional').children().find('.vstup').css('display');
+        console.log(common);
+      }, 500)
+     
+
     } );
     </script>

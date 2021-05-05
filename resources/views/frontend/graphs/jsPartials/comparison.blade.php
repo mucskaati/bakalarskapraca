@@ -610,6 +610,8 @@ function createSlider(idSlider, idPar, minValue, maxValue, defaultValue, stepVal
         @endif
       @endforeach
 
+      hasCommonFieldVisibleSliders();
+      
       runAjaxCall()
     }
 @endforeach

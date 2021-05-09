@@ -9,7 +9,7 @@
         </div>
         <div class="intro__description">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam vestibulum morbi blandit cursus. Dolor purus non enim praesent elementum facilisis leo vel. Arcu ac tortor dignissim convallis aenean. Commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit. Arcu odio ut sem nulla pharetra diam sit.
+                The aim of the bachelor's thesis is to develop an environment for management and development of interactive examples in control theory through a web application. The web application should have an educational and experimental character. The main purpose of the web application should be to simplify the understanding of interactive examples to users and make easier the management of interactive examples for specialists in control theory.
             </p>
             <a href="" class="btn btn-primary">
                 CHOOSE CONTROLLER FROM MENU

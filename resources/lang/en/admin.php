@@ -82,7 +82,7 @@ return [
             'delete' => 'Remove dependency',
             'visible' => 'Visible',
             'label' => 'Slider label',
-            'columns' => 'How many columns should the slide occupy',
+            'columns' => 'How many columns should the slider occupy',
             'columns_desc' => 'The number of columns should be displayed, in the case of the whole row enter 12',
             'sorting' => 'Sliders order',
             'sorting_desc' => 'The order in which the slides should be displayed. If you want the slider to be displayed first, enter the number 1',

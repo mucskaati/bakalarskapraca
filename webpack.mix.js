@@ -11,17 +11,15 @@ const mix = require("laravel-mix");
  |
  */
 
-mix.js("resources/js/app.js", "public/js")
-    .sass("resources/sass/app.scss", "public/css")
-    .options({
-        processCssUrls: false
-    });
+mix.js("resources/js/app.js", "public/js").sass(
+    "resources/sass/app.scss",
+    "public/css"
+);
 
-mix.js(["resources/js/admin/admin.js"], "public/js")
-    .sass("resources/sass/admin/admin.scss", "public/css")
-    .options({
-        processCssUrls: false
-    });
+mix.js(["resources/js/admin/admin.js"], "public/js").sass(
+    "resources/sass/admin/admin.scss",
+    "public/css"
+);
 
 if (mix.inProduction()) {
     mix.version();

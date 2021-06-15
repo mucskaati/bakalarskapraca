@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 use Brackets\Media\HasMedia\ProcessMediaTrait;
+use Brackets\Media\HasMedia\HasMediaThumbsTrait;
 use Brackets\Media\HasMedia\AutoProcessMediaTrait;
 use Brackets\Media\HasMedia\HasMediaCollectionsTrait;
-use Brackets\Media\HasMedia\HasMediaThumbsTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ComparisonExperiment extends Model implements HasMedia
+
 {
     use ProcessMediaTrait;
     use AutoProcessMediaTrait;

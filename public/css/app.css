@@ -12514,7 +12514,7 @@ p {
 }
 
 .bg {
-  background: url(/images/background.png?5dc527eaebc77c3936efaa87112484a7) no-repeat;
+  background: url("/img/background.png") no-repeat;
   background-position: top center;
   background-size: cover;
 }

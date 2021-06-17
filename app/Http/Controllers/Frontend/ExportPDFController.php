@@ -30,7 +30,7 @@ class ExportPDFController
         $imgs = $doc->getElementsByTagName('img');
         $img = collect($imgs)->first();
 
-        $mpdf = new ExtendedMpdf();
+        $mpdf = new ExtendedMpdf(['tempDir' => '/tmp']);
         $mpdf->showImageErrors = false;
 
         $mpdf->WriteHTML(view('frontend.export.single_and_pathbased', compact('experiment', 'history', 'params', 'imgResult', 'date', 'img')));
@@ -49,7 +49,7 @@ class ExportPDFController
         $schemes = $request->schemes;
         $date = Carbon::now();
 
-        $mpdf = new ExtendedMpdf();
+        $mpdf = new ExtendedMpdf(['tempDir' => '/tmp']);
         $mpdf->showImageErrors = false;
         $rowHeight = 5;
         $offset = 15;

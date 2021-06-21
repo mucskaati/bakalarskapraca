@@ -784,8 +784,9 @@ $( function() {
               lastChangeInSlider = false;  // Posledna zmena nastala v inpute preto ber hodnoty z inputu
               parv_json[paramName] = parseFloat($(this).val());
             }
-          //Pockam kym sa nastavia slajdre az potom pustim ajax
-          setTimeout(() => { runAjaxCall() }, 200);
+            @if(!$experiment->run_button)
+            setTimeout(() => { runAjaxCall() }, 200);
+            @endif
       });
 
     };

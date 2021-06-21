@@ -367,7 +367,9 @@ $( function() {
               parv_json[paramName] = parseFloat($(this).val());
             }
           //Pockam kym sa nastavia slajdre az potom pustim ajax
+          @if(!$experiment->run_button)
           setTimeout(() => { runAjaxCall() }, 200);
+          @endif
       });
 
     };
